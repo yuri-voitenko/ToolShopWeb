@@ -53,6 +53,6 @@ public class RegistrationUser extends HttpServlet {
         int idCaptcha = strategy.getIdCaptcha(httpServletRequest);
         ValidatorUtil.validateCaptcha(codeCaptcha, idCaptcha);
         long timeout = Long.parseLong(getServletContext().getInitParameter("Timeout"));
-        ValidatorUtil.isOutdatedCaptcha(idCaptcha, timeout);
+        ValidatorUtil.isActualCaptcha(idCaptcha, timeout);
     }
 }

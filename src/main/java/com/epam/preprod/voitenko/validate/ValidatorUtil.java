@@ -93,7 +93,7 @@ public class ValidatorUtil {
         return true;
     }
 
-    public static boolean isOutdatedCaptcha(int idCaptcha, long timeout) {
+    public static boolean isActualCaptcha(int idCaptcha, long timeout) {
         Captcha objCaptcha = CaptchaRepository.getCaptcha(idCaptcha);
 
         LocalDateTime creationDate = objCaptcha.getCreationDate();
