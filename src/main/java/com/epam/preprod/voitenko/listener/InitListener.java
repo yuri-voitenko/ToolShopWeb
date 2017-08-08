@@ -1,5 +1,6 @@
 package com.epam.preprod.voitenko.listener;
 
+import com.epam.preprod.voitenko.captchacleaner.CaptchaCleaner;
 import com.epam.preprod.voitenko.strategy.CaptchaStrategy;
 import com.epam.preprod.voitenko.strategy.CookieCaptchaStrategy;
 import com.epam.preprod.voitenko.strategy.InputHiddenCaptchaStorage;
@@ -18,11 +19,20 @@ public class InitListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         initialize();
         createStrategy(servletContextEvent);
+        startCaptchaCleaner(servletContextEvent);
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         // NOP
+    }
+
+    private void startCaptchaCleaner(ServletContextEvent servletContextEvent) {
+        ServletContext servletContext = servletContextEvent.getServletContext();
+        long timeout = Long.parseLong(servletContext.getInitParameter("Timeout"));
+        Thread captchaCleaner = new Thread(new CaptchaCleaner(timeout));
+        captchaCleaner.setDaemon(true);
+        captchaCleaner.start();
     }
 
     private void createStrategy(ServletContextEvent servletContextEvent) {

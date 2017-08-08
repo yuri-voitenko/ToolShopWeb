@@ -2,7 +2,9 @@ package com.epam.preprod.voitenko.repository;
 
 import com.epam.preprod.voitenko.captcha.Captcha;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class CaptchaRepository {
@@ -12,12 +14,30 @@ public class CaptchaRepository {
     }
 
     public static int addCaptcha() {
-        Captcha captcha = new Captcha();
-        captchaMap.put(captcha.getId(), captcha);
-        return captcha.getId();
+        synchronized (captchaMap) {
+            Captcha captcha = new Captcha();
+            captchaMap.put(captcha.getId(), captcha);
+            return captcha.getId();
+        }
+    }
+
+    public static void deleteOutdatedCaptcha(long timeout) {
+        synchronized (captchaMap) {
+            Iterator<Captcha> iterator = captchaMap.values().iterator();
+            while (iterator.hasNext()) {
+                LocalDateTime creationDate = iterator.next().getCreationDate();
+                creationDate = creationDate.plusSeconds(timeout);
+                LocalDateTime now = LocalDateTime.now();
+                if (now.isAfter(creationDate)) {
+                    iterator.remove();
+                }
+            }
+        }
     }
 
     public static Captcha getCaptcha(int idCaptcha) {
-        return captchaMap.get(idCaptcha);
+        synchronized (captchaMap) {
+            return captchaMap.get(idCaptcha);
+        }
     }
 }
