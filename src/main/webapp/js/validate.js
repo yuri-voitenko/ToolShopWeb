@@ -4,65 +4,76 @@ function validateLoginForm(formName) {
     if (!validateEmail(email.value)) {
         alert("Sorry, you entered an incorrect email!\nPlease fix and try again.");
         email.focus();
-		highlight(email, true);
-		return false;
-    }
-	highlight(email, false);
-    if (!validatePassword(password.value)) {
-        alert("Sorry, you entered an incorrect password!" +
-			  "\nPlease fix and try again." +
-			  "\n\nPassword requirements:"+
-			  "\n\t* At least one upper case English letter"+
-			  "\n\t* At least one lower case English letter"+
-			  "\n\t* At least one digit"+
-			  "\n\t* At least one special character"+
-			  "\n\t* Minimum eight in length");
-		password.focus();
-		highlight(password, true);
+        highlight(email, true);
         return false;
     }
-	highlight(password, false);
+    highlight(email, false);
+    if (!validatePassword(password.value)) {
+        alert("Sorry, you entered an incorrect password!" +
+            "\nPlease fix and try again." +
+            "\n\nPassword requirements:" +
+            "\n\t* At least one upper case English letter" +
+            "\n\t* At least one lower case English letter" +
+            "\n\t* At least one digit" +
+            "\n\t* At least one special character" +
+            "\n\t* Minimum eight in length");
+        password.focus();
+        highlight(password, true);
+        return false;
+    }
+    highlight(password, false);
     return true;
 }
 
 function validateRegisterForm(formName) {
-	var fullName = document.forms[formName]["fullName"];
+    var fullName = document.forms[formName]["fullName"];
     if (!validateFullName(fullName.value)) {
-        alert("Sorry, you entered an incorrect fullName!"+
-		"\nPlease fix and try again."
-		+"\nHint: 'FirstName LastName'");
-		fullName.focus();
-		highlight(fullName, true);
+        alert("Sorry, you entered an incorrect fullName!" +
+            "\nPlease fix and try again."
+            + "\nHint: 'FirstName LastName'");
+        fullName.focus();
+        highlight(fullName, true);
         return false;
-    }	
-	highlight(fullName, false);
-	
-	var phoneNumber = document.forms[formName]["phoneNumber"];
-	if(!validatePhoneNumber(phoneNumber.value)){
-		alert("Sorry, you entered an incorrect phone number!"+
-		"\nPlease fix and try again."
-		+"\nHint: Use international format!");
-		phoneNumber.focus();
-		highlight(phoneNumber, true);
-	    return false;
-	}
-	highlight(phoneNumber, false);
-	
-	if(!validateLoginForm(formName)){
-		return false;
-	}
+    }
+    highlight(fullName, false);
+
+    var phoneNumber = document.forms[formName]["phoneNumber"];
+    if (!validatePhoneNumber(phoneNumber.value)) {
+        alert("Sorry, you entered an incorrect phone number!" +
+            "\nPlease fix and try again."
+            + "\nHint: Use international format!");
+        phoneNumber.focus();
+        highlight(phoneNumber, true);
+        return false;
+    }
+    highlight(phoneNumber, false);
+
+    if (!validateLoginForm(formName)) {
+        return false;
+    }
     var password = document.forms[formName]["password"];
     var passwordCheck = document.forms[formName]["passwordCheck"];
-	if(password.value != passwordCheck.value){
-		 alert("Sorry, you entered an incorrect repeated password!"+
-		"\nPlease fix and try again.");
-		passwordCheck.focus();
-		highlight(passwordCheck, true);
-		return false;
-	}
-	highlight(passwordCheck, false);
-	
-	return true;
+    if (password.value != passwordCheck.value) {
+        alert("Sorry, you entered an incorrect repeated password!" +
+            "\nPlease fix and try again.");
+        passwordCheck.focus();
+        highlight(passwordCheck, true);
+        return false;
+    }
+    highlight(passwordCheck, false);
+
+    var captchaCode = document.forms[formName]["captcha"];
+    if (!validateCaptchaCode(captchaCode.value)) {
+        alert("Sorry, you entered an incorrect secret code!" +
+            "\nPlease fix and try again."
+            + "\nHint: Must be only 10 digits.");
+        captchaCode.focus();
+        highlight(captchaCode, true);
+        return false;
+    }
+    highlight(captchaCode, false);
+
+    return true;
 }
 
 function validateEmail(email) {
@@ -71,7 +82,7 @@ function validateEmail(email) {
 }
 
 function validatePassword(password) {
-    var regExPasw = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;  
+    var regExPasw = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
     return regExPasw.test(password);
 }
 
@@ -81,15 +92,20 @@ function validateFullName(fullName) {
 }
 
 function validatePhoneNumber(phoneNumber) {
-	var digits = phoneNumber.replace(/\D/g,'');
+    var digits = phoneNumber.replace(/\D/g, '');
     return digits.length == 11 || digits.length == 12;
 }
 
+function validateCaptchaCode(code) {
+    var regExCaptchaCode = /^\d{10}$/;
+    return regExCaptchaCode.test(code);
+}
+
 function highlight(element, flag) {
-	if (flag){
-		element.style.border = '#FF0000 1px solid';
-	} 
-	else {
-		element.style.border = 'transparent';
-	}
+    if (flag) {
+        element.style.border = '#FF0000 1px solid';
+    }
+    else {
+        element.style.border = 'transparent';
+    }
 }
