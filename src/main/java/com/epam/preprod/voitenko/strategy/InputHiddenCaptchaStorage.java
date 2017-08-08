@@ -22,9 +22,7 @@ public class InputHiddenCaptchaStorage implements CaptchaStrategy {
     public String getTagContext(HttpServletRequest httpServletRequest) {
         StringBuilder code = new StringBuilder();
         code.append("<input type=\"hidden\" id=\"idCaptcha\" name=\"idCaptcha\" value=\"" + id + "\">");
-        code.append("<div>");
-        code.append("<img id=\"captcha_img\" src=\"/getCaptchaImage\" alt=\"\"/>");
-        code.append(" </div>");
+        code.append(CaptchaStrategy.super.getTagContext(httpServletRequest));
         return code.toString();
     }
 }

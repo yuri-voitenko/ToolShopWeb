@@ -19,13 +19,4 @@ public class SessionCaptchaStrategy implements CaptchaStrategy {
         Object object = session.getAttribute("idCaptcha");
         return object == null ? -1 : (int) object;
     }
-
-    @Override
-    public String getTagContext(HttpServletRequest httpServletRequest) {
-        StringBuilder code = new StringBuilder();
-        code.append("<div>");
-        code.append("<img id=\"captcha_img\" src=\"/getCaptchaImage\" alt=\"\"/>");
-        code.append(" </div>");
-        return code.toString();
-    }
 }

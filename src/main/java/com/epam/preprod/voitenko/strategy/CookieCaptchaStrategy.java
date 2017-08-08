@@ -25,13 +25,4 @@ public class CookieCaptchaStrategy implements CaptchaStrategy {
         }
         return strIdCaptcha == null ? -1 : Integer.parseInt(strIdCaptcha);
     }
-
-    @Override
-    public String getTagContext(HttpServletRequest httpServletRequest) {
-        StringBuilder code = new StringBuilder();
-        code.append("<div>");
-        code.append("<img id=\"captcha_img\" src=\"/getCaptchaImage\" alt=\"\"/>");
-        code.append(" </div>");
-        return code.toString();
-    }
 }

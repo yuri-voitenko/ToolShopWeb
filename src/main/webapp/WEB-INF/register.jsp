@@ -1,15 +1,12 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
-<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
-<%@ taglib prefix = "captcha" uri = "tld/captcha.tld"%>
 <!--
 Author: W3layouts
 Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="captcha" uri="tld/captcha.tld" %>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,8 +14,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- for-mobile-apps -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="keywords" content="Classic Style Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design"/>
     <script type="application/x-javascript"> addEventListener("load", function () {
         setTimeout(hideURLbar, 0);
     }, false);
@@ -51,7 +46,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link href='//fonts.googleapis.com/css?family=Cabin:400,500,600,700' rel='stylesheet' type='text/css'>
     <link href='//fonts.googleapis.com/css?family=Lato:400,100,300,700,900' rel='stylesheet' type='text/css'>
 </head>
-
 <body>
 <!-- header -->
 <div class="header">
@@ -63,15 +57,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <li><i class="glyphicon glyphicon-envelope"></i><a href="mailto:info@example.com">@example.com</a>
                     </li>
                     <li><i class="glyphicon glyphicon-earphone"></i>+1234 567 892</li>
-
                 </ul>
             </div>
             <div class="header-right animated wow fadeInRight" data-wow-delay=".5s">
                 <div class="header-right1 ">
                     <ul>
-
                         <li><i class="glyphicon glyphicon-log-in"></i><a href="login.html">Login</a></li>
-                        <li><i class="glyphicon glyphicon-book"></i><a href="register.html">Register</a></li>
+                        <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">Register</a></li>
                     </ul>
                 </div>
                 <div class="header-right2">
@@ -97,7 +89,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </div>
     <div class="container">
         <div class="logo-nav">
-
             <nav class="navbar navbar-default">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header nav_2">
@@ -112,7 +103,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <h1 class="animated wow pulse" data-wow-delay=".5s"><a
                                 href="index.html">Tool<span>Shop</span></a></h1>
                     </div>
-
                 </div>
                 <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                     <ul class="nav navbar-nav">
@@ -129,7 +119,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                             <li><a href="products.html">Angle Grinder</a></li>
                                             <li><a href="products.html">Drill</a></li>
                                             <li><a href="products.html">Perforator</a></li>
-
                                         </ul>
                                     </div>
                                     <div class="clearfix"></div>
@@ -140,7 +129,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
             </nav>
         </div>
-
     </div>
 </div>
 <!-- //header --><!--banner-->
@@ -155,43 +143,50 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- contact -->
 <div class="login">
     <div class="container">
-    <c:if test="${not empty requestScope.successRegistration}">
-        <div class="alert alert-success" role="alert">
-            <strong>Well done!</strong>${requestScope.successRegistration}
-        </div>
-    </c:if>
-    <c:if test="${not empty requestScope.errors}">
-        <div class="alert alert-danger" role="alert">
-                <strong>Oops! </strong>Something went wrong :(  Please fix and try again.<br><br>
-            <c:forEach items="${requestScope.errors}" var="entry">
-                <strong> ${entry.key}</strong><br>${entry.value}<br>
-            </c:forEach>
-        </div>
-    </c:if>
-        <form name="registerForm" action="/registerUser" method="post" onsubmit="return validateRegisterForm('registerForm')" >
+        <c:if test="${not empty requestScope.successRegistration}">
+            <div class="alert alert-success" role="alert">
+                <strong>Well done!</strong>${requestScope.successRegistration}
+            </div>
+        </c:if>
+        <c:if test="${not empty requestScope.errors}">
+            <div class="alert alert-danger" role="alert">
+                <strong>Oops! </strong>Something went wrong :( Please fix and try again.<br><br>
+                <c:forEach items="${requestScope.errors}" var="entry">
+                    <strong> ${entry.key}</strong><br>${entry.value}<br>
+                </c:forEach>
+            </div>
+        </c:if>
+        <form name="registerForm" action="/registerUser" method="post"
+              onsubmit="return validateRegisterForm('registerForm')">
             <div class="col-md-6 login-do1 animated wow fadeInLeft" data-wow-delay=".5s">
                 <div class="login-mail">
-                    <input type="text" name="fullName" placeholder="Full name" value="${requestScope.regBean.fullName}" required="">
+                    <input type="text" name="fullName" placeholder="Full name" value="${requestScope.regBean.fullName}"
+                           required="">
                     <img src="images/ID.png" alt=""/>
                 </div>
                 <div class="login-mail">
-                    <input type="text" name="address" placeholder="Address" value="${requestScope.regBean.address}" required="">
+                    <input type="text" name="address" placeholder="Address" value="${requestScope.regBean.address}"
+                           required="">
                     <i class="glyphicon glyphicon-map-marker"></i>
                 </div>
                 <div class="login-mail">
-                    <input type="text" name="phoneNumber" placeholder="+X-XXX-XXX-XXXX" value="${requestScope.regBean.phoneNumber}" required="">
+                    <input type="text" name="phoneNumber" placeholder="+X-XXX-XXX-XXXX"
+                           value="${requestScope.regBean.phoneNumber}" required="">
                     <i class="glyphicon glyphicon-earphone"></i>
                 </div>
                 <div class="login-mail">
-                    <input type="text" name="email" placeholder="Email" value="${requestScope.regBean.email}" required="">
+                    <input type="text" name="email" placeholder="Email" value="${requestScope.regBean.email}"
+                           required="">
                     <i class="glyphicon glyphicon-envelope"></i>
                 </div>
                 <div class="login-mail">
-                    <input type="password" name="password" placeholder="Password" value="${requestScope.regBean.password}" required="">
+                    <input type="password" name="password" placeholder="Password"
+                           value="${requestScope.regBean.password}" required="">
                     <i class="glyphicon glyphicon-lock"></i>
                 </div>
                 <div class="login-mail">
-                    <input type="password" name="passwordCheck" placeholder="Repeated password" value="${requestScope.regBean.repeatedPassword}" required="">
+                    <input type="password" name="passwordCheck" placeholder="Repeated password"
+                           value="${requestScope.regBean.repeatedPassword}" required="">
                     <img src="images/password-check.png" alt=""/>
                 </div>
                 <captcha:CaptchaImage/>
@@ -199,10 +194,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <input type="text" name="captcha" placeholder="Captcha" required="">
                     <img src="images/stop_robot.png" alt=""/>
                 </div>
-                <a class="news-letter" href="#">
-                    <label class="checkbox1"><input type="checkbox" name="checkbox"><i> </i>I agree with the
-                        terms</label>
-                </a>
             </div>
             <div class="col-md-6 login-do animated wow fadeInRight" data-wow-delay=".5s">
                 <label class="hvr-sweep-to-top login-sub">
@@ -215,7 +206,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </form>
     </div>
 </div>
-
 <!-- footer -->
 <div class="footer">
     <div class="container">
@@ -241,12 +231,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <input type="text" placeholder="Email" required="">
                     <input type="submit" value="Submit">
                 </form>
-
             </div>
-
             <div class="clearfix"></div>
         </div>
-
         <div class="copy-right animated wow fadeInUp" data-wow-delay=".5s">
             <p>&copy 2017 Tool Shop. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
         </div>
