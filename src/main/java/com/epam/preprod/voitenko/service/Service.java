@@ -17,7 +17,6 @@ public class Service {
         regBean.setEmail(httpServletRequest.getParameter("email"));
         regBean.setPassword(httpServletRequest.getParameter("password"));
         regBean.setRepeatedPassword(httpServletRequest.getParameter("passwordCheck"));
-
         return regBean;
     }
 

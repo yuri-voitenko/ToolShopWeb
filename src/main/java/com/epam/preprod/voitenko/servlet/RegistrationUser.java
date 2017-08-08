@@ -28,26 +28,31 @@ public class RegistrationUser extends HttpServlet {
         RegisterBean regBean = Service.extractRegisterBean(httpServletRequest);
         Map<String, String> errors = ValidatorUtil.validate(regBean);
 
-        String codeCaptcha = httpServletRequest.getParameter("captcha");
-        CaptchaStrategy strategy = (CaptchaStrategy) getServletContext().getAttribute("strategy");
-        int idCaptcha = strategy.getIdCaptcha(httpServletRequest);
-        ValidatorUtil.validateCaptcha(codeCaptcha, idCaptcha);
+        validateCaptcha(httpServletRequest);
 
         if (!errors.isEmpty()) {
             httpServletRequest.setAttribute("regBean", regBean);
         } else {
-
             UserBean user = Service.fillUserBean(regBean);
             if (UserRepository.containsUser(user)) {
                 regBean.setEmail("");
                 httpServletRequest.setAttribute("regBean", regBean);
                 errors.put("Email", "Registration fail!<br>User with such login(email) already exists!");
             } else {
+                UserRepository.addUser(user);
                 httpServletRequest.setAttribute("successRegistration", "Registration completed successfully!");
             }
         }
         httpServletRequest.setAttribute("errors", errors);
-
         getServletContext().getRequestDispatcher("/viewRegisterForm").forward(httpServletRequest, httpServletResponse);
+    }
+
+    private void validateCaptcha(HttpServletRequest httpServletRequest) {
+        String codeCaptcha = httpServletRequest.getParameter("captcha");
+        CaptchaStrategy strategy = (CaptchaStrategy) getServletContext().getAttribute("strategy");
+        int idCaptcha = strategy.getIdCaptcha(httpServletRequest);
+        ValidatorUtil.validateCaptcha(codeCaptcha, idCaptcha);
+        long timeout = Long.parseLong(getServletContext().getInitParameter("Timeout"));
+        ValidatorUtil.isOutdatedCaptcha(idCaptcha, timeout);
     }
 }

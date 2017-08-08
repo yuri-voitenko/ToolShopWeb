@@ -4,6 +4,7 @@ import com.epam.preprod.voitenko.bean.RegisterBean;
 import com.epam.preprod.voitenko.captcha.Captcha;
 import com.epam.preprod.voitenko.repository.CaptchaRepository;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -88,6 +89,20 @@ public class ValidatorUtil {
                 errorMessages.put("Captcha fail!", "You input incorrect code for Captcha!");
                 return false;
             }
+        }
+        return true;
+    }
+
+    public static boolean isOutdatedCaptcha(int idCaptcha, long timeout) {
+        Captcha objCaptcha = CaptchaRepository.getCaptcha(idCaptcha);
+
+        LocalDateTime creationDate = objCaptcha.getCreationDate();
+        creationDate = creationDate.plusSeconds(timeout);
+        LocalDateTime now = LocalDateTime.now();
+
+        if (now.isAfter(creationDate)) {
+            errorMessages.put("Captcha fail!", "The lifetime of captcha has expired!");
+            return false;
         }
         return true;
     }

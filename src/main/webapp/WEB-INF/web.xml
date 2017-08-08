@@ -2,7 +2,11 @@
 <web-app>
     <context-param>
         <param-name>CaptchaStrategy</param-name>
-        <param-value>hidden</param-value>
+        <param-value>session</param-value>
+    </context-param>
+    <context-param>
+        <param-name>Timeout</param-name>
+        <param-value>300</param-value>
     </context-param>
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>

@@ -2,6 +2,7 @@ package com.epam.preprod.voitenko.captcha;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.time.LocalDateTime;
 import java.util.Random;
 
 public class Captcha {
@@ -15,6 +16,7 @@ public class Captcha {
     private int id;
     private long secretCode;
     private Image image;
+    private LocalDateTime creationDate;
 
     private static int lastId = 0;
 
@@ -22,6 +24,7 @@ public class Captcha {
         this.id = ++lastId;
         this.secretCode = generateSecretCode();
         this.image = generateImage();
+        this.creationDate = LocalDateTime.now();
     }
 
     public int getId() {
@@ -36,6 +39,9 @@ public class Captcha {
         return image;
     }
 
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -52,7 +58,10 @@ public class Captcha {
         if (secretCode != captcha.secretCode) {
             return false;
         }
-        return image != null ? image.equals(captcha.image) : captcha.image == null;
+        if (image != null ? !image.equals(captcha.image) : captcha.image != null) {
+            return false;
+        }
+        return creationDate != null ? creationDate.equals(captcha.creationDate) : captcha.creationDate == null;
     }
 
     @Override
@@ -60,6 +69,7 @@ public class Captcha {
         int result = id;
         result = 31 * result + (int) (secretCode ^ (secretCode >>> 32));
         result = 31 * result + (image != null ? image.hashCode() : 0);
+        result = 31 * result + (creationDate != null ? creationDate.hashCode() : 0);
         return result;
     }
 

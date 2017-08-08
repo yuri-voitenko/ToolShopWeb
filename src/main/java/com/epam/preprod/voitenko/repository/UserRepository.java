@@ -21,7 +21,7 @@ public class UserRepository {
     }
 
     public static boolean addUser(UserBean user) {
-        return containsUser(user) && users.add(user);
+        return !containsUser(user) && users.add(user);
     }
 
     public static boolean updateUser(UserBean user) {
