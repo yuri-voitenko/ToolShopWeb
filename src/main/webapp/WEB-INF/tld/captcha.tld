@@ -1,0 +1,10 @@
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>2.0</jsp-version>
+    <short-name>captcha</short-name>
+    <tag>
+        <name>CaptchaImage</name>
+        <tag-class>com.epam.preprod.voitenko.captcha.CaptchaTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+</taglib>
