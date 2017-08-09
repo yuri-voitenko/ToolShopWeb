@@ -72,11 +72,14 @@ public class ValidatorUtil {
     }
 
     private static boolean validateRepeatedPassword(String password, String repeatedPassword) {
-        if (validate(repeatedPassword, PASSWORD_CHECK) && !password.equals(repeatedPassword)) {
-            errorMessages.put(PASSWORD_CHECK, HINT_PASSWORD_CHECK);
-            return false;
+        if (validate(repeatedPassword, PASSWORD_CHECK)) {
+            if (!password.equals(repeatedPassword)) {
+                errorMessages.put(PASSWORD_CHECK, HINT_PASSWORD_CHECK);
+                return false;
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     public static boolean validateCaptcha(int idCaptcha, String codeCaptcha, long timeout) {
@@ -114,12 +117,16 @@ public class ValidatorUtil {
 
     //------------------------------------------------------------------------------------------------------------------
     private static boolean validate(String verify, String regexPattern, String key, String hintMessage) {
-        if (validate(verify, key) && !isMatchedRegex(verify, regexPattern)) {
-            errorMessages.put(key, hintMessage);
-            return false;
+        if (validate(verify, key)) {
+            if (!isMatchedRegex(verify, regexPattern)) {
+                errorMessages.put(key, hintMessage);
+                return false;
+            }
+            return true;
         }
-        return true;
+        return false;
     }
+
 
     private static boolean validate(String verify, String key) {
         if (isNullOrEmpty(verify)) {

@@ -44,7 +44,7 @@ public class Constatns {
         public static final String HINT_CAPTCHA_NOT_DIGITS = "Hint: Must be only 10 digits.";
         public static final String HINT_NOT_EMPTY_FIELD = "This field can not be empty!";
         public static final String HINT_SAME_EMAIl = "Registration fail!<br>User with such login(email) already exists!";
-        public static final String SUCCESS_REGISTRATION = "Registration completed successfully!";
+        public static final String HINT_SUCCESS_REGISTRATION = "Registration completed successfully!";
     }
 
     public class Exceptions {

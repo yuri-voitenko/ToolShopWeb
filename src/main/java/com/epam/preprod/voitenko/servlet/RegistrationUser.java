@@ -19,6 +19,7 @@ import java.util.Map;
 
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 import static com.epam.preprod.voitenko.constant.Constatns.Message.HINT_SAME_EMAIl;
+import static com.epam.preprod.voitenko.constant.Constatns.Message.HINT_SUCCESS_REGISTRATION;
 
 @WebServlet("/registerUser")
 public class RegistrationUser extends HttpServlet {
@@ -48,7 +49,7 @@ public class RegistrationUser extends HttpServlet {
                 errors.put(EMAIL, HINT_SAME_EMAIl);
             } else {
                 UserRepository.addUser(user);
-                session.setAttribute(SUCCESS_REGISTRATION, SUCCESS_REGISTRATION);
+                session.setAttribute(SUCCESS_REGISTRATION, HINT_SUCCESS_REGISTRATION);
             }
         }
         session.setAttribute(ERRORS, errors);
