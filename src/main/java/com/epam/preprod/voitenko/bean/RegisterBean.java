@@ -104,16 +104,4 @@ public class RegisterBean {
         result = 31 * result + (repeatedPassword != null ? repeatedPassword.hashCode() : 0);
         return result;
     }
-
-    @Override
-    public String toString() {
-        return "RegisterBean{" +
-                "fullName='" + fullName + '\'' +
-                ", address='" + address + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", repeatedPassword='" + repeatedPassword + '\'' +
-                '}';
-    }
 }
