@@ -81,30 +81,37 @@ public class ValidatorUtil {
         return true;
     }
 
-    public static boolean validateCaptcha(String codeCaptcha, int idCaptcha) {
-        if (validate(codeCaptcha, "\\d{10}",
-                "codeCaptcha", "Hint: Must be only 10 digits.")) {
-            Captcha objCaptcha = CaptchaRepository.getCaptcha(idCaptcha);
-            if (!codeCaptcha.equals(String.valueOf(objCaptcha.getSecretCode()))) {
-                errorMessages.put("Captcha fail!", "You input incorrect code for Captcha!");
-                return false;
-            }
+    public static boolean validateCaptcha(int idCaptcha, String codeCaptcha, long timeout) {
+        Captcha objCaptcha = CaptchaRepository.getCaptcha(idCaptcha);
+        if (objCaptcha == null || !isActualCaptcha(objCaptcha, timeout)) {
+            errorMessages.put("Captcha fail!", "The lifetime of captcha has expired!");
+            return false;
+        }
+        if (!isCorrectCodeCaptcha(objCaptcha, codeCaptcha)) {
+            errorMessages.put("Captcha fail!", "You input incorrect code for Captcha!");
+            return false;
         }
         return true;
     }
 
-    public static boolean isActualCaptcha(int idCaptcha, long timeout) {
-        Captcha objCaptcha = CaptchaRepository.getCaptcha(idCaptcha);
-
+    public static boolean isActualCaptcha(Captcha objCaptcha, long timeout) {
+        if (objCaptcha == null || timeout < 0) {
+            throw new IllegalArgumentException();
+        }
         LocalDateTime creationDate = objCaptcha.getCreationDate();
         creationDate = creationDate.plusSeconds(timeout);
         LocalDateTime now = LocalDateTime.now();
 
-        if (now.isAfter(creationDate)) {
-            errorMessages.put("Captcha fail!", "The lifetime of captcha has expired!");
-            return false;
+        return !now.isAfter(creationDate);
+    }
+
+    private static boolean isCorrectCodeCaptcha(Captcha objCaptcha, String codeCaptcha) {
+        if (objCaptcha == null) {
+            throw new IllegalArgumentException();
         }
-        return true;
+        final String secretCode = String.valueOf(objCaptcha.getSecretCode());
+        return validate(codeCaptcha, "\\d{10}", "codeCaptcha", "Hint: Must be only 10 digits.")
+                && secretCode.equals(codeCaptcha);
     }
 
     //------------------------------------------------------------------------------------------------------------------

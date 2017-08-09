@@ -1,8 +1,8 @@
 package com.epam.preprod.voitenko.repository;
 
 import com.epam.preprod.voitenko.captcha.Captcha;
+import com.epam.preprod.voitenko.validate.ValidatorUtil;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -23,15 +23,7 @@ public class CaptchaRepository {
 
     public static void deleteOutdatedCaptcha(long timeout) {
         synchronized (captchaMap) {
-            Iterator<Captcha> iterator = captchaMap.values().iterator();
-            while (iterator.hasNext()) {
-                LocalDateTime creationDate = iterator.next().getCreationDate();
-                creationDate = creationDate.plusSeconds(timeout);
-                LocalDateTime now = LocalDateTime.now();
-                if (now.isAfter(creationDate)) {
-                    iterator.remove();
-                }
-            }
+            captchaMap.values().removeIf(objCaptcha -> !ValidatorUtil.isActualCaptcha(objCaptcha, timeout));
         }
     }
 
