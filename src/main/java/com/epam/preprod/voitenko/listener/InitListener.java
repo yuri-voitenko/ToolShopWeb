@@ -12,6 +12,8 @@ import javax.servlet.ServletContextListener;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
+
 public class InitListener implements ServletContextListener {
     private Map<String, CaptchaStrategy> strategyMap;
 
@@ -29,7 +31,7 @@ public class InitListener implements ServletContextListener {
 
     private void startCaptchaCleaner(ServletContextEvent servletContextEvent) {
         ServletContext servletContext = servletContextEvent.getServletContext();
-        long timeout = Long.parseLong(servletContext.getInitParameter("Timeout"));
+        long timeout = Long.parseLong(servletContext.getInitParameter(TIMEOUT));
         Thread captchaCleaner = new Thread(new CaptchaCleaner(timeout));
         captchaCleaner.setDaemon(true);
         captchaCleaner.start();
@@ -37,12 +39,12 @@ public class InitListener implements ServletContextListener {
 
     private void createStrategy(ServletContextEvent servletContextEvent) {
         ServletContext servletContext = servletContextEvent.getServletContext();
-        String nameStrategy = servletContext.getInitParameter("CaptchaStrategy");
+        String nameStrategy = servletContext.getInitParameter(CAPTCHA_STRATEGY);
         CaptchaStrategy captchaStrategy = new SessionCaptchaStrategy();         // default
         if (strategyMap.containsKey(nameStrategy)) {
             captchaStrategy = strategyMap.get(nameStrategy);
         }
-        servletContext.setAttribute("strategy", captchaStrategy);
+        servletContext.setAttribute(STRATEGY, captchaStrategy);
     }
 
     private void initialize() {

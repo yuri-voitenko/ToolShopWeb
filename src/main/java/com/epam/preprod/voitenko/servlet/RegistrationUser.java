@@ -7,6 +7,7 @@ import com.epam.preprod.voitenko.service.Service;
 import com.epam.preprod.voitenko.strategy.CaptchaStrategy;
 import com.epam.preprod.voitenko.validate.ValidatorUtil;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,14 +17,17 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Message.HINT_SAME_EMAIl;
+
 @WebServlet("/registerUser")
 public class RegistrationUser extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        removeSessionAttribute(httpServletRequest, "regBean");
-        removeSessionAttribute(httpServletRequest, "errors");
-        removeSessionAttribute(httpServletRequest, "successRegistration");
+        removeSessionAttribute(httpServletRequest, REG_BEAN);
+        removeSessionAttribute(httpServletRequest, ERRORS);
+        removeSessionAttribute(httpServletRequest, SUCCESS_REGISTRATION);
         httpServletRequest.getRequestDispatcher("/viewRegisterForm").forward(httpServletRequest, httpServletResponse);
     }
 
@@ -35,19 +39,19 @@ public class RegistrationUser extends HttpServlet {
         validateCaptcha(httpServletRequest);
 
         if (!errors.isEmpty()) {
-            session.setAttribute("regBean", regBean);
+            session.setAttribute(REG_BEAN, regBean);
         } else {
             UserBean user = Service.fillUserBean(regBean);
             if (UserRepository.containsUser(user)) {
                 regBean.setEmail("");
-                session.setAttribute("regBean", regBean);
-                errors.put("Email", "Registration fail!<br>User with such login(email) already exists!");
+                session.setAttribute(REG_BEAN, regBean);
+                errors.put(EMAIL, HINT_SAME_EMAIl);
             } else {
                 UserRepository.addUser(user);
-                session.setAttribute("successRegistration", "Registration completed successfully!");
+                session.setAttribute(SUCCESS_REGISTRATION, SUCCESS_REGISTRATION);
             }
         }
-        session.setAttribute("errors", errors);
+        session.setAttribute(ERRORS, errors);
         httpServletResponse.sendRedirect("/registerUser");
     }
 
@@ -61,10 +65,11 @@ public class RegistrationUser extends HttpServlet {
     }
 
     private void validateCaptcha(HttpServletRequest httpServletRequest) {
-        String codeCaptcha = httpServletRequest.getParameter("captcha");
-        CaptchaStrategy strategy = (CaptchaStrategy) getServletContext().getAttribute("strategy");
+        ServletContext servletContext = httpServletRequest.getServletContext();
+        String codeCaptcha = httpServletRequest.getParameter(CAPTCHA);
+        CaptchaStrategy strategy = (CaptchaStrategy) servletContext.getAttribute(STRATEGY);
         int idCaptcha = strategy.getIdCaptcha(httpServletRequest);
-        long timeout = Long.parseLong(getServletContext().getInitParameter("Timeout"));
+        long timeout = Long.parseLong(servletContext.getInitParameter(TIMEOUT));
         ValidatorUtil.validateCaptcha(idCaptcha, codeCaptcha, timeout);
     }
 }

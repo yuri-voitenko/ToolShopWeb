@@ -5,18 +5,20 @@ import com.epam.preprod.voitenko.bean.UserBean;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
+
 public class Service {
     private Service() {
     }
 
     public static RegisterBean extractRegisterBean(HttpServletRequest httpServletRequest) {
         RegisterBean regBean = new RegisterBean();
-        regBean.setFullName(httpServletRequest.getParameter("fullName"));
-        regBean.setAddress(httpServletRequest.getParameter("address"));
-        regBean.setPhoneNumber(httpServletRequest.getParameter("phoneNumber"));
-        regBean.setEmail(httpServletRequest.getParameter("email"));
-        regBean.setPassword(httpServletRequest.getParameter("password"));
-        regBean.setRepeatedPassword(httpServletRequest.getParameter("passwordCheck"));
+        regBean.setFullName(httpServletRequest.getParameter(FULL_NAME));
+        regBean.setAddress(httpServletRequest.getParameter(ADDRESS));
+        regBean.setPhoneNumber(httpServletRequest.getParameter(PHONE_NUMBER));
+        regBean.setEmail(httpServletRequest.getParameter(EMAIL));
+        regBean.setPassword(httpServletRequest.getParameter(PASSWORD));
+        regBean.setRepeatedPassword(httpServletRequest.getParameter(PASSWORD_CHECK));
         return regBean;
     }
 

@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Message.*;
+
 public class ValidatorUtil {
     private static Map<String, String> errorMessages = new LinkedHashMap<>();
 
@@ -39,43 +42,38 @@ public class ValidatorUtil {
 
     private static boolean validateFullName(String fullName) {
         return validate(fullName, "([a-zA-Z]{2,}\\s[a-zA-z]{1,}'?-?[a-zA-Z]{2,}\\s?([a-zA-Z]{1,})?)",
-                "fullName", "Hint: 'FirstName LastName'");
+                FULL_NAME, HINT_FULL_NAME);
     }
 
     private static boolean validateAddress(String address) {
-        return validate(address, "address");
+        return validate(address, ADDRESS);
     }
 
     private static boolean validatePhoneNumber(String phoneNumber) {
-        final String key = "phoneNumber";
-        String digits = phoneNumber.replaceAll("\\D", "");
-        if (validate(phoneNumber, key) && !(digits.length() == 11 || digits.length() == 12)) {
-            errorMessages.put(key, "Hint: Use international format!");
-            return false;
+        if (validate(phoneNumber, PHONE_NUMBER)) {
+            String digits = phoneNumber.replaceAll("\\D", "");
+            if (validate(phoneNumber, PHONE_NUMBER) && !(digits.length() == 11 || digits.length() == 12)) {
+                errorMessages.put(PHONE_NUMBER, HINT_PHONE_NUMBER);
+                return false;
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     private static boolean validateEmail(String email) {
         return validate(email, "(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))",
-                "email", "Hint: 'FirstName LastName'");
+                EMAIL, HINT_EMAIL);
     }
 
     private static boolean validatePassword(String password) {
-        String hintMessage = "Password requirements:" +
-                "<br>\t* At least one upper case English letter" +
-                "<br>\t* At least one lower case English letter" +
-                "<br>\t* At least one digit" +
-                "<br>\t* At least one special character" +
-                "<br>\t* Minimum eight in length";
         return validate(password, "(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}",
-                "password", hintMessage);
+                PASSWORD, HINT_PASSWORD);
     }
 
     private static boolean validateRepeatedPassword(String password, String repeatedPassword) {
-        final String key = "repeatedPassword";
-        if (validate(repeatedPassword, key) && !password.equals(repeatedPassword)) {
-            errorMessages.put(key, "Is not equal to the password");
+        if (validate(repeatedPassword, PASSWORD_CHECK) && !password.equals(repeatedPassword)) {
+            errorMessages.put(PASSWORD_CHECK, HINT_PASSWORD_CHECK);
             return false;
         }
         return true;
@@ -84,11 +82,11 @@ public class ValidatorUtil {
     public static boolean validateCaptcha(int idCaptcha, String codeCaptcha, long timeout) {
         Captcha objCaptcha = CaptchaRepository.getCaptcha(idCaptcha);
         if (objCaptcha == null || !isActualCaptcha(objCaptcha, timeout)) {
-            errorMessages.put("Captcha fail!", "The lifetime of captcha has expired!");
+            errorMessages.put(CAPTCHA, HINT_CAPTCHA_LIFETIME);
             return false;
         }
         if (!isCorrectCodeCaptcha(objCaptcha, codeCaptcha)) {
-            errorMessages.put("Captcha fail!", "You input incorrect code for Captcha!");
+            errorMessages.put(CAPTCHA, HINT_CAPTCHA_CODE);
             return false;
         }
         return true;
@@ -110,7 +108,7 @@ public class ValidatorUtil {
             throw new IllegalArgumentException();
         }
         final String secretCode = String.valueOf(objCaptcha.getSecretCode());
-        return validate(codeCaptcha, "\\d{10}", "codeCaptcha", "Hint: Must be only 10 digits.")
+        return validate(codeCaptcha, "\\d{10}", CAPTCHA, HINT_CAPTCHA_NOT_DIGITS)
                 && secretCode.equals(codeCaptcha);
     }
 
@@ -125,7 +123,7 @@ public class ValidatorUtil {
 
     private static boolean validate(String verify, String key) {
         if (isNullOrEmpty(verify)) {
-            errorMessages.put(key, "This field can not be empty!");
+            errorMessages.put(key, HINT_NOT_EMPTY_FIELD);
             return false;
         }
         return true;

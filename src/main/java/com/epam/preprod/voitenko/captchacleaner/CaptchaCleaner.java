@@ -2,6 +2,8 @@ package com.epam.preprod.voitenko.captchacleaner;
 
 import com.epam.preprod.voitenko.repository.CaptchaRepository;
 
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.INTERRUPTED_EXCEPTION;
+
 public class CaptchaCleaner implements Runnable {
     private long timeout;
 
@@ -17,7 +19,7 @@ public class CaptchaCleaner implements Runnable {
                 Thread.sleep(millis);
                 CaptchaRepository.deleteOutdatedCaptcha(timeout);
             } catch (InterruptedException e) {
-                System.out.println("InterruptedException has occurred in CaptchaCleaner");
+                System.out.println(INTERRUPTED_EXCEPTION);
             }
         }
     }
