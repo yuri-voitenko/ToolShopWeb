@@ -4,10 +4,13 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="captcha" uri="tld/captcha.tld" %>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tool Shop | Home</title>
+    <title>Tool Shop | Register</title>
     <!-- for-mobile-apps -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -24,6 +27,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- js -->
     <script src="js/jquery.min.js"></script>
     <!-- //js -->
+    <!-- validate -->
+    <script type="text/javascript" src="js/validate.js"></script>
+    <script type="text/javascript" src="js/captcha.js"></script>
     <!-- cart -->
     <script src="js/simpleCart.min.js"></script>
     <!-- cart -->
@@ -93,14 +99,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <div class="navbar-brand logo-nav-left ">
+                    <div class="navbar-brand logo-nav-left wow fadeInLeft animated" data-wow-delay=".5s">
                         <h1 class="animated wow pulse" data-wow-delay=".5s"><a
                                 href="index.html">Tool<span>Shop</span></a></h1>
                     </div>
                 </div>
                 <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="index.html" class="act">Home</a></li>
+                        <li><a href="index.html" class="act">Home</a></li>
                         <!-- Mega Menu -->
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools <b class="caret"></b></a>
@@ -113,7 +119,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                             <li><a href="products.html">Angle Grinder</a></li>
                                             <li><a href="products.html">Drill</a></li>
                                             <li><a href="products.html">Perforator</a></li>
-
                                         </ul>
                                     </div>
                                     <div class="clearfix"></div>
@@ -126,10 +131,81 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         </div>
     </div>
 </div>
-<!-- //header -->
-<!-- banner -->
-<div class="banner"></div>
-<!-- //banner -->
+<!-- //header --><!--banner-->
+<div class="banner-top">
+    <div class="container">
+        <h2 class="animated wow fadeInLeft" data-wow-delay=".5s">Register</h2>
+        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a href="index.html">Home</a><label>/</label>Register
+        </h3>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!-- contact -->
+<div class="login">
+    <div class="container">
+        <c:if test="${not empty requestScope.successRegistration}">
+            <div class="alert alert-success" role="alert">
+                <strong>Well done!</strong>${requestScope.successRegistration}
+            </div>
+        </c:if>
+        <c:if test="${not empty requestScope.errors}">
+            <div class="alert alert-danger" role="alert">
+                <strong>Oops! </strong>Something went wrong :( Please fix and try again.<br><br>
+                <c:forEach items="${requestScope.errors}" var="entry">
+                    <strong> ${entry.key}</strong><br>${entry.value}<br>
+                </c:forEach>
+            </div>
+        </c:if>
+        <form name="registerForm" action="/registerUser" method="post"
+              onsubmit="return validateRegisterForm('registerForm')">
+            <div class="col-md-6 login-do1 animated wow fadeInLeft" data-wow-delay=".5s">
+                <div class="login-mail">
+                    <input type="text" name="fullName" placeholder="Full name" value="${requestScope.regBean.fullName}"
+                           required="">
+                    <img src="images/ID.png" alt=""/>
+                </div>
+                <div class="login-mail">
+                    <input type="text" name="address" placeholder="Address" value="${requestScope.regBean.address}"
+                           required="">
+                    <i class="glyphicon glyphicon-map-marker"></i>
+                </div>
+                <div class="login-mail">
+                    <input type="text" name="phoneNumber" placeholder="+X-XXX-XXX-XXXX"
+                           value="${requestScope.regBean.phoneNumber}" required="">
+                    <i class="glyphicon glyphicon-earphone"></i>
+                </div>
+                <div class="login-mail">
+                    <input type="text" name="email" placeholder="Email" value="${requestScope.regBean.email}"
+                           required="">
+                    <i class="glyphicon glyphicon-envelope"></i>
+                </div>
+                <div class="login-mail">
+                    <input type="password" name="password" placeholder="Password"
+                           value="${requestScope.regBean.password}" required="">
+                    <i class="glyphicon glyphicon-lock"></i>
+                </div>
+                <div class="login-mail">
+                    <input type="password" name="passwordCheck" placeholder="Repeated password"
+                           value="${requestScope.regBean.repeatedPassword}" required="">
+                    <img src="images/password-check.png" alt=""/>
+                </div>
+                <captcha:CaptchaImage/>
+                <div class="login-mail">
+                    <input type="text" name="captcha" placeholder="Captcha" required="">
+                    <img src="images/stop_robot.png" alt=""/>
+                </div>
+            </div>
+            <div class="col-md-6 login-do animated wow fadeInRight" data-wow-delay=".5s">
+                <label class="hvr-sweep-to-top login-sub">
+                    <input type="submit" value="Submit">
+                </label>
+                <p>Already register</p>
+                <a href="login.html" class="hvr-sweep-to-top">Login</a>
+            </div>
+            <div class="clearfix"></div>
+        </form>
+    </div>
+</div>
 <!-- footer -->
 <div class="footer">
     <div class="container">
