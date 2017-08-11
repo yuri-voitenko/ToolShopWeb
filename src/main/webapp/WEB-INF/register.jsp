@@ -142,7 +142,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 </div>
 <!-- contact -->
 <div class="login">
-    <div class="container">
+    <div class="container" id="container">
         <c:if test="${not empty requestScope.successRegistration}">
             <div class="alert alert-success" role="alert">
                 <strong>Well done!</strong>${requestScope.successRegistration}
