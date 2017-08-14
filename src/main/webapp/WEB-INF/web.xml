@@ -11,6 +11,12 @@
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
+    <resource-ref>
+        DB Connection
+        <res-ref-name>jdbc/toolshopwebDB</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
     <listener>
         <listener-class>
             com.epam.preprod.voitenko.listener.InitListener
