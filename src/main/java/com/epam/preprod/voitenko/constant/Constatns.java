@@ -3,6 +3,7 @@ package com.epam.preprod.voitenko.constant;
 public class Constatns {
     private Constatns() {
     }
+
     public class Keys {
         private Keys() {
         }
@@ -14,6 +15,7 @@ public class Constatns {
         public static final String REG_BEAN = "regBean";
         public static final String ERRORS = "errors";
 
+        public static final String ID = "id";
         public static final String FULL_NAME = "fullName";
         public static final String ADDRESS = "address";
         public static final String PHONE_NUMBER = "phoneNumber";
@@ -52,5 +54,16 @@ public class Constatns {
         }
 
         public static final String INTERRUPTED_EXCEPTION = "InterruptedException has occurred in CaptchaCleaner";
+        public static final String CANNOT_GET_ALL = "Can not get a list of all users";
+        public static final String CANNOT_GET_ENTITY_BY_ID = "Can not get a user with such id";
+        public static final String CANNOT_GET_ENTITY_BY_EMAIL = "Can not get a user with such email";
+        public static final String CANNOT_UPDATE_ENTITY = "Can not update user";
+        public static final String CANNOT_DELETE_ENTITY = "Can not delete user with such id";
+        public static final String CANNOT_CREATE_ENTITY = "Can not create a new user";
+
+        public static final String CANNOT_CLOSE_RESULT_SET = "Can not close ResultSet";
+        public static final String CANNOT_CLOSE_STATEMENT = "Can not close Statement";
+        public static final String CANNOT_CLOSE_CONNECTION = "Can not close Connection";
+        public static final String CANNOT_CREATE_DATA_SOURCE = "Can not get DataSource with such name";
     }
 }
