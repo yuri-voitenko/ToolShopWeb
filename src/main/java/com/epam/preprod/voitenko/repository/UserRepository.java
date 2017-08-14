@@ -1,49 +1,176 @@
 package com.epam.preprod.voitenko.repository;
 
 import com.epam.preprod.voitenko.bean.UserBean;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class UserRepository {
-    private static Set<UserBean> users;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 
-    static {
-        users = new HashSet<>();
-        users.add(new UserBean("voit@gmail.com", "Voitenko!335", "Yuri Voitenko", "+380505730182", "Kharkiv, Puskinska st., 79"));
-        users.add(new UserBean("vlad@gmail.com", "Bullsh1t007$", "Vlad Bykov", "+38-050-56-30-333", "Lughansk, Kirova st., 12"));
-        users.add(new UserBean("pupok@yandex.ru", "BigBoss999*", "Vasya Pupkin", "+38050-789-0182", "Donetsk, Lenina st., 2"));
-        users.add(new UserBean("small_johnny@ukr.net", "AmericanBoy#1970", "John Lo", "780955730292", "Kiev, Belyaeva st., 45"));
-        users.add(new UserBean("rusich@mail.ru", "NotRaci%st789", "Niha Petrov", "+380505730182", "Poltava, Puskinska st., 1/A"));
+public class UserRepository implements GeneralRepository<UserBean, Integer> {
+    private static final Logger LOGGER = LogManager.getLogger(UserRepository.class);
+
+    private static final String SQL_SELECT_ALL = "SELECT * FROM users;";
+    private static final String SQL_GET_USER_BY_ID = "SELECT * FROM users WHERE id=?;";
+    private static final String SQL_GET_USER_BY_EMAIL = "SELECT * FROM users WHERE email=?;";
+    private static final String SQL_UPDATE_USER = "UPDATE users SET email=?, password=?, fullName=?, phoneNumber=?, address=? WHERE id=?;";
+    private static final String SQL_DELETE_USER = "DELETE FROM users WHERE id=?;";
+    private static final String SQL_INSERT_USER = "INSERT INTO users (email, password, fullName, phoneNumber, address) VALUES (?, ?, ?, ?, ?);";
+
+    @Override
+    public List<UserBean> getAll(Connection connection) {
+        checkObjectIsNull(connection);
+        List<UserBean> users = new ArrayList<>();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(SQL_SELECT_ALL);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                users.add(extractUser(resultSet));
+            }
+        } catch (SQLException e) {
+            LOGGER.error(CANNOT_GET_ALL, e);
+        } finally {
+            close(resultSet, statement, connection);
+        }
+        return users;
     }
 
-    private UserRepository() {
+    @Override
+    public UserBean getEntityById(Connection connection, Integer id) {
+        checkObjectIsNull(connection);
+        UserBean userBean = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(SQL_GET_USER_BY_ID);
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                userBean = extractUser(resultSet);
+            }
+        } catch (SQLException e) {
+            LOGGER.error(CANNOT_GET_ENTITY_BY_ID, e);
+        } finally {
+            close(resultSet, statement, connection);
+        }
+        return userBean;
     }
 
-    public static boolean addUser(UserBean user) {
-        return !containsUser(user) && users.add(user);
+
+    @Override
+    public UserBean update(Connection connection, UserBean entity) {
+        checkObjectIsNull(connection);
+        checkObjectIsNull(entity);
+        UserBean oldValue = getEntityById(connection, entity.getId());
+        if (oldValue == null) {
+            return null;
+        }
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_UPDATE_USER);
+            statement.setString(1, entity.getEmail());
+            statement.setString(2, entity.getPassword());
+            statement.setString(3, entity.getFullName());
+            statement.setString(4, entity.getPhoneNumber());
+            statement.setString(5, entity.getAddress());
+            statement.setInt(6, oldValue.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error(CANNOT_UPDATE_ENTITY, e);
+        } finally {
+            close(statement, connection);
+        }
+        return oldValue;
     }
 
-    public static boolean updateUser(UserBean user) {
-        return deleteUser(user) && users.add(user);
+    @Override
+    public boolean delete(Connection connection, Integer id) {
+        checkObjectIsNull(connection);
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_DELETE_USER);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error(CANNOT_DELETE_ENTITY, e);
+            return false;
+        } finally {
+            close(statement, connection);
+        }
+        return true;
     }
 
-    public static boolean containsUser(UserBean user) {
-        for (UserBean userBean : users) {
-            if (userBean.getEmail().equals(user.getEmail())) {
-                return true;
+    @Override
+    public boolean create(Connection connection, UserBean entity) {
+        checkObjectIsNull(connection);
+        checkObjectIsNull(entity);
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_INSERT_USER);
+            statement.setString(1, entity.getEmail());
+            statement.setString(2, entity.getPassword());
+            statement.setString(3, entity.getFullName());
+            statement.setString(4, entity.getPhoneNumber());
+            statement.setString(5, entity.getAddress());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error(CANNOT_CREATE_ENTITY, e);
+            return false;
+        } finally {
+            close(statement, connection);
+            UserBean actual = getUserByEmail(connection, entity.getEmail());
+            if (actual != null) {
+                entity.setId(actual.getId());
             }
         }
-        return false;
+        return true;
     }
 
-    public static boolean deleteUser(UserBean user) {
-        for (UserBean userBean : users) {
-            if (userBean.getEmail().equals(user.getEmail())) {
-                users.remove(userBean);
-                return true;
+    private UserBean getUserByEmail(Connection connection, String email) {
+        checkObjectIsNull(connection);
+        checkObjectIsNull(email);
+        UserBean userBean = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(SQL_GET_USER_BY_EMAIL);
+            statement.setString(1, email);
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                userBean = extractUser(resultSet);
             }
+        } catch (SQLException e) {
+            LOGGER.error(CANNOT_GET_ENTITY_BY_EMAIL, e);
+        } finally {
+            close(resultSet, statement, connection);
         }
-        return false;
+        return userBean;
+    }
+
+    private UserBean extractUser(ResultSet resultSet) throws SQLException {
+        checkObjectIsNull(resultSet);
+        UserBean userBean = new UserBean();
+        userBean.setId(resultSet.getInt(ID));
+        userBean.setEmail(resultSet.getString(EMAIL));
+        userBean.setPassword(resultSet.getString(PASSWORD));
+        userBean.setFullName(resultSet.getString(FULL_NAME));
+        userBean.setPhoneNumber(resultSet.getString(PHONE_NUMBER));
+        userBean.setAddress(resultSet.getString(ADDRESS));
+        return userBean;
+    }
+
+    private void checkObjectIsNull(Object object) {
+        if (object == null) {
+            throw new IllegalArgumentException();
+        }
     }
 }
