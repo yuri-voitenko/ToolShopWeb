@@ -2,7 +2,7 @@ package com.epam.preprod.voitenko.servlet;
 
 import com.epam.preprod.voitenko.bean.RegisterBean;
 import com.epam.preprod.voitenko.bean.UserBean;
-import com.epam.preprod.voitenko.repository.UserRepository;
+import com.epam.preprod.voitenko.repository.StaticUserRepository;
 import com.epam.preprod.voitenko.service.Service;
 import com.epam.preprod.voitenko.strategy.CaptchaStrategy;
 import com.epam.preprod.voitenko.validate.ValidatorUtil;
@@ -43,12 +43,12 @@ public class RegistrationUser extends HttpServlet {
             session.setAttribute(REG_BEAN, regBean);
         } else {
             UserBean user = Service.fillUserBean(regBean);
-            if (UserRepository.containsUser(user)) {
+            if (StaticUserRepository.containsUser(user)) {
                 regBean.setEmail("");
                 session.setAttribute(REG_BEAN, regBean);
                 errors.put(EMAIL, HINT_SAME_EMAIl);
             } else {
-                UserRepository.addUser(user);
+                StaticUserRepository.addUser(user);
                 session.setAttribute(SUCCESS_REGISTRATION, HINT_SUCCESS_REGISTRATION);
             }
         }
