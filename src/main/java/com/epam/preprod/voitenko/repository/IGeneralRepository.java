@@ -9,7 +9,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_CLOSE_RESULT_SET;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_CLOSE_STATEMENT;
 
 public interface IGeneralRepository<E, K> {
     Logger LOGGER = LogManager.getLogger(IGeneralRepository.class);
@@ -44,24 +45,8 @@ public interface IGeneralRepository<E, K> {
         }
     }
 
-    default void close(Connection connection) {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                LOGGER.error(CANNOT_CLOSE_CONNECTION, e);
-            }
-        }
-    }
-
-    default void close(Statement statement, Connection connection) {
-        close(statement);
-        close(connection);
-    }
-
-    default void close(ResultSet resultSet, Statement statement, Connection connection) {
+    default void close(ResultSet resultSet, Statement statement) {
         close(resultSet);
         close(statement);
-        close(connection);
     }
 }

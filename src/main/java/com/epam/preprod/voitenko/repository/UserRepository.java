@@ -39,7 +39,7 @@ public class UserRepository implements IGeneralRepository<UserBean, Integer> {
         } catch (SQLException e) {
             LOGGER.error(CANNOT_GET_ALL, e);
         } finally {
-            close(resultSet, statement, connection);
+            close(resultSet, statement);
         }
         return users;
     }
@@ -60,7 +60,7 @@ public class UserRepository implements IGeneralRepository<UserBean, Integer> {
         } catch (SQLException e) {
             LOGGER.error(CANNOT_GET_ENTITY_BY_ID, e);
         } finally {
-            close(resultSet, statement, connection);
+            close(resultSet, statement);
         }
         return userBean;
     }
@@ -87,7 +87,7 @@ public class UserRepository implements IGeneralRepository<UserBean, Integer> {
         } catch (SQLException e) {
             LOGGER.error(CANNOT_UPDATE_ENTITY, e);
         } finally {
-            close(statement, connection);
+            close(statement);
         }
         return oldValue;
     }
@@ -104,7 +104,7 @@ public class UserRepository implements IGeneralRepository<UserBean, Integer> {
             LOGGER.error(CANNOT_DELETE_ENTITY, e);
             return false;
         } finally {
-            close(statement, connection);
+            close(statement);
         }
         return true;
     }
@@ -126,7 +126,7 @@ public class UserRepository implements IGeneralRepository<UserBean, Integer> {
             LOGGER.error(CANNOT_CREATE_ENTITY, e);
             return false;
         } finally {
-            close(statement, connection);
+            close(statement);
             UserBean actual = getUserByEmail(connection, entity.getEmail());
             if (actual != null) {
                 entity.setId(actual.getId());
@@ -151,7 +151,7 @@ public class UserRepository implements IGeneralRepository<UserBean, Integer> {
         } catch (SQLException e) {
             LOGGER.error(CANNOT_GET_ENTITY_BY_EMAIL, e);
         } finally {
-            close(resultSet, statement, connection);
+            close(resultSet, statement);
         }
         return userBean;
     }
