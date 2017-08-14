@@ -2,7 +2,7 @@ package com.epam.preprod.voitenko.servlet;
 
 import com.epam.preprod.voitenko.captcha.Captcha;
 import com.epam.preprod.voitenko.repository.CaptchaRepository;
-import com.epam.preprod.voitenko.strategy.CaptchaStrategy;
+import com.epam.preprod.voitenko.strategy.ICaptchaStrategy;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
@@ -20,7 +20,7 @@ import static com.epam.preprod.voitenko.constant.Constatns.Keys.STRATEGY;
 public class GetCaptchaImage extends HttpServlet {
     @Override
     protected void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        CaptchaStrategy strategy = (CaptchaStrategy) getServletContext().getAttribute(STRATEGY);
+        ICaptchaStrategy strategy = (ICaptchaStrategy) getServletContext().getAttribute(STRATEGY);
         int idCaptcha = strategy.getIdCaptcha(httpServletRequest);
         if (idCaptcha != -1) {
             Captcha captcha = CaptchaRepository.getCaptcha(idCaptcha);

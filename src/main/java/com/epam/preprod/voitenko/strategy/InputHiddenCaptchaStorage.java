@@ -5,7 +5,7 @@ import com.epam.preprod.voitenko.repository.CaptchaRepository;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class InputHiddenCaptchaStorage implements CaptchaStrategy {
+public class InputHiddenCaptchaStorage implements ICaptchaStrategy {
     private int id = -1;
 
     @Override
@@ -22,7 +22,7 @@ public class InputHiddenCaptchaStorage implements CaptchaStrategy {
     public String getTagContext(HttpServletRequest httpServletRequest) {
         StringBuilder code = new StringBuilder();
         code.append("<input type=\"hidden\" id=\"idCaptcha\" name=\"idCaptcha\" value=\"" + id + "\">");
-        code.append(CaptchaStrategy.super.getTagContext(httpServletRequest));
+        code.append(ICaptchaStrategy.super.getTagContext(httpServletRequest));
         return code.toString();
     }
 }

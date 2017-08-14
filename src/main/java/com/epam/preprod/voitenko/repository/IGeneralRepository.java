@@ -11,8 +11,8 @@ import java.util.List;
 
 import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.*;
 
-public interface GeneralRepository<E, K> {
-    Logger LOGGER = LogManager.getLogger(GeneralRepository.class);
+public interface IGeneralRepository<E, K> {
+    Logger LOGGER = LogManager.getLogger(IGeneralRepository.class);
 
     List<E> getAll(Connection connection);
 

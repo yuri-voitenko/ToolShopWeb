@@ -1,6 +1,6 @@
 package com.epam.preprod.voitenko.captcha;
 
-import com.epam.preprod.voitenko.strategy.CaptchaStrategy;
+import com.epam.preprod.voitenko.strategy.ICaptchaStrategy;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -17,7 +17,7 @@ public class CaptchaTag extends SimpleTagSupport {
         JspWriter out = getJspContext().getOut();
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-        CaptchaStrategy strategy = (CaptchaStrategy) pageContext.getServletContext().getAttribute(STRATEGY);
+        ICaptchaStrategy strategy = (ICaptchaStrategy) pageContext.getServletContext().getAttribute(STRATEGY);
         out.println(strategy.getTagContext(request));
     }
 }

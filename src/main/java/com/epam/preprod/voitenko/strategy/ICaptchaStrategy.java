@@ -3,7 +3,7 @@ package com.epam.preprod.voitenko.strategy;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public interface CaptchaStrategy {
+public interface ICaptchaStrategy {
     void setIdCaptcha(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse);
 
     int getIdCaptcha(HttpServletRequest httpServletRequest);

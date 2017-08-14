@@ -1,6 +1,6 @@
 package com.epam.preprod.voitenko.servlet;
 
-import com.epam.preprod.voitenko.strategy.CaptchaStrategy;
+import com.epam.preprod.voitenko.strategy.ICaptchaStrategy;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +16,7 @@ public class ViewRegister extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        CaptchaStrategy strategy = (CaptchaStrategy) getServletContext().getAttribute(STRATEGY);
+        ICaptchaStrategy strategy = (ICaptchaStrategy) getServletContext().getAttribute(STRATEGY);
         strategy.setIdCaptcha(httpServletRequest, httpServletResponse);
         httpServletRequest
                 .getRequestDispatcher("/WEB-INF/register.jsp")

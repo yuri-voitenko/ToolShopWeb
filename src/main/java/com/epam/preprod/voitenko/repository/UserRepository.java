@@ -14,7 +14,7 @@ import java.util.List;
 import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.*;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 
-public class UserRepository implements GeneralRepository<UserBean, Integer> {
+public class UserRepository implements IGeneralRepository<UserBean, Integer> {
     private static final Logger LOGGER = LogManager.getLogger(UserRepository.class);
 
     private static final String SQL_SELECT_ALL = "SELECT * FROM users;";
