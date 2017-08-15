@@ -7,8 +7,10 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.*;
+
 public class TransactionManager {
-    Logger LOGGER = LogManager.getLogger(TransactionManager.class);
+    private static final Logger LOGGER = LogManager.getLogger(TransactionManager.class);
 
     public <T> T doInTransaction(IOperation<T> operation) {
         Object result = null;
@@ -17,7 +19,7 @@ public class TransactionManager {
         try {
             connection = connectionPool.getConnection();
         } catch (SQLException e) {
-            LOGGER.error("Can not get connection", e);
+            LOGGER.error(CANNOT_GET_CONNECTION, e);
         }
         if (connection != null) {
             try {
@@ -25,11 +27,11 @@ public class TransactionManager {
                 result = operation.operation(connection);
                 connection.commit();
             } catch (SQLException e) {
-                LOGGER.error("Can not commit", e);
+                LOGGER.error(CANNOT_EXECUTE_COMMIT, e);
                 try {
                     connection.rollback();
                 } catch (SQLException e1) {
-                    LOGGER.error("Can not rollback", e);
+                    LOGGER.error(CANNOT_EXECUTE_ROLLBACK, e);
                 }
             }
         }

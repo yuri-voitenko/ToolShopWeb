@@ -67,5 +67,8 @@ public class Constatns {
         public static final String CANNOT_CLOSE_STATEMENT = "Can not close Statement";
         public static final String CANNOT_CLOSE_CONNECTION = "Can not close Connection";
         public static final String CANNOT_CREATE_DATA_SOURCE = "Can not get DataSource with such name";
+        public static final String CANNOT_GET_CONNECTION = "Can not get connection!";
+        public static final String CANNOT_EXECUTE_COMMIT = "Can not execute commit! ";
+        public static final String CANNOT_EXECUTE_ROLLBACK = "Can not execute rollback! ";
     }
 }
