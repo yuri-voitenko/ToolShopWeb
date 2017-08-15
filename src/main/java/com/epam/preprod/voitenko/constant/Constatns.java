@@ -25,6 +25,7 @@ public class Constatns {
         public static final String CAPTCHA = "captcha";
         public static final String ID_CAPTCHA = "idCaptcha";
         public static final String SUCCESS_REGISTRATION = "successRegistration";
+        public static final String FAIL_REGISTRATION = "failRegistration";
     }
 
     public class Message {
@@ -47,6 +48,7 @@ public class Constatns {
         public static final String HINT_NOT_EMPTY_FIELD = "This field can not be empty!";
         public static final String HINT_SAME_EMAIl = "Registration fail!<br>User with such login(email) already exists!";
         public static final String HINT_SUCCESS_REGISTRATION = "Registration completed successfully!";
+        public static final String HINT_FAIL_REGISTRATION = "Registration failed!";
     }
 
     public class Exceptions {

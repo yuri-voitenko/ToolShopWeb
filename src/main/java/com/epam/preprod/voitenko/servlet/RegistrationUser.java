@@ -2,8 +2,8 @@ package com.epam.preprod.voitenko.servlet;
 
 import com.epam.preprod.voitenko.bean.RegisterBean;
 import com.epam.preprod.voitenko.bean.UserBean;
-import com.epam.preprod.voitenko.repository.StaticUserRepository;
 import com.epam.preprod.voitenko.service.Service;
+import com.epam.preprod.voitenko.service.UserService;
 import com.epam.preprod.voitenko.strategy.ICaptchaStrategy;
 import com.epam.preprod.voitenko.validate.ValidatorUtil;
 
@@ -15,11 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
-import static com.epam.preprod.voitenko.constant.Constatns.Message.HINT_SAME_EMAIl;
-import static com.epam.preprod.voitenko.constant.Constatns.Message.HINT_SUCCESS_REGISTRATION;
+import static com.epam.preprod.voitenko.constant.Constatns.Message.*;
 
 @WebServlet("/registerUser")
 public class RegistrationUser extends HttpServlet {
@@ -43,17 +43,30 @@ public class RegistrationUser extends HttpServlet {
             session.setAttribute(REG_BEAN, regBean);
         } else {
             UserBean user = Service.fillUserBean(regBean);
-            if (StaticUserRepository.containsUser(user)) {
+            UserService userService = new UserService();
+            if (containsUser(userService.getAllUsers(), user)) {
                 regBean.setEmail("");
                 session.setAttribute(REG_BEAN, regBean);
                 errors.put(EMAIL, HINT_SAME_EMAIl);
             } else {
-                StaticUserRepository.addUser(user);
-                session.setAttribute(SUCCESS_REGISTRATION, HINT_SUCCESS_REGISTRATION);
+                if (!userService.registerUser(user)) {
+                    errors.put(FAIL_REGISTRATION, HINT_FAIL_REGISTRATION);
+                } else {
+                    session.setAttribute(SUCCESS_REGISTRATION, HINT_SUCCESS_REGISTRATION);
+                }
             }
         }
         session.setAttribute(ERRORS, errors);
         httpServletResponse.sendRedirect("/registerUser");
+    }
+
+    private boolean containsUser(List<UserBean> users, UserBean user) {
+        for (UserBean userBean : users) {
+            if (userBean.getEmail().equals(user.getEmail())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void removeSessionAttribute(HttpServletRequest httpServletRequest, String key) {
