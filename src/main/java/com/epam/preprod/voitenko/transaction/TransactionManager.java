@@ -12,7 +12,7 @@ import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.*;
 public class TransactionManager {
     private static final Logger LOGGER = LogManager.getLogger(TransactionManager.class);
 
-    public <T> T doInTransaction(IOperation<T> operation) {
+    public <T> T doInTransaction(Operation<T> operation) {
         Object result = null;
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         Connection connection = null;

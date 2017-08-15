@@ -4,7 +4,7 @@ import com.epam.preprod.voitenko.bean.RegisterBean;
 import com.epam.preprod.voitenko.bean.UserBean;
 import com.epam.preprod.voitenko.service.Service;
 import com.epam.preprod.voitenko.service.UserService;
-import com.epam.preprod.voitenko.strategy.ICaptchaStrategy;
+import com.epam.preprod.voitenko.strategy.CaptchaStrategy;
 import com.epam.preprod.voitenko.validate.ValidatorUtil;
 
 import javax.servlet.ServletContext;
@@ -49,10 +49,10 @@ public class RegistrationUser extends HttpServlet {
                 session.setAttribute(REG_BEAN, regBean);
                 errors.put(EMAIL, HINT_SAME_EMAIl);
             } else {
-                if (!userService.registerUser(user)) {
-                    errors.put(FAIL_REGISTRATION, HINT_FAIL_REGISTRATION);
-                } else {
+                if (userService.registerUser(user)) {
                     session.setAttribute(SUCCESS_REGISTRATION, HINT_SUCCESS_REGISTRATION);
+                } else {
+                    errors.put(FAIL_REGISTRATION, HINT_FAIL_REGISTRATION);
                 }
             }
         }
@@ -81,7 +81,7 @@ public class RegistrationUser extends HttpServlet {
     private void validateCaptcha(HttpServletRequest httpServletRequest) {
         ServletContext servletContext = httpServletRequest.getServletContext();
         String codeCaptcha = httpServletRequest.getParameter(CAPTCHA);
-        ICaptchaStrategy strategy = (ICaptchaStrategy) servletContext.getAttribute(STRATEGY);
+        CaptchaStrategy strategy = (CaptchaStrategy) servletContext.getAttribute(STRATEGY);
         int idCaptcha = strategy.getIdCaptcha(httpServletRequest);
         long timeout = Long.parseLong(servletContext.getInitParameter(TIMEOUT));
         ValidatorUtil.validateCaptcha(idCaptcha, codeCaptcha, timeout);

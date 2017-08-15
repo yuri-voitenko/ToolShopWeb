@@ -9,7 +9,7 @@ public class Constatns {
         }
 
         public static final String STRATEGY = "strategy";
-        public static final String CAPTCHA_STRATEGY = "ICaptchaStrategy";
+        public static final String CAPTCHA_STRATEGY = "CaptchaStrategy";
         public static final String TIMEOUT = "Timeout";
 
         public static final String REG_BEAN = "regBean";

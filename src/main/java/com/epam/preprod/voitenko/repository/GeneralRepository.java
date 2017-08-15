@@ -12,8 +12,8 @@ import java.util.List;
 import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_CLOSE_RESULT_SET;
 import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_CLOSE_STATEMENT;
 
-public interface IGeneralRepository<E, K> {
-    Logger LOGGER = LogManager.getLogger(IGeneralRepository.class);
+public interface GeneralRepository<E, K> {
+    Logger LOGGER = LogManager.getLogger(GeneralRepository.class);
 
     List<E> getAll(Connection connection);
 

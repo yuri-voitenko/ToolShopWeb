@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.ID_CAPTCHA;
 
-public class SessionCaptchaStrategy implements ICaptchaStrategy {
+public class SessionCaptchaStrategy implements CaptchaStrategy {
     @Override
     public void setIdCaptcha(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         HttpSession session = httpServletRequest.getSession();

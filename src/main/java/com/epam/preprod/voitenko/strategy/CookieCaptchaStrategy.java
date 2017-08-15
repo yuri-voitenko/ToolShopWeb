@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.ID_CAPTCHA;
 
-public class CookieCaptchaStrategy implements ICaptchaStrategy {
+public class CookieCaptchaStrategy implements CaptchaStrategy {
     @Override
     public void setIdCaptcha(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         String valueCookie = String.valueOf(CaptchaRepository.addCaptcha());

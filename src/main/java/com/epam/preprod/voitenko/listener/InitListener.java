@@ -1,7 +1,7 @@
 package com.epam.preprod.voitenko.listener;
 
 import com.epam.preprod.voitenko.captchacleaner.CaptchaCleaner;
-import com.epam.preprod.voitenko.strategy.ICaptchaStrategy;
+import com.epam.preprod.voitenko.strategy.CaptchaStrategy;
 import com.epam.preprod.voitenko.strategy.CookieCaptchaStrategy;
 import com.epam.preprod.voitenko.strategy.InputHiddenCaptchaStorage;
 import com.epam.preprod.voitenko.strategy.SessionCaptchaStrategy;
@@ -15,7 +15,7 @@ import java.util.Map;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 
 public class InitListener implements ServletContextListener {
-    private Map<String, ICaptchaStrategy> strategyMap;
+    private Map<String, CaptchaStrategy> strategyMap;
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -40,7 +40,7 @@ public class InitListener implements ServletContextListener {
     private void createStrategy(ServletContextEvent servletContextEvent) {
         ServletContext servletContext = servletContextEvent.getServletContext();
         String nameStrategy = servletContext.getInitParameter(CAPTCHA_STRATEGY);
-        ICaptchaStrategy captchaStrategy = new SessionCaptchaStrategy();         // default
+        CaptchaStrategy captchaStrategy = new SessionCaptchaStrategy();         // default
         if (strategyMap.containsKey(nameStrategy)) {
             captchaStrategy = strategyMap.get(nameStrategy);
         }
