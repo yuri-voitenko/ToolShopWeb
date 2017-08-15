@@ -4,6 +4,10 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="myTag" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,17 +50,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <div class="header-grid">
         <div class="container">
             <div class="header-left animated wow fadeInLeft" data-wow-delay=".5s">
-                <ul>
-                    <li><i class="glyphicon glyphicon-headphones"></i><a href="#">24x7 live support</a></li>
-                    <li><i class="glyphicon glyphicon-envelope"></i><a href="mailto:info@example.com">@example.com</a>
-                    </li>
-                    <li><i class="glyphicon glyphicon-earphone"></i>+1234 567 892</li>
-                </ul>
+                <myTag:login/>
             </div>
             <div class="header-right animated wow fadeInRight" data-wow-delay=".5s">
                 <div class="header-right1 ">
                     <ul>
-                        <li><i class="glyphicon glyphicon-log-in"></i><a href="/viewLoginForm">Login</a></li>
                         <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">Register</a></li>
                     </ul>
                 </div>

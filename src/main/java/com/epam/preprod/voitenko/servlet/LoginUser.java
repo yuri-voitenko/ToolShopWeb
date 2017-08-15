@@ -48,13 +48,14 @@ public class LoginUser extends HttpServlet {
                 session.setAttribute(LOGIN_BEAN, loginBean);
             } else {
                 if (getHashPassword(loginBean.getPassword()).equals(userBean.getPassword())) {
-                    // when all OK
+                    session.setAttribute(USER_BEAN, userBean);
                 } else {
                     errors.put(PASSWORD, NOT_LOGIN_PASSWORD);
                 }
             }
         }
         session.setAttribute(ERRORS, errors);
-        httpServletResponse.sendRedirect("/loginUser");
+        String redirect = errors.isEmpty() ? "/viewHomePage" : "/loginUser";
+        httpServletResponse.sendRedirect(redirect);
     }
 }

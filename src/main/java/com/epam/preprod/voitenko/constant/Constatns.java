@@ -14,6 +14,7 @@ public class Constatns {
 
         public static final String REG_BEAN = "regBean";
         public static final String LOGIN_BEAN = "logBean";
+        public static final String USER_BEAN = "userBean";
         public static final String ERRORS = "errors";
 
         public static final String ID = "id";
