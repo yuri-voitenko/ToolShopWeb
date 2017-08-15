@@ -1,9 +1,8 @@
 package com.epam.preprod.voitenko.servlet;
 
 import com.epam.preprod.voitenko.bean.RegisterBean;
-import com.epam.preprod.voitenko.captcha.Captcha;
 import com.epam.preprod.voitenko.repository.CaptchaRepository;
-import com.epam.preprod.voitenko.strategy.ICaptchaStrategy;
+import com.epam.preprod.voitenko.strategy.CaptchaStrategy;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -37,7 +36,7 @@ public class RegistrationUserTest {
     @Mock
     ServletContext mockServletContext;
     @Mock
-    ICaptchaStrategy captchaStrategy;
+    CaptchaStrategy captchaStrategy;
 
     RegistrationUser registrationUser;
     RegisterBean emptyRegBean;
