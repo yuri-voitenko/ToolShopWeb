@@ -4,6 +4,8 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,7 +60,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="header-right animated wow fadeInRight" data-wow-delay=".5s">
                 <div class="header-right1 ">
                     <ul>
-                        <li><i class="glyphicon glyphicon-log-in"></i><a href="login.html">Login</a></li>
+                        <li><i class="glyphicon glyphicon-log-in"></i><a href="/viewLoginForm">Login</a></li>
                         <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">Register</a></li>
                     </ul>
                 </div>
@@ -97,12 +99,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </button>
                     <div class="navbar-brand logo-nav-left wow fadeInLeft animated" data-wow-delay=".5s">
                         <h1 class="animated wow pulse" data-wow-delay=".5s"><a
-                                href="index.html">Tool<span>Shop</span></a></h1>
+                                href="/viewHomePage">Tool<span>Shop</span></a></h1>
                     </div>
                 </div>
                 <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                     <ul class="nav navbar-nav">
-                        <li><a href="index.html" class="act">Home</a></li>
+                        <li><a href="/viewHomePage" class="act">Home</a></li>
                         <!-- Mega Menu -->
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools <b class="caret"></b></a>
@@ -132,7 +134,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <div class="banner-top">
     <div class="container">
         <h2 class="animated wow fadeInLeft" data-wow-delay=".5s">Login</h2>
-        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a href="index.html">Home</a><label>/</label>Login
+        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a href="/viewHomePage">Home</a><label>/</label>Login
         </h3>
         <div class="clearfix"></div>
     </div>
@@ -140,14 +142,22 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!-- contact -->
 <div class="login">
     <div class="container" id="container">
-        <form name="loginForm" onsubmit="return validateLoginForm('loginForm')">
+        <c:if test="${not empty requestScope.errors}">
+            <div class="alert alert-danger" role="alert">
+                <strong>Oops! </strong>Something went wrong :( Please fix and try again.<br><br>
+                    <c:forEach items="${requestScope.errors}" var="entry">
+                        <strong> ${entry.key}</strong><br>${entry.value}<br>
+                    </c:forEach>
+            </div>
+        </c:if>
+        <form name="loginForm" action="/loginUser" method="post" onsubmit="return validateLoginForm('loginForm')">
             <div class="col-md-6 login-do1 animated wow fadeInLeft" data-wow-delay=".5s">
                 <div class="login-mail">
-                    <input type="text" name="email" placeholder="Email" required="">
+                    <input type="text" name="email" placeholder="Email" value="${requestScope.logBean.email}" required="">
                     <i class="glyphicon glyphicon-envelope"></i>
                 </div>
                 <div class="login-mail">
-                    <input type="password" name="password" placeholder="Password" required="">
+                    <input type="password" name="password" placeholder="Password" value="${requestScope.logBean.password}" required="">
                     <i class="glyphicon glyphicon-lock"></i>
                 </div>
                 <a class="news-letter " href="#">

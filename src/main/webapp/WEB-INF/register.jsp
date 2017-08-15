@@ -62,7 +62,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="header-right animated wow fadeInRight" data-wow-delay=".5s">
                 <div class="header-right1 ">
                     <ul>
-                        <li><i class="glyphicon glyphicon-log-in"></i><a href="login.html">Login</a></li>
+                        <li><i class="glyphicon glyphicon-log-in"></i><a href="/viewLoginForm">Login</a></li>
                         <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">Register</a></li>
                     </ul>
                 </div>
@@ -101,12 +101,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </button>
                     <div class="navbar-brand logo-nav-left wow fadeInLeft animated" data-wow-delay=".5s">
                         <h1 class="animated wow pulse" data-wow-delay=".5s"><a
-                                href="index.html">Tool<span>Shop</span></a></h1>
+                                href="/viewHomePage">Tool<span>Shop</span></a></h1>
                     </div>
                 </div>
                 <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                     <ul class="nav navbar-nav">
-                        <li><a href="index.html" class="act">Home</a></li>
+                        <li><a href="/viewHomePage" class="act">Home</a></li>
                         <!-- Mega Menu -->
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools <b class="caret"></b></a>
@@ -135,7 +135,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <div class="banner-top">
     <div class="container">
         <h2 class="animated wow fadeInLeft" data-wow-delay=".5s">Register</h2>
-        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a href="index.html">Home</a><label>/</label>Register
+        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a href="/viewHomePage">Home</a><label>/</label>Register
         </h3>
         <div class="clearfix"></div>
     </div>
@@ -200,7 +200,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <input type="submit" value="Submit">
                 </label>
                 <p>Already register</p>
-                <a href="login.html" class="hvr-sweep-to-top">Login</a>
+                <a href="/viewLoginForm" class="hvr-sweep-to-top">Login</a>
             </div>
             <div class="clearfix"></div>
         </form>

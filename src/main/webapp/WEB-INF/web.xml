@@ -9,7 +9,7 @@
         <param-value>300</param-value>
     </context-param>
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>/WEB-INF/index.html</welcome-file>
     </welcome-file-list>
     <resource-ref>
         DB Connection
