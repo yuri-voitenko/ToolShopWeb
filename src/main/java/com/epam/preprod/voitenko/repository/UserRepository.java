@@ -1,8 +1,6 @@
 package com.epam.preprod.voitenko.repository;
 
 import com.epam.preprod.voitenko.bean.UserBean;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,6 +13,7 @@ import java.util.List;
 
 import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.*;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
+import static com.epam.preprod.voitenko.service.Service.getHashPassword;
 
 public class UserRepository implements GeneralRepository<UserBean, Integer> {
     private static final Logger LOGGER = LogManager.getLogger(UserRepository.class);
@@ -142,7 +141,7 @@ public class UserRepository implements GeneralRepository<UserBean, Integer> {
         return true;
     }
 
-    private UserBean getUserByEmail(Connection connection, String email) {
+    public UserBean getUserByEmail(Connection connection, String email) {
         checkObjectIsNull(connection);
         checkObjectIsNull(email);
         UserBean userBean = null;
@@ -161,11 +160,6 @@ public class UserRepository implements GeneralRepository<UserBean, Integer> {
             close(resultSet, statement);
         }
         return userBean;
-    }
-
-    private String getHashPassword(String password) {
-        String salt = RandomStringUtils.random(10);
-        return DigestUtils.md5Hex(password + salt);
     }
 
     private UserBean extractUser(ResultSet resultSet) throws SQLException {

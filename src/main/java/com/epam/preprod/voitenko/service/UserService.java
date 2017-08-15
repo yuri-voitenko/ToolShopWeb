@@ -34,4 +34,8 @@ public class UserService {
     public boolean registerUser(UserBean user) {
         return transactionManager.doInTransaction(connection -> repository.create(connection, user));
     }
+
+    public UserBean getUserByEmail(String email) {
+        return transactionManager.doInTransaction(connection -> repository.getUserByEmail(connection, email));
+    }
 }

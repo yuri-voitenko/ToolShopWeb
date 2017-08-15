@@ -13,6 +13,7 @@ public class Constatns {
         public static final String TIMEOUT = "Timeout";
 
         public static final String REG_BEAN = "regBean";
+        public static final String LOGIN_BEAN = "logBean";
         public static final String ERRORS = "errors";
 
         public static final String ID = "id";
@@ -49,6 +50,9 @@ public class Constatns {
         public static final String HINT_SAME_EMAIl = "Registration fail!<br>User with such login(email) already exists!";
         public static final String HINT_SUCCESS_REGISTRATION = "Registration completed successfully!";
         public static final String HINT_FAIL_REGISTRATION = "Registration failed!";
+
+        public static final String NOT_LOGIN_EMAIL = "There is no registered user with such e-mail!";
+        public static final String NOT_LOGIN_PASSWORD = "There is no registered user with such password";
     }
 
     public class Exceptions {

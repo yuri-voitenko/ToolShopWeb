@@ -20,6 +20,7 @@ import java.util.Map;
 
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 import static com.epam.preprod.voitenko.constant.Constatns.Message.*;
+import static com.epam.preprod.voitenko.service.Service.removeSessionAttribute;
 
 @WebServlet("/registerUser")
 public class RegistrationUser extends HttpServlet {
@@ -67,15 +68,6 @@ public class RegistrationUser extends HttpServlet {
             }
         }
         return false;
-    }
-
-    private void removeSessionAttribute(HttpServletRequest httpServletRequest, String key) {
-        HttpSession session = httpServletRequest.getSession();
-        Object object = session.getAttribute(key);
-        if (object != null) {
-            httpServletRequest.setAttribute(key, object);
-            session.removeAttribute(key);
-        }
     }
 
     private void validateCaptcha(HttpServletRequest httpServletRequest) {

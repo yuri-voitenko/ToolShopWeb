@@ -1,14 +1,37 @@
 package com.epam.preprod.voitenko.service;
 
+import com.epam.preprod.voitenko.bean.LoginBean;
 import com.epam.preprod.voitenko.bean.RegisterBean;
 import com.epam.preprod.voitenko.bean.UserBean;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 
 public class Service {
     private Service() {
+    }
+
+    public static String getHashPassword(String password) {
+        return DigestUtils.md5Hex(password);
+    }
+
+    public static void removeSessionAttribute(HttpServletRequest httpServletRequest, String key) {
+        HttpSession session = httpServletRequest.getSession();
+        Object object = session.getAttribute(key);
+        if (object != null) {
+            httpServletRequest.setAttribute(key, object);
+            session.removeAttribute(key);
+        }
+    }
+
+    public static LoginBean extractLoginBean(HttpServletRequest httpServletRequest) {
+        LoginBean loginBean = new LoginBean();
+        loginBean.setEmail(httpServletRequest.getParameter(EMAIL));
+        loginBean.setPassword(httpServletRequest.getParameter(PASSWORD));
+        return loginBean;
     }
 
     public static RegisterBean extractRegisterBean(HttpServletRequest httpServletRequest) {
