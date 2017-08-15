@@ -1,6 +1,8 @@
 package com.epam.preprod.voitenko.repository;
 
 import com.epam.preprod.voitenko.bean.UserBean;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -74,11 +76,15 @@ public class UserRepository implements IGeneralRepository<UserBean, Integer> {
         if (oldValue == null) {
             return null;
         }
+        String hashPassword = entity.getPassword();
+        if (!oldValue.getPassword().equals(entity.getPassword())) {
+            hashPassword = getHashPassword(hashPassword);
+        }
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(SQL_UPDATE_USER);
             statement.setString(1, entity.getEmail());
-            statement.setString(2, entity.getPassword());
+            statement.setString(2, hashPassword);
             statement.setString(3, entity.getFullName());
             statement.setString(4, entity.getPhoneNumber());
             statement.setString(5, entity.getAddress());
@@ -96,17 +102,18 @@ public class UserRepository implements IGeneralRepository<UserBean, Integer> {
     public boolean delete(Connection connection, Integer id) {
         checkObjectIsNull(connection);
         PreparedStatement statement = null;
+        int rowsAffected = -1;
         try {
             statement = connection.prepareStatement(SQL_DELETE_USER);
             statement.setInt(1, id);
-            statement.executeUpdate();
+            rowsAffected = statement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(CANNOT_DELETE_ENTITY, e);
             return false;
         } finally {
             close(statement);
         }
-        return true;
+        return rowsAffected > 0;
     }
 
     @Override
@@ -117,7 +124,7 @@ public class UserRepository implements IGeneralRepository<UserBean, Integer> {
         try {
             statement = connection.prepareStatement(SQL_INSERT_USER);
             statement.setString(1, entity.getEmail());
-            statement.setString(2, entity.getPassword());
+            statement.setString(2, getHashPassword(entity.getPassword()));
             statement.setString(3, entity.getFullName());
             statement.setString(4, entity.getPhoneNumber());
             statement.setString(5, entity.getAddress());
@@ -154,6 +161,11 @@ public class UserRepository implements IGeneralRepository<UserBean, Integer> {
             close(resultSet, statement);
         }
         return userBean;
+    }
+
+    private String getHashPassword(String password) {
+        String salt = RandomStringUtils.random(10);
+        return DigestUtils.md5Hex(password + salt);
     }
 
     private UserBean extractUser(ResultSet resultSet) throws SQLException {

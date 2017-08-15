@@ -1,7 +1,5 @@
 package com.epam.preprod.voitenko.bean;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
 public class UserBean {
     private int id;
     private String email;
@@ -15,7 +13,7 @@ public class UserBean {
 
     public UserBean(String email, String password, String fullName, String phoneNumber, String address) {
         this.email = email;
-        this.password = DigestUtils.md5Hex(password + fullName);
+        this.password = password;
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
         this.address = address;
