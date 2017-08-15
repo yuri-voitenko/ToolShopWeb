@@ -1,5 +1,6 @@
 package com.epam.preprod.voitenko.validate;
 
+import com.epam.preprod.voitenko.bean.LoginBean;
 import com.epam.preprod.voitenko.bean.RegisterBean;
 import com.epam.preprod.voitenko.captcha.Captcha;
 import com.epam.preprod.voitenko.repository.CaptchaRepository;
@@ -36,6 +37,17 @@ public class ValidatorUtil {
         }
         if (!validateRepeatedPassword(regBean.getPassword(), regBean.getRepeatedPassword())) {
             regBean.setRepeatedPassword("");
+        }
+        return errorMessages;
+    }
+
+    public static Map<String, String> validate(LoginBean loginBean) {
+        errorMessages = new LinkedHashMap<>();
+        if (!validateEmail(loginBean.getEmail())) {
+            loginBean.setEmail("");
+        }
+        if (!validatePassword(loginBean.getPassword())) {
+            loginBean.setPassword("");
         }
         return errorMessages;
     }
