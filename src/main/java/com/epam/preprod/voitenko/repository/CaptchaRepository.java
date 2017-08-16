@@ -4,7 +4,6 @@ import com.epam.preprod.voitenko.captcha.Captcha;
 import com.epam.preprod.voitenko.validate.ValidatorUtil;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class CaptchaRepository {

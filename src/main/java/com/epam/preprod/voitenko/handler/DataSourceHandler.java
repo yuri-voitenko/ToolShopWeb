@@ -1,4 +1,4 @@
-package com.epam.preprod.voitenko.pool;
+package com.epam.preprod.voitenko.handler;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -6,17 +6,15 @@ import org.apache.logging.log4j.Logger;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_CREATE_DATA_SOURCE;
 
-public class ConnectionPool {
-    private static final Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
-    private static ConnectionPool instance;
+public class DataSourceHandler {
+    private static final Logger LOGGER = LogManager.getLogger(DataSourceHandler.class);
+    private static DataSourceHandler instance;
     private DataSource dataSource;
 
-    private ConnectionPool() {
+    private DataSourceHandler() {
         try {
             InitialContext initContext = new InitialContext();
             dataSource = (DataSource) initContext.lookup("java:comp/env/jdbc/toolshopwebDB");
@@ -25,14 +23,14 @@ public class ConnectionPool {
         }
     }
 
-    public static ConnectionPool getInstance() {
+    public static DataSourceHandler getInstance() {
         if (instance == null) {
-            instance = new ConnectionPool();
+            instance = new DataSourceHandler();
         }
         return instance;
     }
 
-    public Connection getConnection() throws SQLException {
-        return dataSource.getConnection();
+    public DataSource getDataSource() {
+        return dataSource;
     }
 }

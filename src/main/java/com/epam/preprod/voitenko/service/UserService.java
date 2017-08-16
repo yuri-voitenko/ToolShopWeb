@@ -1,9 +1,11 @@
 package com.epam.preprod.voitenko.service;
 
 import com.epam.preprod.voitenko.bean.UserBean;
+import com.epam.preprod.voitenko.handler.DataSourceHandler;
 import com.epam.preprod.voitenko.repository.UserRepository;
 import com.epam.preprod.voitenko.transaction.TransactionManager;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 public class UserService {
@@ -11,7 +13,8 @@ public class UserService {
     private UserRepository repository;
 
     public UserService() {
-        this.transactionManager = new TransactionManager();
+        DataSource dataSource = DataSourceHandler.getInstance().getDataSource();
+        this.transactionManager = new TransactionManager(dataSource);
         this.repository = new UserRepository();
     }
 

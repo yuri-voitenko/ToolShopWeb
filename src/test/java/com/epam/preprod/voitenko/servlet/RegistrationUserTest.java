@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -37,6 +38,8 @@ public class RegistrationUserTest {
     ServletContext mockServletContext;
     @Mock
     CaptchaStrategy captchaStrategy;
+    @Mock
+    Part mockPart;
 
     RegistrationUser registrationUser;
     RegisterBean emptyRegBean;
@@ -63,6 +66,8 @@ public class RegistrationUserTest {
         allErrors.put(PASSWORD, HINT_NOT_EMPTY_FIELD);
         allErrors.put(PASSWORD_CHECK, HINT_NOT_EMPTY_FIELD);
         allErrors.put(CAPTCHA, HINT_CAPTCHA_CODE);
+        when(mockPart.getHeader("Content-Disposition")).thenReturn("");
+        when(mockHttpServletRequest.getPart(AVATAR)).thenReturn(mockPart);
         when(mockHttpServletRequest.getSession()).thenReturn(mockHttpSession);
         when(mockHttpServletRequest.getRequestDispatcher(anyString())).thenReturn(mockRequestDispatcher);
         when(mockServletContext.getAttribute(STRATEGY)).thenReturn(captchaStrategy);
