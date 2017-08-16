@@ -1,6 +1,6 @@
 package com.epam.preprod.voitenko.servlet;
 
-import com.epam.preprod.voitenko.bean.RegisterBean;
+import com.epam.preprod.voitenko.entity.RegisterEntity;
 import com.epam.preprod.voitenko.repository.CaptchaRepository;
 import com.epam.preprod.voitenko.strategy.CaptchaStrategy;
 import org.junit.Before;
@@ -42,16 +42,16 @@ public class RegistrationUserTest {
     Part mockPart;
 
     RegistrationUser registrationUser;
-    RegisterBean emptyRegBean;
-    RegisterBean correctRegBean;
+    RegisterEntity emptyRegBean;
+    RegisterEntity correctRegBean;
     Map<String, String> allErrors;
 
     @Before
     public void setUp() throws ServletException, IOException {
         initMocks(this);
         registrationUser = new RegistrationUser();
-        emptyRegBean = new RegisterBean();
-        correctRegBean = new RegisterBean();
+        emptyRegBean = new RegisterEntity();
+        correctRegBean = new RegisterEntity();
         correctRegBean.setFullName("Yuri Voitenko");
         correctRegBean.setAddress("Kharkiv");
         correctRegBean.setPhoneNumber("+380505730182");
@@ -176,7 +176,7 @@ public class RegistrationUserTest {
 
     private void verifyRegBeanAndErrors() throws ServletException, IOException {
         registrationUser.doPost(mockHttpServletRequest, mockHttpServletResponse);
-        verify(mockHttpSession).setAttribute(REG_BEAN, emptyRegBean);
+        verify(mockHttpSession).setAttribute(REG_ENTITY, emptyRegBean);
         verify(mockHttpSession).setAttribute(ERRORS, allErrors);
     }
 }
