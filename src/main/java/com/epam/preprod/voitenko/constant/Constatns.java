@@ -4,6 +4,8 @@ public class Constatns {
     private Constatns() {
     }
 
+    public static final String PATH_TO_AVATARS = "/src/main/webapp/images/avatars/";
+
     public class Keys {
         private Keys() {
         }
@@ -25,6 +27,7 @@ public class Constatns {
         public static final String PASSWORD = "password";
         public static final String PASSWORD_CHECK = "passwordCheck";
         public static final String CAPTCHA = "captcha";
+        public static final String AVATAR = "avatar";
         public static final String ID_CAPTCHA = "idCaptcha";
         public static final String SUCCESS_REGISTRATION = "successRegistration";
         public static final String FAIL_REGISTRATION = "failRegistration";

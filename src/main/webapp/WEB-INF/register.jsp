@@ -151,7 +151,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </c:forEach>
             </div>
         </c:if>
-        <form name="registerForm" action="/registerUser" method="post"
+        <form name="registerForm" action="/registerUser" method="post" enctype="multipart/form-data"
               onsubmit="return validateRegisterForm('registerForm')">
             <div class="col-md-6 login-do1 animated wow fadeInLeft" data-wow-delay=".5s">
                 <div class="login-mail">
@@ -189,6 +189,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <input type="text" name="captcha" placeholder="Captcha" required="">
                     <img src="images/stop_robot.png" alt=""/>
                 </div>
+                <input type="file" name="avatar" accept="image/jpeg,image/png"/>
             </div>
             <div class="col-md-6 login-do animated wow fadeInRight" data-wow-delay=".5s">
                 <label class="hvr-sweep-to-top login-sub">

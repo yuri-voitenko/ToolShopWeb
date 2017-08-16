@@ -7,8 +7,10 @@ public class UserBean {
     private String fullName;
     private String phoneNumber;
     private String address;
+    private String avatar;
 
     public UserBean() {
+        this.avatar = "default.png";
     }
 
     public UserBean(String email, String password, String fullName, String phoneNumber, String address) {
@@ -17,6 +19,16 @@ public class UserBean {
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.avatar = "default.png";
+    }
+
+    public UserBean(String email, String password, String fullName, String phoneNumber, String address, String avatar) {
+        this.email = email;
+        this.password = password;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.avatar = avatar;
     }
 
     public int getId() {
@@ -67,6 +79,14 @@ public class UserBean {
         this.address = address;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -93,7 +113,10 @@ public class UserBean {
         if (phoneNumber != null ? !phoneNumber.equals(userBean.phoneNumber) : userBean.phoneNumber != null) {
             return false;
         }
-        return address != null ? address.equals(userBean.address) : userBean.address == null;
+        if (address != null ? !address.equals(userBean.address) : userBean.address != null) {
+            return false;
+        }
+        return avatar != null ? avatar.equals(userBean.avatar) : userBean.avatar == null;
     }
 
     @Override
@@ -104,6 +127,7 @@ public class UserBean {
         result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
         result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (avatar != null ? avatar.hashCode() : 0);
         return result;
     }
 }

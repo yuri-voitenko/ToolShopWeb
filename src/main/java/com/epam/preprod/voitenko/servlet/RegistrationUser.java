@@ -9,13 +9,13 @@ import com.epam.preprod.voitenko.validate.ValidatorUtil;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
@@ -23,6 +23,9 @@ import static com.epam.preprod.voitenko.constant.Constatns.Message.*;
 import static com.epam.preprod.voitenko.service.Service.removeSessionAttribute;
 
 @WebServlet("/registerUser")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10,      // 10MB
+        maxRequestSize = 1024 * 1024 * 50)   // 50MB
 public class RegistrationUser extends HttpServlet {
 
     @Override
@@ -45,7 +48,7 @@ public class RegistrationUser extends HttpServlet {
         } else {
             UserBean user = Service.fillUserBean(regBean);
             UserService userService = new UserService();
-            if (containsUser(userService.getAllUsers(), user)) {
+            if (userService.getUserByEmail(user.getEmail()) != null) {
                 regBean.setEmail("");
                 session.setAttribute(REG_BEAN, regBean);
                 errors.put(EMAIL, HINT_SAME_EMAIl);
@@ -59,15 +62,6 @@ public class RegistrationUser extends HttpServlet {
         }
         session.setAttribute(ERRORS, errors);
         httpServletResponse.sendRedirect("/registerUser");
-    }
-
-    private boolean containsUser(List<UserBean> users, UserBean user) {
-        for (UserBean userBean : users) {
-            if (userBean.getEmail().equals(user.getEmail())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private void validateCaptcha(HttpServletRequest httpServletRequest) {

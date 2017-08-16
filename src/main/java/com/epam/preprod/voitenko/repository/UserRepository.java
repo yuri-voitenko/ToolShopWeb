@@ -23,7 +23,7 @@ public class UserRepository implements GeneralRepository<UserBean, Integer> {
     private static final String SQL_GET_USER_BY_EMAIL = "SELECT * FROM users WHERE email=?;";
     private static final String SQL_UPDATE_USER = "UPDATE users SET email=?, password=?, fullName=?, phoneNumber=?, address=? WHERE id=?;";
     private static final String SQL_DELETE_USER = "DELETE FROM users WHERE id=?;";
-    private static final String SQL_INSERT_USER = "INSERT INTO users (email, password, fullName, phoneNumber, address) VALUES (?, ?, ?, ?, ?);";
+    private static final String SQL_INSERT_USER = "INSERT INTO users (email, password, fullName, phoneNumber, address, avatar) VALUES (?, ?, ?, ?, ?, ?);";
 
     @Override
     public List<UserBean> getAll(Connection connection) {
@@ -127,6 +127,11 @@ public class UserRepository implements GeneralRepository<UserBean, Integer> {
             statement.setString(3, entity.getFullName());
             statement.setString(4, entity.getPhoneNumber());
             statement.setString(5, entity.getAddress());
+            Object avatar = null;
+            if (!"default.png".equals(entity.getAvatar())) {
+                avatar = entity.getAvatar();
+            }
+            statement.setObject(6, avatar);
             statement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(CANNOT_CREATE_ENTITY, e);
@@ -171,6 +176,10 @@ public class UserRepository implements GeneralRepository<UserBean, Integer> {
         userBean.setFullName(resultSet.getString(FULL_NAME));
         userBean.setPhoneNumber(resultSet.getString(PHONE_NUMBER));
         userBean.setAddress(resultSet.getString(ADDRESS));
+        Object avatar = resultSet.getObject(AVATAR);
+        if (avatar != null) {
+            userBean.setAvatar(avatar.toString());
+        }
         return userBean;
     }
 

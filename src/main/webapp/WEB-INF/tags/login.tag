@@ -16,7 +16,7 @@
         <ul>
             <li>
                 <div class="avatar">
-                    <img src="/images/co.png" alt="">
+                    <img src="/images/avatars/${sessionScope.userBean.avatar}" alt="">
                 </div>
             </li>
             <li>
