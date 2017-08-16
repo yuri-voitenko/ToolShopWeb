@@ -2,7 +2,7 @@
 <%@tag body-content="empty" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:choose>
-    <c:when test="${empty sessionScope.userBean}">
+    <c:when test="${empty sessionScope.userEntity}">
         <form action="/loginUser" method="post">
             <input type="email" name="email" placeholder="Email" required="">
             <input type="password" name="password"
@@ -16,12 +16,12 @@
         <ul>
             <li>
                 <div class="avatar">
-                    <img src="/images/avatars/${sessionScope.userBean.avatar}" alt="">
+                    <img src="/images/avatars/${sessionScope.userEntity.avatar}" alt="">
                 </div>
             </li>
             <li>
                 <h3> <span class="label label-success"
-                           style="display: inline-block;">Welcome, ${sessionScope.userBean.fullName}!</span></h3>
+                           style="display: inline-block;">Welcome, ${sessionScope.userEntity.fullName}!</span></h3>
                 <ul>
                     <li><i class="glyphicon glyphicon-log-in"></i><a href="/logoutUser">Logout</a></li>
                 </ul>

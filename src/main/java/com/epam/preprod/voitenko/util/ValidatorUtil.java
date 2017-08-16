@@ -1,16 +1,18 @@
-package com.epam.preprod.voitenko.validate;
+package com.epam.preprod.voitenko.util;
 
-import com.epam.preprod.voitenko.bean.LoginBean;
-import com.epam.preprod.voitenko.bean.RegisterBean;
 import com.epam.preprod.voitenko.captcha.Captcha;
+import com.epam.preprod.voitenko.entity.LoginEntity;
+import com.epam.preprod.voitenko.entity.RegisterEntity;
 import com.epam.preprod.voitenko.repository.CaptchaRepository;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static com.epam.preprod.voitenko.constant.Constatns.EMPTY_STRING;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 import static com.epam.preprod.voitenko.constant.Constatns.Message.*;
+import static com.epam.preprod.voitenko.constant.Constatns.RegEx.*;
 
 public class ValidatorUtil {
     private static Map<String, String> errorMessages = new LinkedHashMap<>();
@@ -18,43 +20,42 @@ public class ValidatorUtil {
     private ValidatorUtil() {
     }
 
-    public static Map<String, String> validate(RegisterBean regBean) {
+    public static Map<String, String> validate(RegisterEntity regBean) {
         errorMessages = new LinkedHashMap<>();
         if (!validateFullName(regBean.getFullName())) {
-            regBean.setFullName("");
+            regBean.setFullName(EMPTY_STRING);
         }
         if (!validateAddress(regBean.getAddress())) {
-            regBean.setAddress("");
+            regBean.setAddress(EMPTY_STRING);
         }
         if (!validatePhoneNumber(regBean.getPhoneNumber())) {
-            regBean.setPhoneNumber("");
+            regBean.setPhoneNumber(EMPTY_STRING);
         }
         if (!validateEmail(regBean.getEmail())) {
-            regBean.setEmail("");
+            regBean.setEmail(EMPTY_STRING);
         }
         if (!validatePassword(regBean.getPassword())) {
-            regBean.setPassword("");
+            regBean.setPassword(EMPTY_STRING);
         }
         if (!validateRepeatedPassword(regBean.getPassword(), regBean.getRepeatedPassword())) {
-            regBean.setRepeatedPassword("");
+            regBean.setRepeatedPassword(EMPTY_STRING);
         }
         return errorMessages;
     }
 
-    public static Map<String, String> validate(LoginBean loginBean) {
+    public static Map<String, String> validate(LoginEntity loginEntity) {
         errorMessages = new LinkedHashMap<>();
-        if (!validateEmail(loginBean.getEmail())) {
-            loginBean.setEmail("");
+        if (!validateEmail(loginEntity.getEmail())) {
+            loginEntity.setEmail(EMPTY_STRING);
         }
-        if (!validatePassword(loginBean.getPassword())) {
-            loginBean.setPassword("");
+        if (!validatePassword(loginEntity.getPassword())) {
+            loginEntity.setPassword(EMPTY_STRING);
         }
         return errorMessages;
     }
 
     private static boolean validateFullName(String fullName) {
-        return validate(fullName, "([a-zA-Z]{2,}\\s[a-zA-z]{1,}'?-?[a-zA-Z]{2,}\\s?([a-zA-Z]{1,})?)",
-                FULL_NAME, HINT_FULL_NAME);
+        return validate(fullName, REGEX_FULL_NAME, FULL_NAME, HINT_FULL_NAME);
     }
 
     private static boolean validateAddress(String address) {
@@ -63,7 +64,7 @@ public class ValidatorUtil {
 
     private static boolean validatePhoneNumber(String phoneNumber) {
         if (validate(phoneNumber, PHONE_NUMBER)) {
-            String digits = phoneNumber.replaceAll("\\D", "");
+            String digits = phoneNumber.replaceAll(REGEX_NOT_DIGIT, EMPTY_STRING);
             if (validate(phoneNumber, PHONE_NUMBER) && !(digits.length() == 11 || digits.length() == 12)) {
                 errorMessages.put(PHONE_NUMBER, HINT_PHONE_NUMBER);
                 return false;
@@ -74,13 +75,11 @@ public class ValidatorUtil {
     }
 
     private static boolean validateEmail(String email) {
-        return validate(email, "(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))",
-                EMAIL, HINT_EMAIL);
+        return validate(email, REGEX_EMAIL, EMAIL, HINT_EMAIL);
     }
 
     private static boolean validatePassword(String password) {
-        return validate(password, "(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}",
-                PASSWORD, HINT_PASSWORD);
+        return validate(password, REGEX_PASSWORD, PASSWORD, HINT_PASSWORD);
     }
 
     private static boolean validateRepeatedPassword(String password, String repeatedPassword) {
@@ -123,7 +122,7 @@ public class ValidatorUtil {
             throw new IllegalArgumentException();
         }
         final String secretCode = String.valueOf(objCaptcha.getSecretCode());
-        return validate(codeCaptcha, "\\d{10}", CAPTCHA, HINT_CAPTCHA_NOT_DIGITS)
+        return validate(codeCaptcha, REGEX_CAPTCHA_CODE, CAPTCHA, HINT_CAPTCHA_NOT_DIGITS)
                 && secretCode.equals(codeCaptcha);
     }
 
@@ -138,7 +137,6 @@ public class ValidatorUtil {
         }
         return false;
     }
-
 
     private static boolean validate(String verify, String key) {
         if (isNullOrEmpty(verify)) {

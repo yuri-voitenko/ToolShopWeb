@@ -148,13 +148,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <form name="loginForm" action="/loginUser" method="post" onsubmit="return validateLoginForm('loginForm')">
             <div class="col-md-6 login-do1 animated wow fadeInLeft" data-wow-delay=".5s">
                 <div class="login-mail">
-                    <input type="text" name="email" placeholder="Email" value="${requestScope.logBean.email}"
+                    <input type="text" name="email" placeholder="Email" value="${requestScope.logEntity.email}"
                            required="">
                     <i class="glyphicon glyphicon-envelope"></i>
                 </div>
                 <div class="login-mail">
                     <input type="password" name="password" placeholder="Password"
-                           value="${requestScope.logBean.password}" required="">
+                           value="${requestScope.logEntity.password}" required="">
                     <i class="glyphicon glyphicon-lock"></i>
                 </div>
                 <a class="news-letter " href="#">

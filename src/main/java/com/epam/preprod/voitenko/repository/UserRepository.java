@@ -1,6 +1,6 @@
 package com.epam.preprod.voitenko.repository;
 
-import com.epam.preprod.voitenko.bean.UserBean;
+import com.epam.preprod.voitenko.entity.UserEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,11 +11,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.preprod.voitenko.constant.Constatns.DEFAULT_AVATAR;
 import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.*;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
-import static com.epam.preprod.voitenko.service.Service.getHashPassword;
+import static com.epam.preprod.voitenko.util.ServiceUtil.getHashPassword;
 
-public class UserRepository implements GeneralRepository<UserBean, Integer> {
+public class UserRepository implements GeneralRepository<UserEntity, Integer> {
     private static final Logger LOGGER = LogManager.getLogger(UserRepository.class);
 
     private static final String SQL_SELECT_ALL = "SELECT * FROM users;";
@@ -26,9 +27,8 @@ public class UserRepository implements GeneralRepository<UserBean, Integer> {
     private static final String SQL_INSERT_USER = "INSERT INTO users (email, password, fullName, phoneNumber, address, avatar) VALUES (?, ?, ?, ?, ?, ?);";
 
     @Override
-    public List<UserBean> getAll(Connection connection) {
-        checkObjectIsNull(connection);
-        List<UserBean> users = new ArrayList<>();
+    public List<UserEntity> getAll(Connection connection) {
+        List<UserEntity> users = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -46,32 +46,31 @@ public class UserRepository implements GeneralRepository<UserBean, Integer> {
     }
 
     @Override
-    public UserBean getEntityById(Connection connection, Integer id) {
-        checkObjectIsNull(connection);
-        UserBean userBean = null;
+    public UserEntity getEntityById(Connection connection, Integer id) {
+        UserEntity userEntity = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
+            int index = 0;
             statement = connection.prepareStatement(SQL_GET_USER_BY_ID);
-            statement.setInt(1, id);
+            statement.setInt(++index, id);
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                userBean = extractUser(resultSet);
+                userEntity = extractUser(resultSet);
             }
         } catch (SQLException e) {
             LOGGER.error(CANNOT_GET_ENTITY_BY_ID, e);
         } finally {
             close(resultSet, statement);
         }
-        return userBean;
+        return userEntity;
     }
 
 
     @Override
-    public UserBean update(Connection connection, UserBean entity) {
-        checkObjectIsNull(connection);
+    public UserEntity update(Connection connection, UserEntity entity) {
         checkObjectIsNull(entity);
-        UserBean oldValue = getEntityById(connection, entity.getId());
+        UserEntity oldValue = getEntityById(connection, entity.getId());
         if (oldValue == null) {
             return null;
         }
@@ -81,13 +80,14 @@ public class UserRepository implements GeneralRepository<UserBean, Integer> {
         }
         PreparedStatement statement = null;
         try {
+            int index = 0;
             statement = connection.prepareStatement(SQL_UPDATE_USER);
-            statement.setString(1, entity.getEmail());
-            statement.setString(2, hashPassword);
-            statement.setString(3, entity.getFullName());
-            statement.setString(4, entity.getPhoneNumber());
-            statement.setString(5, entity.getAddress());
-            statement.setInt(6, oldValue.getId());
+            statement.setString(++index, entity.getEmail());
+            statement.setString(++index, hashPassword);
+            statement.setString(++index, entity.getFullName());
+            statement.setString(++index, entity.getPhoneNumber());
+            statement.setString(++index, entity.getAddress());
+            statement.setInt(++index, oldValue.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(CANNOT_UPDATE_ENTITY, e);
@@ -99,12 +99,12 @@ public class UserRepository implements GeneralRepository<UserBean, Integer> {
 
     @Override
     public boolean delete(Connection connection, Integer id) {
-        checkObjectIsNull(connection);
         PreparedStatement statement = null;
         int rowsAffected = -1;
         try {
             statement = connection.prepareStatement(SQL_DELETE_USER);
-            statement.setInt(1, id);
+            int index = 0;
+            statement.setInt(++index, id);
             rowsAffected = statement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(CANNOT_DELETE_ENTITY, e);
@@ -116,19 +116,19 @@ public class UserRepository implements GeneralRepository<UserBean, Integer> {
     }
 
     @Override
-    public boolean create(Connection connection, UserBean entity) {
-        checkObjectIsNull(connection);
+    public boolean create(Connection connection, UserEntity entity) {
         checkObjectIsNull(entity);
         PreparedStatement statement = null;
         try {
+            int index = 0;
             statement = connection.prepareStatement(SQL_INSERT_USER);
-            statement.setString(1, entity.getEmail());
-            statement.setString(2, getHashPassword(entity.getPassword()));
-            statement.setString(3, entity.getFullName());
-            statement.setString(4, entity.getPhoneNumber());
-            statement.setString(5, entity.getAddress());
+            statement.setString(++index, entity.getEmail());
+            statement.setString(++index, getHashPassword(entity.getPassword()));
+            statement.setString(++index, entity.getFullName());
+            statement.setString(++index, entity.getPhoneNumber());
+            statement.setString(++index, entity.getAddress());
             Object avatar = null;
-            if (!"default.png".equals(entity.getAvatar())) {
+            if (!DEFAULT_AVATAR.equals(entity.getAvatar())) {
                 avatar = entity.getAvatar();
             }
             statement.setObject(6, avatar);
@@ -138,7 +138,7 @@ public class UserRepository implements GeneralRepository<UserBean, Integer> {
             return false;
         } finally {
             close(statement);
-            UserBean actual = getUserByEmail(connection, entity.getEmail());
+            UserEntity actual = getUserByEmail(connection, entity.getEmail());
             if (actual != null) {
                 entity.setId(actual.getId());
             }
@@ -146,41 +146,41 @@ public class UserRepository implements GeneralRepository<UserBean, Integer> {
         return true;
     }
 
-    public UserBean getUserByEmail(Connection connection, String email) {
-        checkObjectIsNull(connection);
+    public UserEntity getUserByEmail(Connection connection, String email) {
         checkObjectIsNull(email);
-        UserBean userBean = null;
+        UserEntity userEntity = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             statement = connection.prepareStatement(SQL_GET_USER_BY_EMAIL);
-            statement.setString(1, email);
+            int index = 0;
+            statement.setString(++index, email);
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                userBean = extractUser(resultSet);
+                userEntity = extractUser(resultSet);
             }
         } catch (SQLException e) {
             LOGGER.error(CANNOT_GET_ENTITY_BY_EMAIL, e);
         } finally {
             close(resultSet, statement);
         }
-        return userBean;
+        return userEntity;
     }
 
-    private UserBean extractUser(ResultSet resultSet) throws SQLException {
+    private UserEntity extractUser(ResultSet resultSet) throws SQLException {
         checkObjectIsNull(resultSet);
-        UserBean userBean = new UserBean();
-        userBean.setId(resultSet.getInt(ID));
-        userBean.setEmail(resultSet.getString(EMAIL));
-        userBean.setPassword(resultSet.getString(PASSWORD));
-        userBean.setFullName(resultSet.getString(FULL_NAME));
-        userBean.setPhoneNumber(resultSet.getString(PHONE_NUMBER));
-        userBean.setAddress(resultSet.getString(ADDRESS));
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(resultSet.getInt(ID));
+        userEntity.setEmail(resultSet.getString(EMAIL));
+        userEntity.setPassword(resultSet.getString(PASSWORD));
+        userEntity.setFullName(resultSet.getString(FULL_NAME));
+        userEntity.setPhoneNumber(resultSet.getString(PHONE_NUMBER));
+        userEntity.setAddress(resultSet.getString(ADDRESS));
         Object avatar = resultSet.getObject(AVATAR);
         if (avatar != null) {
-            userBean.setAvatar(avatar.toString());
+            userEntity.setAvatar(avatar.toString());
         }
-        return userBean;
+        return userEntity;
     }
 
     private void checkObjectIsNull(Object object) {

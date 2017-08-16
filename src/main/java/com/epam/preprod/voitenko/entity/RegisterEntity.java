@@ -1,42 +1,25 @@
-package com.epam.preprod.voitenko.bean;
+package com.epam.preprod.voitenko.entity;
 
-public class UserBean {
-    private int id;
+import static com.epam.preprod.voitenko.constant.Constatns.DEFAULT_AVATAR;
+import static com.epam.preprod.voitenko.constant.Constatns.EMPTY_STRING;
+
+public class RegisterEntity {
     private String email;
     private String password;
+    private String repeatedPassword;
     private String fullName;
     private String phoneNumber;
     private String address;
     private String avatar;
 
-    public UserBean() {
-        this.avatar = "default.png";
-    }
-
-    public UserBean(String email, String password, String fullName, String phoneNumber, String address) {
-        this.email = email;
-        this.password = password;
-        this.fullName = fullName;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.avatar = "default.png";
-    }
-
-    public UserBean(String email, String password, String fullName, String phoneNumber, String address, String avatar) {
-        this.email = email;
-        this.password = password;
-        this.fullName = fullName;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.avatar = avatar;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public RegisterEntity() {
+        this.email = EMPTY_STRING;
+        this.password = EMPTY_STRING;
+        this.repeatedPassword = EMPTY_STRING;
+        this.fullName = EMPTY_STRING;
+        this.phoneNumber = EMPTY_STRING;
+        this.address = EMPTY_STRING;
+        this.avatar = DEFAULT_AVATAR;
     }
 
     public String getEmail() {
@@ -53,6 +36,14 @@ public class UserBean {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRepeatedPassword() {
+        return repeatedPassword;
+    }
+
+    public void setRepeatedPassword(String repeatedPassword) {
+        this.repeatedPassword = repeatedPassword;
     }
 
     public String getFullName() {
@@ -96,34 +87,34 @@ public class UserBean {
             return false;
         }
 
-        UserBean userBean = (UserBean) o;
+        RegisterEntity that = (RegisterEntity) o;
 
-        if (id != userBean.id) {
+        if (email != null ? !email.equals(that.email) : that.email != null) {
             return false;
         }
-        if (email != null ? !email.equals(userBean.email) : userBean.email != null) {
+        if (password != null ? !password.equals(that.password) : that.password != null) {
             return false;
         }
-        if (password != null ? !password.equals(userBean.password) : userBean.password != null) {
+        if (repeatedPassword != null ? !repeatedPassword.equals(that.repeatedPassword) : that.repeatedPassword != null) {
             return false;
         }
-        if (fullName != null ? !fullName.equals(userBean.fullName) : userBean.fullName != null) {
+        if (fullName != null ? !fullName.equals(that.fullName) : that.fullName != null) {
             return false;
         }
-        if (phoneNumber != null ? !phoneNumber.equals(userBean.phoneNumber) : userBean.phoneNumber != null) {
+        if (phoneNumber != null ? !phoneNumber.equals(that.phoneNumber) : that.phoneNumber != null) {
             return false;
         }
-        if (address != null ? !address.equals(userBean.address) : userBean.address != null) {
+        if (address != null ? !address.equals(that.address) : that.address != null) {
             return false;
         }
-        return avatar != null ? avatar.equals(userBean.avatar) : userBean.avatar == null;
+        return avatar != null ? avatar.equals(that.avatar) : that.avatar == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (email != null ? email.hashCode() : 0);
+        int result = email != null ? email.hashCode() : 0;
         result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (repeatedPassword != null ? repeatedPassword.hashCode() : 0);
         result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
         result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);

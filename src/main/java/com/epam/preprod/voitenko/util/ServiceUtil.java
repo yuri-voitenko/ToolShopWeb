@@ -1,8 +1,8 @@
-package com.epam.preprod.voitenko.service;
+package com.epam.preprod.voitenko.util;
 
-import com.epam.preprod.voitenko.bean.LoginBean;
-import com.epam.preprod.voitenko.bean.RegisterBean;
-import com.epam.preprod.voitenko.bean.UserBean;
+import com.epam.preprod.voitenko.entity.LoginEntity;
+import com.epam.preprod.voitenko.entity.RegisterEntity;
+import com.epam.preprod.voitenko.entity.UserEntity;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,11 +15,13 @@ import java.io.IOException;
 
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 import static com.epam.preprod.voitenko.constant.Constatns.PATH_TO_AVATARS;
+import static com.epam.preprod.voitenko.constant.Constatns.RegEx.REGEX_FILE_NAME_IMAGE;
+import static com.epam.preprod.voitenko.constant.Constatns.RegEx.REGEX_FOR_PARSE_FILE_NAME;
 
-public class Service {
-    private static final Logger LOGGER = LogManager.getLogger(Service.class);
+public class ServiceUtil {
+    private static final Logger LOGGER = LogManager.getLogger(ServiceUtil.class);
 
-    private Service() {
+    private ServiceUtil() {
     }
 
     public static String getHashPassword(String password) {
@@ -35,26 +37,42 @@ public class Service {
         }
     }
 
-    public static LoginBean extractLoginBean(HttpServletRequest httpServletRequest) {
-        LoginBean loginBean = new LoginBean();
-        loginBean.setEmail(httpServletRequest.getParameter(EMAIL));
-        loginBean.setPassword(httpServletRequest.getParameter(PASSWORD));
-        return loginBean;
+    public static LoginEntity extractLoginBean(HttpServletRequest httpServletRequest) {
+        LoginEntity loginEntity = new LoginEntity();
+        loginEntity.setEmail(httpServletRequest.getParameter(EMAIL));
+        loginEntity.setPassword(httpServletRequest.getParameter(PASSWORD));
+        return loginEntity;
     }
 
-    public static RegisterBean extractRegisterBean(HttpServletRequest httpServletRequest) {
-        RegisterBean regBean = new RegisterBean();
+    public static RegisterEntity extractRegisterBean(HttpServletRequest httpServletRequest) {
+        RegisterEntity regBean = new RegisterEntity();
         regBean.setFullName(httpServletRequest.getParameter(FULL_NAME));
         regBean.setAddress(httpServletRequest.getParameter(ADDRESS));
         regBean.setPhoneNumber(httpServletRequest.getParameter(PHONE_NUMBER));
         regBean.setEmail(httpServletRequest.getParameter(EMAIL));
         regBean.setPassword(httpServletRequest.getParameter(PASSWORD));
         regBean.setRepeatedPassword(httpServletRequest.getParameter(PASSWORD_CHECK));
+        uploadAvatar(httpServletRequest, regBean);
+        return regBean;
+    }
+
+    public static UserEntity fillUserBean(RegisterEntity registerEntity) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setFullName(registerEntity.getFullName());
+        userEntity.setAddress(registerEntity.getAddress());
+        userEntity.setPhoneNumber(registerEntity.getPhoneNumber());
+        userEntity.setEmail(registerEntity.getEmail());
+        userEntity.setPassword(registerEntity.getPassword());
+        userEntity.setAvatar(registerEntity.getAvatar());
+        return userEntity;
+    }
+
+    private static void uploadAvatar(HttpServletRequest httpServletRequest, RegisterEntity regBean) {
         try {
             Part part = httpServletRequest.getPart(AVATAR);
             String disposition = part.getHeader("Content-Disposition");
-            String fileName = disposition.replaceFirst("(?i)^.*filename=\"([^\"]+)\".*$", "$1");
-            if (fileName.matches("(?i)(.*/)*.+\\.(png|jpg|jpeg)$")) {
+            String fileName = disposition.replaceFirst(REGEX_FOR_PARSE_FILE_NAME, "$1");
+            if (fileName.matches(REGEX_FILE_NAME_IMAGE)) {
                 String fullPath = System.getProperty("user.dir") + PATH_TO_AVATARS + fileName;
                 regBean.setAvatar(fileName);
                 part.write(fullPath);
@@ -64,17 +82,5 @@ public class Service {
         } catch (ServletException e) {
             LOGGER.error("ServletException has occurred when try parse Part", e);
         }
-        return regBean;
-    }
-
-    public static UserBean fillUserBean(RegisterBean registerBean) {
-        UserBean userBean = new UserBean();
-        userBean.setFullName(registerBean.getFullName());
-        userBean.setAddress(registerBean.getAddress());
-        userBean.setPhoneNumber(registerBean.getPhoneNumber());
-        userBean.setEmail(registerBean.getEmail());
-        userBean.setPassword(registerBean.getPassword());
-        userBean.setAvatar(registerBean.getAvatar());
-        return userBean;
     }
 }

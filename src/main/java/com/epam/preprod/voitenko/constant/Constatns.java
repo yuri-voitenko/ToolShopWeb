@@ -5,6 +5,21 @@ public class Constatns {
     }
 
     public static final String PATH_TO_AVATARS = "/src/main/webapp/images/avatars/";
+    public static final String DEFAULT_AVATAR = "default.png";
+    public static final String EMPTY_STRING = "";
+
+    public class RegEx {
+        private RegEx() {
+        }
+
+        public static final String REGEX_FULL_NAME = "([a-zA-Z]{2,}\\s[a-zA-z]{1,}'?-?[a-zA-Z]{2,}\\s?([a-zA-Z]{1,})?)";
+        public static final String REGEX_NOT_DIGIT = "\\D";
+        public static final String REGEX_EMAIL = "(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))";
+        public static final String REGEX_PASSWORD = "(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}";
+        public static final String REGEX_CAPTCHA_CODE = "\\d{10}";
+        public static final String REGEX_FOR_PARSE_FILE_NAME = "(?i)^.*filename=\"([^\"]+)\".*$";
+        public static final String REGEX_FILE_NAME_IMAGE = "(?i)(.*/)*.+\\.(png|jpg|jpeg)$";
+    }
 
     public class Keys {
         private Keys() {
@@ -14,9 +29,9 @@ public class Constatns {
         public static final String CAPTCHA_STRATEGY = "CaptchaStrategy";
         public static final String TIMEOUT = "Timeout";
 
-        public static final String REG_BEAN = "regBean";
-        public static final String LOGIN_BEAN = "logBean";
-        public static final String USER_BEAN = "userBean";
+        public static final String REG_ENTITY = "regEntity";
+        public static final String LOGIN_ENTITY = "logEntity";
+        public static final String USER_ENTITY = "userEntity";
         public static final String ERRORS = "errors";
 
         public static final String ID = "id";

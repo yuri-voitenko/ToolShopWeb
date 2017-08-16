@@ -1,12 +1,14 @@
-package com.epam.preprod.voitenko.bean;
+package com.epam.preprod.voitenko.entity;
 
-public class LoginBean {
+import static com.epam.preprod.voitenko.constant.Constatns.EMPTY_STRING;
+
+public class LoginEntity {
     private String email;
     private String password;
 
-    public LoginBean() {
-        this.email = "";
-        this.password = "";
+    public LoginEntity() {
+        this.email = EMPTY_STRING;
+        this.password = EMPTY_STRING;
     }
 
     public String getEmail() {
@@ -34,12 +36,12 @@ public class LoginBean {
             return false;
         }
 
-        LoginBean loginBean = (LoginBean) o;
+        LoginEntity loginEntity = (LoginEntity) o;
 
-        if (email != null ? !email.equals(loginBean.email) : loginBean.email != null) {
+        if (email != null ? !email.equals(loginEntity.email) : loginEntity.email != null) {
             return false;
         }
-        return password != null ? password.equals(loginBean.password) : loginBean.password == null;
+        return password != null ? password.equals(loginEntity.password) : loginEntity.password == null;
     }
 
     @Override

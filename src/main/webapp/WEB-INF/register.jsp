@@ -155,33 +155,34 @@ License URL: http://creativecommons.org/licenses/by/3.0/
               onsubmit="return validateRegisterForm('registerForm')">
             <div class="col-md-6 login-do1 animated wow fadeInLeft" data-wow-delay=".5s">
                 <div class="login-mail">
-                    <input type="text" name="fullName" placeholder="Full name" value="${requestScope.regBean.fullName}"
+                    <input type="text" name="fullName" placeholder="Full name"
+                           value="${requestScope.regEntity.fullName}"
                            required="">
                     <img src="images/ID.png" alt=""/>
                 </div>
                 <div class="login-mail">
-                    <input type="text" name="address" placeholder="Address" value="${requestScope.regBean.address}"
+                    <input type="text" name="address" placeholder="Address" value="${requestScope.regEntity.address}"
                            required="">
                     <i class="glyphicon glyphicon-map-marker"></i>
                 </div>
                 <div class="login-mail">
                     <input type="text" name="phoneNumber" placeholder="+X-XXX-XXX-XXXX"
-                           value="${requestScope.regBean.phoneNumber}" required="">
+                           value="${requestScope.regEntity.phoneNumber}" required="">
                     <i class="glyphicon glyphicon-earphone"></i>
                 </div>
                 <div class="login-mail">
-                    <input type="text" name="email" placeholder="Email" value="${requestScope.regBean.email}"
+                    <input type="text" name="email" placeholder="Email" value="${requestScope.regEntity.email}"
                            required="">
                     <i class="glyphicon glyphicon-envelope"></i>
                 </div>
                 <div class="login-mail">
                     <input type="password" name="password" placeholder="Password"
-                           value="${requestScope.regBean.password}" required="">
+                           value="${requestScope.regEntity.password}" required="">
                     <i class="glyphicon glyphicon-lock"></i>
                 </div>
                 <div class="login-mail">
                     <input type="password" name="passwordCheck" placeholder="Repeated password"
-                           value="${requestScope.regBean.repeatedPassword}" required="">
+                           value="${requestScope.regEntity.repeatedPassword}" required="">
                     <img src="images/password-check.png" alt=""/>
                 </div>
                 <captcha:CaptchaImage/>
