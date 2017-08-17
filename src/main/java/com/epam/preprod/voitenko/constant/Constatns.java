@@ -80,12 +80,12 @@ public class Constatns {
         }
 
         public static final String INTERRUPTED_EXCEPTION = "InterruptedException has occurred in CaptchaCleaner";
-        public static final String CANNOT_GET_ALL = "Can not get a list of all users";
-        public static final String CANNOT_GET_ENTITY_BY_ID = "Can not get a user with such id";
-        public static final String CANNOT_GET_ENTITY_BY_EMAIL = "Can not get a user with such email";
-        public static final String CANNOT_UPDATE_ENTITY = "Can not update user";
-        public static final String CANNOT_DELETE_ENTITY = "Can not delete user with such id";
-        public static final String CANNOT_CREATE_ENTITY = "Can not create a new user";
+        public static final String CANNOT_GET_ALL_USERS = "Can not get a list of all users";
+        public static final String CANNOT_GET_USER_BY_ID = "Can not get a user with such id";
+        public static final String CANNOT_GET_USER_BY_EMAIL = "Can not get a user with such email";
+        public static final String CANNOT_UPDATE_USER = "Can not update user";
+        public static final String CANNOT_DELETE_USER = "Can not delete user with such id";
+        public static final String CANNOT_CREATE_USER = "Can not create a new user";
 
         public static final String CANNOT_CLOSE_RESULT_SET = "Can not close ResultSet";
         public static final String CANNOT_CLOSE_STATEMENT = "Can not close Statement";

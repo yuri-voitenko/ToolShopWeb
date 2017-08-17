@@ -18,6 +18,7 @@ import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 import static com.epam.preprod.voitenko.constant.Constatns.PATH_TO_AVATARS;
 import static com.epam.preprod.voitenko.util.ServiceUtil.getHashPassword;
 import static java.nio.file.Files.exists;
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 public class UserRepository implements GeneralRepository<UserEntity, Integer> {
     private static final Logger LOGGER = LogManager.getLogger(UserRepository.class);
@@ -41,7 +42,7 @@ public class UserRepository implements GeneralRepository<UserEntity, Integer> {
                 users.add(extractUser(resultSet));
             }
         } catch (SQLException e) {
-            LOGGER.error(CANNOT_GET_ALL, e);
+            LOGGER.error(CANNOT_GET_ALL_USERS, e);
         } finally {
             close(resultSet, statement);
         }
@@ -62,7 +63,7 @@ public class UserRepository implements GeneralRepository<UserEntity, Integer> {
                 userEntity = extractUser(resultSet);
             }
         } catch (SQLException e) {
-            LOGGER.error(CANNOT_GET_ENTITY_BY_ID, e);
+            LOGGER.error(CANNOT_GET_USER_BY_ID, e);
         } finally {
             close(resultSet, statement);
         }
@@ -93,7 +94,7 @@ public class UserRepository implements GeneralRepository<UserEntity, Integer> {
             statement.setInt(++index, oldValue.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.error(CANNOT_UPDATE_ENTITY, e);
+            LOGGER.error(CANNOT_UPDATE_USER, e);
         } finally {
             close(statement);
         }
@@ -110,7 +111,7 @@ public class UserRepository implements GeneralRepository<UserEntity, Integer> {
             statement.setInt(++index, id);
             rowsAffected = statement.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.error(CANNOT_DELETE_ENTITY, e);
+            LOGGER.error(CANNOT_DELETE_USER, e);
             return false;
         } finally {
             close(statement);
@@ -122,9 +123,10 @@ public class UserRepository implements GeneralRepository<UserEntity, Integer> {
     public boolean create(Connection connection, UserEntity entity) {
         checkObjectIsNull(entity);
         PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             int index = 0;
-            statement = connection.prepareStatement(SQL_INSERT_USER);
+            statement = connection.prepareStatement(SQL_INSERT_USER, RETURN_GENERATED_KEYS);
             statement.setString(++index, entity.getEmail());
             statement.setString(++index, getHashPassword(entity.getPassword()));
             statement.setString(++index, entity.getFullName());
@@ -134,17 +136,18 @@ public class UserRepository implements GeneralRepository<UserEntity, Integer> {
             if (!DEFAULT_AVATAR.equals(entity.getAvatar())) {
                 avatar = entity.getAvatar();
             }
-            statement.setObject(6, avatar);
+            statement.setObject(++index, avatar);
             statement.executeUpdate();
+            resultSet = statement.getGeneratedKeys();
+            if (resultSet != null && resultSet.next()) {
+                int id = (int) resultSet.getLong(1);
+                entity.setId(id);
+            }
         } catch (SQLException e) {
-            LOGGER.error(CANNOT_CREATE_ENTITY, e);
+            LOGGER.error(CANNOT_CREATE_USER, e);
             return false;
         } finally {
-            close(statement);
-            UserEntity actual = getUserByEmail(connection, entity.getEmail());
-            if (actual != null) {
-                entity.setId(actual.getId());
-            }
+            close(resultSet, statement);
         }
         return true;
     }
@@ -163,7 +166,7 @@ public class UserRepository implements GeneralRepository<UserEntity, Integer> {
                 userEntity = extractUser(resultSet);
             }
         } catch (SQLException e) {
-            LOGGER.error(CANNOT_GET_ENTITY_BY_EMAIL, e);
+            LOGGER.error(CANNOT_GET_USER_BY_EMAIL, e);
         } finally {
             close(resultSet, statement);
         }
