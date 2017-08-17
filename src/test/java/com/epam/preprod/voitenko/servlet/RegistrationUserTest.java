@@ -27,24 +27,24 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class RegistrationUserTest {
     @Mock
-    HttpServletRequest mockHttpServletRequest;
+    private HttpServletRequest mockHttpServletRequest;
     @Mock
-    HttpServletResponse mockHttpServletResponse;
+    private HttpServletResponse mockHttpServletResponse;
     @Mock
-    HttpSession mockHttpSession;
+    private HttpSession mockHttpSession;
     @Mock
-    RequestDispatcher mockRequestDispatcher;
+    private RequestDispatcher mockRequestDispatcher;
     @Mock
-    ServletContext mockServletContext;
+    private ServletContext mockServletContext;
     @Mock
-    CaptchaStrategy captchaStrategy;
+    private CaptchaStrategy captchaStrategy;
     @Mock
-    Part mockPart;
+    private Part mockPart;
 
-    RegistrationUser registrationUser;
-    RegisterEntity emptyRegBean;
-    RegisterEntity correctRegBean;
-    Map<String, String> allErrors;
+    private RegistrationUser registrationUser;
+    private RegisterEntity emptyRegBean;
+    private RegisterEntity correctRegBean;
+    private Map<String, String> allErrors;
 
     @Before
     public void setUp() throws ServletException, IOException {
@@ -135,43 +135,6 @@ public class RegistrationUserTest {
         when(captchaStrategy.getIdCaptcha(mockHttpServletRequest)).thenReturn(-1);
         allErrors.put(CAPTCHA, HINT_CAPTCHA_LIFETIME);
         verifyRegBeanAndErrors();
-    }
-
-    @Test
-    public void doPostShouldRedirectToRegistrationUserServletWhenSuccess() throws ServletException, IOException {
-//        when(mockHttpServletRequest.getParameter(FULL_NAME)).thenReturn(correctRegBean.getFullName());
-//        when(mockHttpServletRequest.getParameter(ADDRESS)).thenReturn(correctRegBean.getAddress());
-//        when(mockHttpServletRequest.getParameter(PHONE_NUMBER)).thenReturn(correctRegBean.getPhoneNumber());
-//        when(mockHttpServletRequest.getParameter(EMAIL)).thenReturn(correctRegBean.getEmail());
-//        when(mockHttpServletRequest.getParameter(PASSWORD)).thenReturn(correctRegBean.getPassword());
-//        when(mockHttpServletRequest.getParameter(PASSWORD_CHECK)).thenReturn(correctRegBean.getRepeatedPassword());
-//        int idCaptcha = CaptchaRepository.addCaptcha();
-//        Captcha objCaptcha = CaptchaRepository.getCaptcha(idCaptcha);
-//        when(captchaStrategy.getIdCaptcha(mockHttpServletRequest)).thenReturn(idCaptcha);
-//        when(mockHttpServletRequest.getParameter(CAPTCHA)).thenReturn(String.valueOf(objCaptcha.getSecretCode()));
-//        allErrors.clear();
-//        registrationUser.doPost(mockHttpServletRequest, mockHttpServletResponse);
-//        verify(mockHttpSession).setAttribute(SUCCESS_REGISTRATION, HINT_SUCCESS_REGISTRATION);
-    }
-
-    @Test
-    public void doPostShouldRedirectToRegistrationUserServletWhenSameEmail() throws ServletException, IOException {
-//        correctRegBean.setEmail("voit@gmail.com");
-//        when(mockHttpServletRequest.getParameter(FULL_NAME)).thenReturn(correctRegBean.getFullName());
-//        when(mockHttpServletRequest.getParameter(ADDRESS)).thenReturn(correctRegBean.getAddress());
-//        when(mockHttpServletRequest.getParameter(PHONE_NUMBER)).thenReturn(correctRegBean.getPhoneNumber());
-//        when(mockHttpServletRequest.getParameter(EMAIL)).thenReturn(correctRegBean.getEmail());
-//        when(mockHttpServletRequest.getParameter(PASSWORD)).thenReturn(correctRegBean.getPassword());
-//        when(mockHttpServletRequest.getParameter(PASSWORD_CHECK)).thenReturn(correctRegBean.getRepeatedPassword());
-//        int idCaptcha = CaptchaRepository.addCaptcha();
-//        Captcha objCaptcha = CaptchaRepository.getCaptcha(idCaptcha);
-//        when(captchaStrategy.getIdCaptcha(mockHttpServletRequest)).thenReturn(idCaptcha);
-//        when(mockHttpServletRequest.getParameter(CAPTCHA)).thenReturn(String.valueOf(objCaptcha.getSecretCode()));
-//        allErrors.clear();
-//        allErrors.put(EMAIL, HINT_SAME_EMAIl);
-//        correctRegBean.setEmail("");
-//        emptyRegBean = correctRegBean;
-//        verifyRegBeanAndErrors();
     }
 
     private void verifyRegBeanAndErrors() throws ServletException, IOException {
