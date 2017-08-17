@@ -19,6 +19,7 @@ public class Constatns {
         public static final String REGEX_CAPTCHA_CODE = "\\d{10}";
         public static final String REGEX_FOR_PARSE_FILE_NAME = "(?i)^.*filename=\"([^\"]+)\".*$";
         public static final String REGEX_FILE_NAME_IMAGE = "(?i)(.*/)*.+\\.(png|jpg|jpeg)$";
+        public static final String REGEX_REPLACE_FILE_NAME_IMAGE = "(?i)(.+)(\\.)(png|jpg|jpeg)";
     }
 
     public class Keys {

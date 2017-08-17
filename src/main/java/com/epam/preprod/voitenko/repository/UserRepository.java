@@ -4,6 +4,7 @@ import com.epam.preprod.voitenko.entity.UserEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +15,9 @@ import java.util.List;
 import static com.epam.preprod.voitenko.constant.Constatns.DEFAULT_AVATAR;
 import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.*;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
+import static com.epam.preprod.voitenko.constant.Constatns.PATH_TO_AVATARS;
 import static com.epam.preprod.voitenko.util.ServiceUtil.getHashPassword;
+import static java.nio.file.Files.exists;
 
 public class UserRepository implements GeneralRepository<UserEntity, Integer> {
     private static final Logger LOGGER = LogManager.getLogger(UserRepository.class);
@@ -178,7 +181,10 @@ public class UserRepository implements GeneralRepository<UserEntity, Integer> {
         userEntity.setAddress(resultSet.getString(ADDRESS));
         Object avatar = resultSet.getObject(AVATAR);
         if (avatar != null) {
-            userEntity.setAvatar(avatar.toString());
+            String fullPath = System.getProperty("user.dir") + PATH_TO_AVATARS + avatar.toString();
+            if (exists(Paths.get(fullPath))) {
+                userEntity.setAvatar(avatar.toString());
+            }
         }
         return userEntity;
     }
