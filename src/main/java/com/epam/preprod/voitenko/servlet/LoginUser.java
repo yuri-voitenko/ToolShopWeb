@@ -36,7 +36,7 @@ public class LoginUser extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        LoginEntity loginEntity = ServiceUtil.extractLoginBean(httpServletRequest);
+        LoginEntity loginEntity = ServiceUtil.extractLoginEntity(httpServletRequest);
         Map<String, String> errors = ValidatorUtil.validate(loginEntity);
         HttpSession session = httpServletRequest.getSession();
 

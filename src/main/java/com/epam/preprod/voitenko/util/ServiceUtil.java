@@ -1,5 +1,6 @@
 package com.epam.preprod.voitenko.util;
 
+import com.epam.preprod.voitenko.entity.FilterEntity;
 import com.epam.preprod.voitenko.entity.LoginEntity;
 import com.epam.preprod.voitenko.entity.RegisterEntity;
 import com.epam.preprod.voitenko.entity.UserEntity;
@@ -39,26 +40,36 @@ public class ServiceUtil {
         }
     }
 
-    public static LoginEntity extractLoginBean(HttpServletRequest httpServletRequest) {
+    public static FilterEntity extractFilterEntity(HttpServletRequest httpServletRequest) {
+        FilterEntity filterEntity = new FilterEntity();
+        filterEntity.setNameTool(httpServletRequest.getParameter(NAME_TOOl));
+        filterEntity.setCategory(httpServletRequest.getParameter(CATEGORY));
+        filterEntity.setManufacturer(httpServletRequest.getParameter(MANUFACTURER));
+        filterEntity.setLowPrice(httpServletRequest.getParameter(LOW_PRICE));
+        filterEntity.setHighPrice(httpServletRequest.getParameter(HIGH_PRICE));
+        return filterEntity;
+    }
+
+    public static LoginEntity extractLoginEntity(HttpServletRequest httpServletRequest) {
         LoginEntity loginEntity = new LoginEntity();
         loginEntity.setEmail(httpServletRequest.getParameter(EMAIL));
         loginEntity.setPassword(httpServletRequest.getParameter(PASSWORD));
         return loginEntity;
     }
 
-    public static RegisterEntity extractRegisterBean(HttpServletRequest httpServletRequest) {
-        RegisterEntity regBean = new RegisterEntity();
-        regBean.setFullName(httpServletRequest.getParameter(FULL_NAME));
-        regBean.setAddress(httpServletRequest.getParameter(ADDRESS));
-        regBean.setPhoneNumber(httpServletRequest.getParameter(PHONE_NUMBER));
-        regBean.setEmail(httpServletRequest.getParameter(EMAIL));
-        regBean.setPassword(httpServletRequest.getParameter(PASSWORD));
-        regBean.setRepeatedPassword(httpServletRequest.getParameter(PASSWORD_CHECK));
-        uploadAvatar(httpServletRequest, regBean);
-        return regBean;
+    public static RegisterEntity extractRegisterEntity(HttpServletRequest httpServletRequest) {
+        RegisterEntity registerEntity = new RegisterEntity();
+        registerEntity.setFullName(httpServletRequest.getParameter(FULL_NAME));
+        registerEntity.setAddress(httpServletRequest.getParameter(ADDRESS));
+        registerEntity.setPhoneNumber(httpServletRequest.getParameter(PHONE_NUMBER));
+        registerEntity.setEmail(httpServletRequest.getParameter(EMAIL));
+        registerEntity.setPassword(httpServletRequest.getParameter(PASSWORD));
+        registerEntity.setRepeatedPassword(httpServletRequest.getParameter(PASSWORD_CHECK));
+        uploadAvatar(httpServletRequest, registerEntity);
+        return registerEntity;
     }
 
-    public static UserEntity fillUserBean(RegisterEntity registerEntity) {
+    public static UserEntity fillUserEntity(RegisterEntity registerEntity) {
         UserEntity userEntity = new UserEntity();
         userEntity.setFullName(registerEntity.getFullName());
         userEntity.setAddress(registerEntity.getAddress());

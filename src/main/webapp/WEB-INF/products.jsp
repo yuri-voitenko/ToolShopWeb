@@ -6,11 +6,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="captcha" uri="tld/captcha.tld" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="myTag" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tool Shop | Login</title>
+    <title>Tool Shop | Tools</title>
     <!-- for-mobile-apps -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -27,8 +28,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- js -->
     <script src="js/jquery.min.js"></script>
     <!-- //js -->
-    <!-- validate -->
-    <script type="text/javascript" src="js/validate.js"></script>
     <!-- cart -->
     <script src="js/simpleCart.min.js"></script>
     <!-- cart -->
@@ -50,6 +49,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <div class="header">
     <div class="header-grid">
         <div class="container">
+            <div class="header-left animated wow fadeInLeft" data-wow-delay=".5s">
+                <myTag:login/>
+            </div>
             <div class="header-right animated wow fadeInRight" data-wow-delay=".5s">
                 <div class="header-right1 ">
                     <ul>
@@ -58,7 +60,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </div>
                 <div class="header-right2">
                     <div class="cart box_1">
-                        <a href="#">
+                        <a href="checkout.html">
                             <h3>
                                 <div class="total">
                                     <span class="simpleCart_total"></span> (<span id="simpleCart_quantity"
@@ -105,10 +107,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                     <div class="col-sm-4">
                                         <ul class="multi-column-dropdown">
                                             <h6>Electric Tools</h6>
-                                            <li><a href="products.html">All</a></li>
-                                            <li><a href="products.html">Angle Grinder</a></li>
-                                            <li><a href="products.html">Drill</a></li>
-                                            <li><a href="products.html">Perforator</a></li>
+                                            <li><a href="#">All</a></li>
+                                            <li><a href="#">Angle Grinder</a></li>
+                                            <li><a href="#">Drill</a></li>
+                                            <li><a href="#">Perforator</a></li>
                                         </ul>
                                     </div>
                                     <div class="clearfix"></div>
@@ -125,50 +127,124 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!--banner-->
 <div class="banner-top">
     <div class="container">
-        <h2 class="animated wow fadeInLeft" data-wow-delay=".5s">Login</h2>
-        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a href="/viewHomePage">Home</a><label>/</label>Login
-        </h3>
+        <h2 class="animated wow fadeInLeft" data-wow-delay=".5s">Tools</h2>
+        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a
+                href="/viewHomePage">Home</a><label>/</label>Tools<label>/</label>Electric Tools</h3>
         <div class="clearfix"></div>
     </div>
 </div>
-<!-- contact -->
-<div class="login">
-    <div class="container" id="container">
-        <c:if test="${not empty requestScope.errors}">
-            <div class="alert alert-danger" role="alert">
-                <strong>Oops! </strong>Something went wrong :( Please fix and try again.<br><br>
-                <c:forEach items="${requestScope.errors}" var="entry">
-                    <strong> ${entry.key}</strong><br>${entry.value}<br>
+<!--content-->
+<div class="product">
+    <form name="filter" id="filter" action="/viewTools" method="GET">
+    </form>
+    <div class="container">
+        <div class="col-md-3 product-bottom">
+            <div class="price">
+                <h3>Name</h3>
+                <div class="price-head">
+                    <div class="col-md-6 price-head1">
+                        <div class="price-top1" style="width: 250px;">
+                            <span class="price-top">#</span>
+                            <input form="filter" type="text" name="nameTool" placeholder="name tool" >
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <!--categories-->
+            <div class="categories">
+                <h3>Categories</h3><br>
+                <select form="filter" name="category" style="width: 250px;">
+                    <option disabled selected>Select type of tool</option>
+                    <c:forEach items="${requestScope.categories}" var="type">
+                        <option value="${type}">${type}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <br>
+            <div class="categories">
+                <h3>Manufacturer</h3>
+                <c:forEach items="${requestScope.manufacturers}" var="manufacturer">
+                    &emsp;<input form="filter" type="checkbox" name="manufacturer" value="${manufacturer}" />&emsp;${manufacturer}<br>
                 </c:forEach>
             </div>
-        </c:if>
-        <form name="loginForm" action="/loginUser" method="post" onsubmit="return validateLoginForm('loginForm')">
-            <div class="col-md-6 login-do1 animated wow fadeInLeft" data-wow-delay=".5s">
-                <div class="login-mail">
-                    <input type="text" name="email" placeholder="Email" value="${requestScope.logEntity.email}"
-                           required="">
-                    <i class="glyphicon glyphicon-envelope"></i>
+            <!--//menu-->
+            <!--price-->
+            <div class="price">
+                <h3>Price Range</h3>
+                <div class="price-head">
+                    <div class="col-md-6 price-head1">
+                        <div class="price-top1">
+                            <span class="price-top">$</span>
+                                <input form="filter" type="text" name="lowPrice" placeholder="0" >
+                        </div>
+                    </div>
+                    <div class="col-md-6 price-head2">
+                        <div class="price-top1">
+                            <span class="price-top">$</span>
+                                <input form="filter" type="text" name="highPrice" placeholder="500" >
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
-                <div class="login-mail">
-                    <input type="password" name="password" placeholder="Password"
-                           value="${requestScope.logEntity.password}" required="">
-                    <i class="glyphicon glyphicon-lock"></i>
-                </div>
-                <a class="news-letter " href="#">
-                    <label class="checkbox1"><input type="checkbox" name="checkbox"><i> </i>Forgot Password</label>
-                </a>
             </div>
-            <div class="col-md-6 login-do animated wow fadeInRight" data-wow-delay=".5s">
-                <label class="hvr-sweep-to-top login-sub">
-                    <input type="submit" value="login">
-                </label>
-                <p>Do not have an account?</p>
-                <a href="/viewRegisterForm" class="hvr-sweep-to-top">Signup</a>
+            <!--//price-->
+            <input type="submit" value="Apply" form="filter">
+        </div>
+        <div class="col-md-9 animated wow fadeInRight" data-wow-delay=".5s">
+            <div class="mens-toolbar">
+                <p>Showing 1–9 of 21 results</p>
+                <p class="showing">Sorting By
+                    <select>
+                        <option value=""> Name</option>
+                        <option value=""> Price</option>
+                    </select>
+                </p>
+                <p>Show
+                    <select>
+                        <option value=""> 9</option>
+                        <option value=""> 10</option>
+                        <option value=""> 11</option>
+                        <option value=""> 12</option>
+                    </select>
+                </p>
+                <div class="clearfix"></div>
             </div>
-            <div class="clearfix"></div>
-        </form>
+            <div class="mid-popular">
+                <c:forEach items="${requestScope.tools}" var="curTool">
+                    <div class="col-sm-4 item-grid item-gr  simpleCart_shelfItem">
+                        <div class="grid-pro">
+                            <div class=" grid-product ">
+                                <figure>
+                                    <a href="#">
+                                        <div class="grid-img">
+                                            <img src="images/pr1_1.jpg" class="img-responsive" alt="">
+                                        </div>
+                                        <div class="grid-img">
+                                            <img src="images/pr1_2.jpg" class="img-responsive" alt="">
+                                        </div>
+                                    </a>
+                                </figure>
+                            </div>
+                            <div class="women">
+                                <h5>Name:${curTool.name}</h5>
+                                <h5>Category:${curTool.category}</h5>
+                                <h5>Manufacturer:${curTool.manufacturer}</h5>
+                                <h5>Power:${curTool.power}</h5>
+                                <h5>Max rotation speed:${curTool.maxRotationSpeed}</h5>
+                                <h5>Weight:${curTool.weight}</h5>
+                                <em class="item_price">$${curTool.cost}</em></p>
+                                <a href="#" data-text="Add To Cart" class="but-hover1 item_add">Add To Cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+                <div class="clearfix"></div>
+            </div>
+        </div>
     </div>
 </div>
+<!--//products-->
 <!-- footer -->
 <div class="footer">
     <div class="container">

@@ -41,7 +41,7 @@ public class RegistrationUser extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        RegisterEntity regBean = ServiceUtil.extractRegisterBean(httpServletRequest);
+        RegisterEntity regBean = ServiceUtil.extractRegisterEntity(httpServletRequest);
         Map<String, String> errors = ValidatorUtil.validate(regBean);
         HttpSession session = httpServletRequest.getSession();
         validateCaptcha(httpServletRequest);
@@ -49,7 +49,7 @@ public class RegistrationUser extends HttpServlet {
         if (!errors.isEmpty()) {
             session.setAttribute(REG_ENTITY, regBean);
         } else {
-            UserEntity user = ServiceUtil.fillUserBean(regBean);
+            UserEntity user = ServiceUtil.fillUserEntity(regBean);
             DataSource dataSource = DataSourceHandler.getInstance().getDataSource();
             UserService userService = new UserService(dataSource);
             if (userService.getUserByEmail(user.getEmail()) != null) {
