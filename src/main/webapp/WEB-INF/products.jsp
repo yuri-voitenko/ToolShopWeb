@@ -176,13 +176,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div class="col-md-6 price-head1">
                         <div class="price-top1">
                             <span class="price-top">$</span>
-                                <input form="filter" type="text" name="lowPrice" placeholder="0" >
+                                <input form="filter" type="text" name="lowPrice" placeholder="min" pattern="\d*">
                         </div>
                     </div>
                     <div class="col-md-6 price-head2">
                         <div class="price-top1">
                             <span class="price-top">$</span>
-                                <input form="filter" type="text" name="highPrice" placeholder="500" >
+                                <input form="filter" type="text" name="highPrice" placeholder="max" pattern="\d*">
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -195,9 +195,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="mens-toolbar">
                 <p>Showing 1–9 of 21 results</p>
                 <p class="showing">Sorting By
-                    <select>
-                        <option value=""> Name</option>
-                        <option value=""> Price</option>
+                    <select form="filter" name="orderKey">
+                        <option value="name">Name</option>
+                        <option value="cost">Price</option>
+                    </select>
+                    <select form="filter" name="orderDirection">
+                        <option value="ASC">Up</option>
+                        <option value="DESC">Down</option>
                     </select>
                 </p>
                 <p>Show

@@ -14,6 +14,7 @@ public class Constatns {
 
         public static final String REGEX_FULL_NAME = "([a-zA-Z]{2,}\\s[a-zA-z]{1,}'?-?[a-zA-Z]{2,}\\s?([a-zA-Z]{1,})?)";
         public static final String REGEX_NOT_DIGIT = "\\D";
+        public static final String REGEX_DIGITS = "\\d+";
         public static final String REGEX_EMAIL = "(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))";
         public static final String REGEX_PASSWORD = "(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}";
         public static final String REGEX_CAPTCHA_CODE = "\\d{10}";
@@ -32,6 +33,8 @@ public class Constatns {
         public static final String NAME_TOOl = "nameTool";
         public static final String LOW_PRICE = "lowPrice";
         public static final String HIGH_PRICE = "highPrice";
+        public static final String ORDER_KEY = "orderKey";
+        public static final String ORDER_DIRECTION = "orderDirection";
 
         public static final String REG_ENTITY = "regEntity";
         public static final String LOGIN_ENTITY = "logEntity";

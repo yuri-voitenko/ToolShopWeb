@@ -4,6 +4,7 @@ import com.epam.preprod.voitenko.entity.FilterEntity;
 import com.epam.preprod.voitenko.entity.LoginEntity;
 import com.epam.preprod.voitenko.entity.RegisterEntity;
 import com.epam.preprod.voitenko.entity.UserEntity;
+import com.epam.preprod.voitenko.sqlbuilder.SQLBuilder;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,6 +20,7 @@ import java.util.UUID;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 import static com.epam.preprod.voitenko.constant.Constatns.PATH_TO_AVATARS;
 import static com.epam.preprod.voitenko.constant.Constatns.RegEx.*;
+import static com.epam.preprod.voitenko.util.ValidatorUtil.isNullOrEmpty;
 import static java.nio.file.Files.exists;
 
 public class ServiceUtil {
@@ -44,9 +46,11 @@ public class ServiceUtil {
         FilterEntity filterEntity = new FilterEntity();
         filterEntity.setNameTool(httpServletRequest.getParameter(NAME_TOOl));
         filterEntity.setCategory(httpServletRequest.getParameter(CATEGORY));
-        filterEntity.setManufacturer(httpServletRequest.getParameter(MANUFACTURER));
+        filterEntity.setManufacturers(httpServletRequest.getParameterValues(MANUFACTURER));
         filterEntity.setLowPrice(httpServletRequest.getParameter(LOW_PRICE));
         filterEntity.setHighPrice(httpServletRequest.getParameter(HIGH_PRICE));
+        filterEntity.setOrderKey(httpServletRequest.getParameter(ORDER_KEY));
+        filterEntity.setOrderDirection(httpServletRequest.getParameter(ORDER_DIRECTION));
         return filterEntity;
     }
 
@@ -67,6 +71,34 @@ public class ServiceUtil {
         registerEntity.setRepeatedPassword(httpServletRequest.getParameter(PASSWORD_CHECK));
         uploadAvatar(httpServletRequest, registerEntity);
         return registerEntity;
+    }
+
+    public static String createSQL(FilterEntity filterEntity) {
+        SQLBuilder sqlBuilder = new SQLBuilder();
+        if (!isNullOrEmpty(filterEntity.getNameTool())) {
+            sqlBuilder.where("name LIKE '%" + filterEntity.getNameTool() + "%'");
+        }
+        if (!isNullOrEmpty(filterEntity.getCategory())) {
+            sqlBuilder.where("category LIKE '" + filterEntity.getNameTool() + "'");
+        }
+        if (!isNullOrEmpty(filterEntity.getManufacturers())) {
+            StringBuilder values = new StringBuilder();
+            for (String manufacturer : filterEntity.getManufacturers()) {
+                values.append('\'');
+                values.append(manufacturer);
+                values.append("', ");
+            }
+            values.delete(values.length() - 2, values.length());
+            sqlBuilder.where("manufacturer IN (" + values + ")");
+        }
+        if (!isNullOrEmpty(filterEntity.getLowPrice())) {
+            sqlBuilder.where("cost >= " + filterEntity.getLowPrice());
+        }
+        if (!isNullOrEmpty(filterEntity.getHighPrice())) {
+            sqlBuilder.where("cost <= " + filterEntity.getHighPrice());
+        }
+        sqlBuilder.orderBy(filterEntity.getOrderKey(), filterEntity.getOrderDirection());
+        return sqlBuilder.toString();
     }
 
     public static UserEntity fillUserEntity(RegisterEntity registerEntity) {

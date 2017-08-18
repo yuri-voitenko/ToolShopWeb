@@ -1,14 +1,15 @@
 package com.epam.preprod.voitenko.entity;
 
+import java.util.Arrays;
+
 public class FilterEntity {
     private String nameTool;
     private String category;
-    private String manufacturer;
+    private String[] manufacturers;
     private String lowPrice;
     private String highPrice;
-
-    public FilterEntity() {
-    }
+    private String orderKey;
+    private String orderDirection;
 
     public String getNameTool() {
         return nameTool;
@@ -26,12 +27,12 @@ public class FilterEntity {
         this.category = category;
     }
 
-    public String getManufacturer() {
-        return manufacturer;
+    public String[] getManufacturers() {
+        return manufacturers;
     }
 
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
+    public void setManufacturers(String[] manufacturers) {
+        this.manufacturers = manufacturers;
     }
 
     public String getLowPrice() {
@@ -48,6 +49,22 @@ public class FilterEntity {
 
     public void setHighPrice(String highPrice) {
         this.highPrice = highPrice;
+    }
+
+    public String getOrderKey() {
+        return orderKey;
+    }
+
+    public void setOrderKey(String orderKey) {
+        this.orderKey = orderKey;
+    }
+
+    public String getOrderDirection() {
+        return orderDirection;
+    }
+
+    public void setOrderDirection(String orderDirection) {
+        this.orderDirection = orderDirection;
     }
 
     @Override
@@ -67,22 +84,31 @@ public class FilterEntity {
         if (category != null ? !category.equals(that.category) : that.category != null) {
             return false;
         }
-        if (manufacturer != null ? !manufacturer.equals(that.manufacturer) : that.manufacturer != null) {
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        if (!Arrays.equals(manufacturers, that.manufacturers)) {
             return false;
         }
         if (lowPrice != null ? !lowPrice.equals(that.lowPrice) : that.lowPrice != null) {
             return false;
         }
-        return highPrice != null ? highPrice.equals(that.highPrice) : that.highPrice == null;
+        if (highPrice != null ? !highPrice.equals(that.highPrice) : that.highPrice != null) {
+            return false;
+        }
+        if (orderKey != null ? !orderKey.equals(that.orderKey) : that.orderKey != null) {
+            return false;
+        }
+        return orderDirection != null ? orderDirection.equals(that.orderDirection) : that.orderDirection == null;
     }
 
     @Override
     public int hashCode() {
         int result = nameTool != null ? nameTool.hashCode() : 0;
         result = 31 * result + (category != null ? category.hashCode() : 0);
-        result = 31 * result + (manufacturer != null ? manufacturer.hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(manufacturers);
         result = 31 * result + (lowPrice != null ? lowPrice.hashCode() : 0);
         result = 31 * result + (highPrice != null ? highPrice.hashCode() : 0);
+        result = 31 * result + (orderKey != null ? orderKey.hashCode() : 0);
+        result = 31 * result + (orderDirection != null ? orderDirection.hashCode() : 0);
         return result;
     }
 }
