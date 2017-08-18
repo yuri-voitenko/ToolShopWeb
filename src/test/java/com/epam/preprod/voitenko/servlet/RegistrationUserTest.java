@@ -1,7 +1,6 @@
 package com.epam.preprod.voitenko.servlet;
 
-import com.epam.preprod.voitenko.bean.RegisterBean;
-import com.epam.preprod.voitenko.captcha.Captcha;
+import com.epam.preprod.voitenko.entity.RegisterEntity;
 import com.epam.preprod.voitenko.repository.CaptchaRepository;
 import com.epam.preprod.voitenko.strategy.CaptchaStrategy;
 import org.junit.Before;
@@ -14,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -27,29 +27,31 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class RegistrationUserTest {
     @Mock
-    HttpServletRequest mockHttpServletRequest;
+    private HttpServletRequest mockHttpServletRequest;
     @Mock
-    HttpServletResponse mockHttpServletResponse;
+    private HttpServletResponse mockHttpServletResponse;
     @Mock
-    HttpSession mockHttpSession;
+    private HttpSession mockHttpSession;
     @Mock
-    RequestDispatcher mockRequestDispatcher;
+    private RequestDispatcher mockRequestDispatcher;
     @Mock
-    ServletContext mockServletContext;
+    private ServletContext mockServletContext;
     @Mock
-    CaptchaStrategy captchaStrategy;
+    private CaptchaStrategy captchaStrategy;
+    @Mock
+    private Part mockPart;
 
-    RegistrationUser registrationUser;
-    RegisterBean emptyRegBean;
-    RegisterBean correctRegBean;
-    Map<String, String> allErrors;
+    private RegistrationUser registrationUser;
+    private RegisterEntity emptyRegBean;
+    private RegisterEntity correctRegBean;
+    private Map<String, String> allErrors;
 
     @Before
     public void setUp() throws ServletException, IOException {
         initMocks(this);
         registrationUser = new RegistrationUser();
-        emptyRegBean = new RegisterBean();
-        correctRegBean = new RegisterBean();
+        emptyRegBean = new RegisterEntity();
+        correctRegBean = new RegisterEntity();
         correctRegBean.setFullName("Yuri Voitenko");
         correctRegBean.setAddress("Kharkiv");
         correctRegBean.setPhoneNumber("+380505730182");
@@ -64,6 +66,8 @@ public class RegistrationUserTest {
         allErrors.put(PASSWORD, HINT_NOT_EMPTY_FIELD);
         allErrors.put(PASSWORD_CHECK, HINT_NOT_EMPTY_FIELD);
         allErrors.put(CAPTCHA, HINT_CAPTCHA_CODE);
+        when(mockPart.getHeader("Content-Disposition")).thenReturn("");
+        when(mockHttpServletRequest.getPart(AVATAR)).thenReturn(mockPart);
         when(mockHttpServletRequest.getSession()).thenReturn(mockHttpSession);
         when(mockHttpServletRequest.getRequestDispatcher(anyString())).thenReturn(mockRequestDispatcher);
         when(mockServletContext.getAttribute(STRATEGY)).thenReturn(captchaStrategy);
@@ -133,46 +137,9 @@ public class RegistrationUserTest {
         verifyRegBeanAndErrors();
     }
 
-    @Test
-    public void doPostShouldRedirectToRegistrationUserServletWhenSuccess() throws ServletException, IOException {
-        when(mockHttpServletRequest.getParameter(FULL_NAME)).thenReturn(correctRegBean.getFullName());
-        when(mockHttpServletRequest.getParameter(ADDRESS)).thenReturn(correctRegBean.getAddress());
-        when(mockHttpServletRequest.getParameter(PHONE_NUMBER)).thenReturn(correctRegBean.getPhoneNumber());
-        when(mockHttpServletRequest.getParameter(EMAIL)).thenReturn(correctRegBean.getEmail());
-        when(mockHttpServletRequest.getParameter(PASSWORD)).thenReturn(correctRegBean.getPassword());
-        when(mockHttpServletRequest.getParameter(PASSWORD_CHECK)).thenReturn(correctRegBean.getRepeatedPassword());
-        int idCaptcha = CaptchaRepository.addCaptcha();
-        Captcha objCaptcha = CaptchaRepository.getCaptcha(idCaptcha);
-        when(captchaStrategy.getIdCaptcha(mockHttpServletRequest)).thenReturn(idCaptcha);
-        when(mockHttpServletRequest.getParameter(CAPTCHA)).thenReturn(String.valueOf(objCaptcha.getSecretCode()));
-        allErrors.clear();
-        registrationUser.doPost(mockHttpServletRequest, mockHttpServletResponse);
-        verify(mockHttpSession).setAttribute(SUCCESS_REGISTRATION, HINT_SUCCESS_REGISTRATION);
-    }
-
-    @Test
-    public void doPostShouldRedirectToRegistrationUserServletWhenSameEmail() throws ServletException, IOException {
-        correctRegBean.setEmail("voit@gmail.com");
-        when(mockHttpServletRequest.getParameter(FULL_NAME)).thenReturn(correctRegBean.getFullName());
-        when(mockHttpServletRequest.getParameter(ADDRESS)).thenReturn(correctRegBean.getAddress());
-        when(mockHttpServletRequest.getParameter(PHONE_NUMBER)).thenReturn(correctRegBean.getPhoneNumber());
-        when(mockHttpServletRequest.getParameter(EMAIL)).thenReturn(correctRegBean.getEmail());
-        when(mockHttpServletRequest.getParameter(PASSWORD)).thenReturn(correctRegBean.getPassword());
-        when(mockHttpServletRequest.getParameter(PASSWORD_CHECK)).thenReturn(correctRegBean.getRepeatedPassword());
-        int idCaptcha = CaptchaRepository.addCaptcha();
-        Captcha objCaptcha = CaptchaRepository.getCaptcha(idCaptcha);
-        when(captchaStrategy.getIdCaptcha(mockHttpServletRequest)).thenReturn(idCaptcha);
-        when(mockHttpServletRequest.getParameter(CAPTCHA)).thenReturn(String.valueOf(objCaptcha.getSecretCode()));
-        allErrors.clear();
-        allErrors.put(EMAIL, HINT_SAME_EMAIl);
-        correctRegBean.setEmail("");
-        emptyRegBean = correctRegBean;
-        verifyRegBeanAndErrors();
-    }
-
     private void verifyRegBeanAndErrors() throws ServletException, IOException {
         registrationUser.doPost(mockHttpServletRequest, mockHttpServletResponse);
-        verify(mockHttpSession).setAttribute(REG_BEAN, emptyRegBean);
+        verify(mockHttpSession).setAttribute(REG_ENTITY, emptyRegBean);
         verify(mockHttpSession).setAttribute(ERRORS, allErrors);
     }
 }

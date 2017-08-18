@@ -1,22 +1,24 @@
 function validateLoginForm(formName) {
+    var errorDiv = getErrorDiv();
     var email = document.forms[formName]["email"];
     var password = document.forms[formName]["password"];
     if (!validateEmail(email.value)) {
-        alert("Sorry, you entered an incorrect email!\nPlease fix and try again.");
+        errorDiv.innerHTML += "<strong>Email</strong> Sorry, you entered an incorrect email!<br>" +
+                              "Please fix and try again.<br>";
         email.focus();
         highlight(email, true);
         return false;
     }
     highlight(email, false);
     if (!validatePassword(password.value)) {
-        alert("Sorry, you entered an incorrect password!" +
-            "\nPlease fix and try again." +
-            "\n\nPassword requirements:" +
-            "\n\t* At least one upper case English letter" +
-            "\n\t* At least one lower case English letter" +
-            "\n\t* At least one digit" +
-            "\n\t* At least one special character" +
-            "\n\t* Minimum eight in length");
+        errorDiv.innerHTML += "<strong>Password</strong> Sorry, you entered an incorrect password!<br>" +
+                              "Please fix and try again.<br>" +
+                              "<br>Password requirements:<br>" +
+                              "&emsp;* At least one upper case English letter<br>" +
+                              "&emsp;* At least one lower case English letter<br>" +
+                              "&emsp;* At least one digit<br>" +
+                              "&emsp;* At least one special character<br>" +
+                              "&emsp;* Minimum eight in length<br>";
         password.focus();
         highlight(password, true);
         return false;
@@ -26,12 +28,13 @@ function validateLoginForm(formName) {
 }
 
 function validateRegisterForm(formName) {
+    var errorDiv = getErrorDiv();
+
     var fullName = document.forms[formName]["fullName"];
     if (!validateFullName(fullName.value)) {
-        alert("Sorry, you entered an incorrect fullName!" +
-            "\nPlease fix and try again."
-            + "\nHint: 'FirstName LastName'");
-        fullName.focus();
+        errorDiv.innerHTML += "<strong>Full name</strong> Sorry, you entered an incorrect fullName!<br>" +
+                              "Please fix and try again.<br>" + "Hint: 'FirstName LastName'<br>";
+         fullName.focus();
         highlight(fullName, true);
         return false;
     }
@@ -39,9 +42,8 @@ function validateRegisterForm(formName) {
 
     var phoneNumber = document.forms[formName]["phoneNumber"];
     if (!validatePhoneNumber(phoneNumber.value)) {
-        alert("Sorry, you entered an incorrect phone number!" +
-            "\nPlease fix and try again."
-            + "\nHint: Use international format!");
+        errorDiv.innerHTML += "<strong>Phone number</strong> Sorry, you entered an incorrect phone number!<br>" +
+                              "Please fix and try again.<br>" + "Hint: Use international format!<br>";
         phoneNumber.focus();
         highlight(phoneNumber, true);
         return false;
@@ -54,8 +56,8 @@ function validateRegisterForm(formName) {
     var password = document.forms[formName]["password"];
     var passwordCheck = document.forms[formName]["passwordCheck"];
     if (password.value != passwordCheck.value) {
-        alert("Sorry, you entered an incorrect repeated password!" +
-            "\nPlease fix and try again.");
+        errorDiv.innerHTML += "<strong>Repeated password</strong> Sorry, you entered an incorrect repeated password!<br>" +
+                              "Please fix and try again.<br>";
         passwordCheck.focus();
         highlight(passwordCheck, true);
         return false;
@@ -64,9 +66,8 @@ function validateRegisterForm(formName) {
 
     var captchaCode = document.forms[formName]["captcha"];
     if (!validateCaptchaCode(captchaCode.value)) {
-        alert("Sorry, you entered an incorrect secret code!" +
-            "\nPlease fix and try again."
-            + "\nHint: Must be only 10 digits.");
+    errorDiv.innerHTML += "<strong>Captcha code</strong> Sorry, you entered an incorrect secret code!<br>" +
+                          "Please fix and try again.<br>" + "Hint: Must be only 10 digits.<br>";
         captchaCode.focus();
         highlight(captchaCode, true);
         return false;
@@ -74,6 +75,19 @@ function validateRegisterForm(formName) {
     highlight(captchaCode, false);
 
     return true;
+}
+
+function getErrorDiv(){
+    var errorDiv = document.getElementById("errorMessages");
+    if(errorDiv == null){
+        errorDiv = document.createElement('div');
+        errorDiv.setAttribute("id", "errorMessages");
+        errorDiv.className = "alert alert-danger";
+        errorDiv.innerHTML = "<strong>Oops! </strong>Something went wrong :( Please fix and try again.<br><br>";
+        document.getElementById("container").insertBefore(errorDiv, document.getElementById("container").firstChild);
+    }
+    errorDiv.innerHTML = "<strong>Oops! </strong>Something went wrong :( Please fix and try again.<br><br>";
+    return errorDiv;
 }
 
 function validateEmail(email) {

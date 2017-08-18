@@ -4,10 +4,14 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="myTag" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tool Shop | Login</title>
+    <title>Tool Shop | Home</title>
     <!-- for-mobile-apps -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -24,8 +28,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- js -->
     <script src="js/jquery.min.js"></script>
     <!-- //js -->
-    <!-- validate -->
-    <script type="text/javascript" src="js/validate.js"></script>
     <!-- cart -->
     <script src="js/simpleCart.min.js"></script>
     <!-- cart -->
@@ -48,17 +50,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <div class="header-grid">
         <div class="container">
             <div class="header-left animated wow fadeInLeft" data-wow-delay=".5s">
-                <ul>
-                    <li><i class="glyphicon glyphicon-headphones"></i><a href="#">24x7 live support</a></li>
-                    <li><i class="glyphicon glyphicon-envelope"></i><a href="mailto:info@example.com">@example.com</a>
-                    </li>
-                    <li><i class="glyphicon glyphicon-earphone"></i>+1234 567 892</li>
-                </ul>
+                <myTag:login/>
             </div>
             <div class="header-right animated wow fadeInRight" data-wow-delay=".5s">
                 <div class="header-right1 ">
                     <ul>
-                        <li><i class="glyphicon glyphicon-log-in"></i><a href="login.html">Login</a></li>
                         <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">Register</a></li>
                     </ul>
                 </div>
@@ -95,14 +91,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <div class="navbar-brand logo-nav-left wow fadeInLeft animated" data-wow-delay=".5s">
+                    <div class="navbar-brand logo-nav-left ">
                         <h1 class="animated wow pulse" data-wow-delay=".5s"><a
-                                href="index.html">Tool<span>Shop</span></a></h1>
+                                href="/viewHomePage">Tool<span>Shop</span></a></h1>
                     </div>
                 </div>
                 <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                     <ul class="nav navbar-nav">
-                        <li><a href="index.html" class="act">Home</a></li>
+                        <li class="active"><a href="/viewHomePage" class="act">Home</a></li>
                         <!-- Mega Menu -->
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools <b class="caret"></b></a>
@@ -115,6 +111,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                             <li><a href="products.html">Angle Grinder</a></li>
                                             <li><a href="products.html">Drill</a></li>
                                             <li><a href="products.html">Perforator</a></li>
+
                                         </ul>
                                     </div>
                                     <div class="clearfix"></div>
@@ -128,43 +125,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </div>
 </div>
 <!-- //header -->
-<!--banner-->
-<div class="banner-top">
-    <div class="container">
-        <h2 class="animated wow fadeInLeft" data-wow-delay=".5s">Login</h2>
-        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a href="index.html">Home</a><label>/</label>Login
-        </h3>
-        <div class="clearfix"></div>
-    </div>
-</div>
-<!-- contact -->
-<div class="login">
-    <div class="container">
-        <form name="loginForm" onsubmit="return validateLoginForm('loginForm')">
-            <div class="col-md-6 login-do1 animated wow fadeInLeft" data-wow-delay=".5s">
-                <div class="login-mail">
-                    <input type="text" name="email" placeholder="Email" required="">
-                    <i class="glyphicon glyphicon-envelope"></i>
-                </div>
-                <div class="login-mail">
-                    <input type="password" name="password" placeholder="Password" required="">
-                    <i class="glyphicon glyphicon-lock"></i>
-                </div>
-                <a class="news-letter " href="#">
-                    <label class="checkbox1"><input type="checkbox" name="checkbox"><i> </i>Forgot Password</label>
-                </a>
-            </div>
-            <div class="col-md-6 login-do animated wow fadeInRight" data-wow-delay=".5s">
-                <label class="hvr-sweep-to-top login-sub">
-                    <input type="submit" value="login">
-                </label>
-                <p>Do not have an account?</p>
-                <a href="/viewRegisterForm" class="hvr-sweep-to-top">Signup</a>
-            </div>
-            <div class="clearfix"></div>
-        </form>
-    </div>
-</div>
+<!-- banner -->
+<div class="banner"></div>
+<!-- //banner -->
 <!-- footer -->
 <div class="footer">
     <div class="container">

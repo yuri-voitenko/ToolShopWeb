@@ -1,10 +1,9 @@
 package com.epam.preprod.voitenko.repository;
 
 import com.epam.preprod.voitenko.captcha.Captcha;
-import com.epam.preprod.voitenko.validate.ValidatorUtil;
+import com.epam.preprod.voitenko.util.ValidatorUtil;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class CaptchaRepository {
