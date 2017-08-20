@@ -58,6 +58,7 @@ public class ValidatorUtil {
     public static boolean validate(FilterEntity filterEntity) {
         return isMatchedRegex(filterEntity.getLowPrice(), REGEX_DIGITS) &&
                 isMatchedRegex(filterEntity.getHighPrice(), REGEX_DIGITS) &&
+                (NAME.equals(filterEntity.getOrderKey()) || COST.equals(filterEntity.getOrderKey())) &&
                 ("ASC".equals(filterEntity.getOrderDirection()) || "DESC".equals(filterEntity.getOrderDirection()));
     }
 

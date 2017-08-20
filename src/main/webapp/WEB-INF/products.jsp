@@ -101,21 +101,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <li><a href="/viewHomePage" class="act">Home</a></li>
                         <!-- Mega Menu -->
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools <b class="caret"></b></a>
-                            <ul class="dropdown-menu multi multi1">
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <ul class="multi-column-dropdown">
-                                            <h6>Electric Tools</h6>
-                                            <li><a href="#">All</a></li>
-                                            <li><a href="#">Angle Grinder</a></li>
-                                            <li><a href="#">Drill</a></li>
-                                            <li><a href="#">Perforator</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </ul>
+                            <a href="/viewTools?numberToolsOnPage=3">Tool</a>
                         </li>
                     </ul>
                 </div>
@@ -145,7 +131,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div class="col-md-6 price-head1">
                         <div class="price-top1" style="width: 250px;">
                             <span class="price-top">#</span>
-                            <input form="filter" type="text" name="nameTool" placeholder="name tool" >
+                            <input form="filter" type="text" name="nameTool" placeholder="name tool"
+                                   value="${requestScope.filterEntity.nameTool}">
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -157,7 +144,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <select form="filter" name="category" style="width: 250px;">
                     <option disabled selected>Select type of tool</option>
                     <c:forEach items="${requestScope.categories}" var="type">
-                        <option value="${type}">${type}</option>
+                        <c:choose>
+                            <c:when test="${type == requestScope.filterEntity.category}">
+                                <option value="${type}" selected>${type}</option>
+                            </c:when>
+                            <c:otherwise>
+                                <option value="${type}">${type}</option>
+                            </c:otherwise>
+                        </c:choose>
                     </c:forEach>
                 </select>
             </div>
@@ -165,7 +159,28 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="categories">
                 <h3>Manufacturer</h3>
                 <c:forEach items="${requestScope.manufacturers}" var="manufacturer">
-                    &emsp;<input form="filter" type="checkbox" name="manufacturer" value="${manufacturer}" />&emsp;${manufacturer}<br>
+                    <c:choose>
+                        <c:when test="${empty requestScope.filterEntity.manufacturers}">
+                            &emsp;<input form="filter" type="checkbox" name="manufacturer" value="${manufacturer}" />&emsp;${manufacturer}
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="isSelected" value="false"/>
+                            <c:forEach items="${requestScope.filterEntity.manufacturers}" var="selectedManufacturer">
+                                <c:if test="${manufacturer == selectedManufacturer}">
+                                    <c:set var="isSelected" value="true"/>
+                                </c:if>
+                            </c:forEach>
+                            <c:choose>
+                                <c:when test="${isSelected}">
+                                    &emsp;<input form="filter" type="checkbox" name="manufacturer" value="${manufacturer}" checked/>&emsp;${manufacturer}
+                                </c:when>
+                                <c:otherwise>
+                                    &emsp;<input form="filter" type="checkbox" name="manufacturer" value="${manufacturer}" />&emsp;${manufacturer}
+                                </c:otherwise>
+                            </c:choose>
+                        </c:otherwise>
+                    </c:choose>
+                    <br>
                 </c:forEach>
             </div>
             <!--//menu-->
@@ -176,13 +191,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div class="col-md-6 price-head1">
                         <div class="price-top1">
                             <span class="price-top">$</span>
-                                <input form="filter" type="text" name="lowPrice" placeholder="min" pattern="\d*">
+                            <input form="filter" type="text" name="lowPrice" placeholder="min" pattern="\d*"
+                                   value="${requestScope.filterEntity.lowPrice}">
                         </div>
                     </div>
                     <div class="col-md-6 price-head2">
                         <div class="price-top1">
                             <span class="price-top">$</span>
-                                <input form="filter" type="text" name="highPrice" placeholder="max" pattern="\d*">
+                            <input form="filter" type="text" name="highPrice" placeholder="max" pattern="\d*"
+                                   value="${requestScope.filterEntity.highPrice}">
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -190,26 +207,57 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             </div>
             <!--//price-->
             <input type="submit" value="Apply" form="filter">
+            <input type="reset" value="Reset" form="filter">
         </div>
         <div class="col-md-9 animated wow fadeInRight" data-wow-delay=".5s">
             <div class="mens-toolbar">
-                <p>Showing 1–9 of 21 results</p>
+                <c:set var="indexStartToolOnPage"
+                       value="${(requestScope.filterEntity.numberPage*requestScope.filterEntity.numberToolsOnPage)}"/>
+                <c:set var="indexFinishToolOnPage"
+                       value="${indexStartToolOnPage+requestScope.filterEntity.numberToolsOnPage}"/>
+                <c:if test="${indexFinishToolOnPage > requestScope.numberSuitableTools}">
+                    <c:set var="indexFinishToolOnPage"
+                           value="${requestScope.numberSuitableTools}"/>
+                </c:if>
+                <p>
+                    Showing ${indexStartToolOnPage+1}–${indexFinishToolOnPage}
+                    of ${requestScope.numberSuitableTools} results</p>
                 <p class="showing">Sorting By
                     <select form="filter" name="orderKey">
                         <option value="name">Name</option>
-                        <option value="cost">Price</option>
+                        <c:choose>
+                            <c:when test="${requestScope.filterEntity.orderKey == 'cost'}">
+                                <option value="cost" selected>Price</option>
+                            </c:when>
+                            <c:otherwise>
+                                <option value="cost">Price</option>
+                            </c:otherwise>
+                        </c:choose>
                     </select>
                     <select form="filter" name="orderDirection">
                         <option value="ASC">Up</option>
-                        <option value="DESC">Down</option>
+                        <c:choose>
+                            <c:when test="${requestScope.filterEntity.orderDirection == 'DESC'}">
+                                <option value="DESC" selected>Down</option>
+                            </c:when>
+                            <c:otherwise>
+                                <option value="DESC">Down</option>
+                            </c:otherwise>
+                        </c:choose>
                     </select>
                 </p>
                 <p>Show
-                    <select>
-                        <option value=""> 9</option>
-                        <option value=""> 10</option>
-                        <option value=""> 11</option>
-                        <option value=""> 12</option>
+                    <select form="filter" name="numberToolsOnPage">
+                        <c:forEach begin="3" end="27" step="3" varStatus="loop">
+                            <c:choose>
+                                <c:when test="${requestScope.filterEntity.numberToolsOnPage == loop.index}">
+                                    <option value="${loop.index}" selected> ${loop.index}</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option value="${loop.index}"> ${loop.index}</option>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
                     </select>
                 </p>
                 <div class="clearfix"></div>
@@ -245,6 +293,32 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </c:forEach>
                 <div class="clearfix"></div>
             </div>
+            <input form="filter" type="hidden" name="numberPage" id="numberPage" value="0">
+            <c:choose>
+                <c:when test="${requestScope.numberSuitableTools == 0}">
+                    <div class="alert alert-warning" role="alert">
+                        <strong>Sorry!</strong> But nothing found for this query :(
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <c:if test="${requestScope.amountPages != 1}">
+                        <div class="pagination">
+                            <c:forEach begin="0" end="${requestScope.amountPages-1}" varStatus="loop">
+                                <c:choose>
+                                    <c:when test="${requestScope.filterEntity.numberPage == loop.index}">
+                                        <a href="#" onclick="numberPage.value=${loop.index}; filter.submit();"
+                                           class="active">${loop.index + 1}</a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="#"
+                                           onclick="numberPage.value=${loop.index}; filter.submit();">${loop.index + 1}</a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </div>
+                    </c:if>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
 </div>

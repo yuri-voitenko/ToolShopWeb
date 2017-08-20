@@ -51,6 +51,8 @@ public class ServiceUtil {
         filterEntity.setHighPrice(httpServletRequest.getParameter(HIGH_PRICE));
         filterEntity.setOrderKey(httpServletRequest.getParameter(ORDER_KEY));
         filterEntity.setOrderDirection(httpServletRequest.getParameter(ORDER_DIRECTION));
+        filterEntity.setNumberToolsOnPage(httpServletRequest.getParameter(NUMBER_TOOLS_ON_PAGE));
+        filterEntity.setNumberPage(httpServletRequest.getParameter(NUMBER_PAGE));
         return filterEntity;
     }
 
@@ -76,10 +78,10 @@ public class ServiceUtil {
     public static String createSQL(FilterEntity filterEntity) {
         SQLBuilder sqlBuilder = new SQLBuilder();
         if (!isNullOrEmpty(filterEntity.getNameTool())) {
-            sqlBuilder.where("name LIKE '%" + filterEntity.getNameTool() + "%'");
+            sqlBuilder.where(NAME + " LIKE '%" + filterEntity.getNameTool() + "%'");
         }
         if (!isNullOrEmpty(filterEntity.getCategory())) {
-            sqlBuilder.where("category LIKE '" + filterEntity.getNameTool() + "'");
+            sqlBuilder.where(CATEGORY + " LIKE '" + filterEntity.getCategory() + "'");
         }
         if (!isNullOrEmpty(filterEntity.getManufacturers())) {
             StringBuilder values = new StringBuilder();
@@ -89,15 +91,16 @@ public class ServiceUtil {
                 values.append("', ");
             }
             values.delete(values.length() - 2, values.length());
-            sqlBuilder.where("manufacturer IN (" + values + ")");
+            sqlBuilder.where(MANUFACTURER + " IN (" + values + ")");
         }
         if (!isNullOrEmpty(filterEntity.getLowPrice())) {
-            sqlBuilder.where("cost >= " + filterEntity.getLowPrice());
+            sqlBuilder.where(COST + " >= " + filterEntity.getLowPrice());
         }
         if (!isNullOrEmpty(filterEntity.getHighPrice())) {
-            sqlBuilder.where("cost <= " + filterEntity.getHighPrice());
+            sqlBuilder.where(COST + " <= " + filterEntity.getHighPrice());
         }
         sqlBuilder.orderBy(filterEntity.getOrderKey(), filterEntity.getOrderDirection());
+        sqlBuilder.limit(filterEntity.getNumberPage(), filterEntity.getNumberToolsOnPage());
         return sqlBuilder.toString();
     }
 

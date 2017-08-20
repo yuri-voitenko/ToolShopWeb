@@ -35,10 +35,18 @@ public class Constatns {
         public static final String HIGH_PRICE = "highPrice";
         public static final String ORDER_KEY = "orderKey";
         public static final String ORDER_DIRECTION = "orderDirection";
+        public static final String NUMBER_TOOLS_ON_PAGE = "numberToolsOnPage";
+        public static final String NUMBER_PAGE = "numberPage";
+        public static final String CATEGORIES = "categories";
+        public static final String MANUFACTURERS = "manufacturers";
+        public static final String TOOLS = "tools";
+        public static final String NUMBER_SUITABLE_TOOLS = "numberSuitableTools";
+        public static final String AMOUNT_PAGES = "amountPages";
 
         public static final String REG_ENTITY = "regEntity";
         public static final String LOGIN_ENTITY = "logEntity";
         public static final String USER_ENTITY = "userEntity";
+        public static final String FILTER_ENTITY = "filterEntity";
         public static final String ERRORS = "errors";
 
         public static final String PASSWORD_CHECK = "passwordCheck";

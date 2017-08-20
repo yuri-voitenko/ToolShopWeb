@@ -25,6 +25,7 @@ public class ToolRepository implements GeneralRepository<ElectricToolEntity, Int
     private static final String SQL_UPDATE_TOOL = "UPDATE tools SET name=?, category=?, manufacturer=?, power=?, maxRotationSpeed=?, weight=?, cost=?, mainImage=?, additionalImage=? WHERE id=?;";
     private static final String SQL_DELETE_TOOL = "DELETE FROM tools WHERE id=?;";
     private static final String SQL_INSERT_TOOL = "INSERT INTO tools (name, category, manufacturer, power, maxRotationSpeed, weight, cost, mainImage, additionalImage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private static final String SQL_FOUND_ROWS = "SELECT FOUND_ROWS();";
 
     @Override
     public List<ElectricToolEntity> getAll(Connection connection) {
@@ -147,39 +148,67 @@ public class ToolRepository implements GeneralRepository<ElectricToolEntity, Int
     }
 
     public List<String> getCategories(Connection connection) {
-        List<String> categories = new ArrayList<>();
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            statement = connection.prepareStatement(SQL_GET_CATEGORIES);
-            resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                categories.add(resultSet.getString(CATEGORY));
-            }
-        } catch (SQLException e) {
-            LOGGER.error(CANNOT_GET_ALL_CATEGORIES, e);
-        } finally {
-            close(resultSet, statement);
-        }
-        return categories;
+        return getLisOfValuesFromColumn(connection, SQL_GET_CATEGORIES, CATEGORY, CANNOT_GET_ALL_CATEGORIES);
     }
 
     public List<String> getManufacturers(Connection connection) {
-        List<String> manufacturers = new ArrayList<>();
+        return getLisOfValuesFromColumn(connection, SQL_GET_MANUFACTURERS, MANUFACTURER, CANNOT_GET_ALL_MANUFACTURERS);
+    }
+
+    public List<ElectricToolEntity> getToolsByFilter(Connection connection, String sqlQuery) {
+        List<ElectricToolEntity> tools = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement(SQL_GET_MANUFACTURERS);
+            statement = connection.prepareStatement(sqlQuery);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                manufacturers.add(resultSet.getString(MANUFACTURER));
+                tools.add(extractTool(resultSet));
             }
         } catch (SQLException e) {
-            LOGGER.error(CANNOT_GET_ALL_MANUFACTURERS, e);
+            LOGGER.error(CANNOT_GET_ALL_TOOLS, e);
         } finally {
             close(resultSet, statement);
         }
-        return manufacturers;
+        return tools;
+    }
+
+    public long getNumberSuitableTools(Connection connection, String sqlQuery) {
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        long numberSuitableRows = 0;
+        try {
+            statement = connection.prepareStatement(sqlQuery);
+            resultSet = statement.executeQuery();
+            statement = connection.prepareStatement(SQL_FOUND_ROWS);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                numberSuitableRows = resultSet.getLong(1);
+            }
+        } catch (SQLException e) {
+            LOGGER.error(CANNOT_GET_ALL_TOOLS, e);
+        } finally {
+            close(resultSet, statement);
+        }
+        return numberSuitableRows;
+    }
+
+    private List<String> getLisOfValuesFromColumn(Connection connection, String sqlQuery, String columnName, String errorMessage) {
+        List<String> fieldList = new ArrayList<>();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(sqlQuery);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                fieldList.add(resultSet.getString(columnName));
+            }
+        } catch (SQLException e) {
+            LOGGER.error(errorMessage, e);
+        } finally {
+            close(resultSet, statement);
+        }
+        return fieldList;
     }
 
     private ElectricToolEntity extractTool(ResultSet resultSet) throws SQLException {
