@@ -57,12 +57,6 @@ public class SQLBuilder {
     }
 
     private void appendOrder(StringBuilder sql) {
-        if (orderKey == null) {
-            orderKey = COST;
-        }
-        if (orderDirection == null) {
-            orderDirection = "ASC";
-        }
         sql.append(" ORDER BY ");
         sql.append(orderKey);
         sql.append(' ');
@@ -70,12 +64,6 @@ public class SQLBuilder {
     }
 
     private void appendLimit(StringBuilder sql) {
-        if (offset == null) {
-            offset = "0";
-        }
-        if (numberRecords == null) {
-            numberRecords = "3";
-        }
         int shift = Integer.parseInt(offset) * Integer.parseInt(numberRecords);
         sql.append(" LIMIT ");
         sql.append(shift);

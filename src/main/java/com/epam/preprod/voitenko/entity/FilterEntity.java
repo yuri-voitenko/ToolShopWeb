@@ -2,6 +2,9 @@ package com.epam.preprod.voitenko.entity;
 
 import java.util.Arrays;
 
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.ASC;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.COST;
+
 public class FilterEntity {
     private String nameTool;
     private String category;
@@ -12,6 +15,13 @@ public class FilterEntity {
     private String orderDirection;
     private String numberToolsOnPage;
     private String numberPage;
+
+    public FilterEntity() {
+        orderKey = COST;
+        orderDirection = ASC;
+        numberToolsOnPage = "3";
+        numberPage = "0";
+    }
 
     public String getNameTool() {
         return nameTool;

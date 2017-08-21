@@ -57,6 +57,8 @@ public class Constatns {
 
         // common
         public static final String ID = "id";
+        public static final String ASC = "ASC";
+        public static final String DESC = "DESC";
         // users
         public static final String FULL_NAME = "fullName";
         public static final String ADDRESS = "address";

@@ -49,10 +49,23 @@ public class ServiceUtil {
         filterEntity.setManufacturers(httpServletRequest.getParameterValues(MANUFACTURER));
         filterEntity.setLowPrice(httpServletRequest.getParameter(LOW_PRICE));
         filterEntity.setHighPrice(httpServletRequest.getParameter(HIGH_PRICE));
-        filterEntity.setOrderKey(httpServletRequest.getParameter(ORDER_KEY));
-        filterEntity.setOrderDirection(httpServletRequest.getParameter(ORDER_DIRECTION));
-        filterEntity.setNumberToolsOnPage(httpServletRequest.getParameter(NUMBER_TOOLS_ON_PAGE));
-        filterEntity.setNumberPage(httpServletRequest.getParameter(NUMBER_PAGE));
+
+        String orderKey = httpServletRequest.getParameter(ORDER_KEY);
+        if (orderKey != null) {
+            filterEntity.setOrderKey(orderKey);
+        }
+        String orderDirection = httpServletRequest.getParameter(ORDER_DIRECTION);
+        if (orderDirection != null) {
+            filterEntity.setOrderDirection(orderDirection);
+        }
+        String numberToolsOnPage = httpServletRequest.getParameter(NUMBER_TOOLS_ON_PAGE);
+        if (numberToolsOnPage != null) {
+            filterEntity.setNumberToolsOnPage(numberToolsOnPage);
+        }
+        String numberPage = httpServletRequest.getParameter(NUMBER_PAGE);
+        if (numberPage != null) {
+            filterEntity.setNumberPage(numberPage);
+        }
         return filterEntity;
     }
 

@@ -56,10 +56,14 @@ public class ValidatorUtil {
     }
 
     public static boolean validate(FilterEntity filterEntity) {
-        return isMatchedRegex(filterEntity.getLowPrice(), REGEX_DIGITS) &&
-                isMatchedRegex(filterEntity.getHighPrice(), REGEX_DIGITS) &&
-                (NAME.equals(filterEntity.getOrderKey()) || COST.equals(filterEntity.getOrderKey())) &&
-                ("ASC".equals(filterEntity.getOrderDirection()) || "DESC".equals(filterEntity.getOrderDirection()));
+        if (!isNullOrEmpty(filterEntity.getLowPrice()) && !isMatchedRegex(filterEntity.getLowPrice(), REGEX_DIGITS)) {
+            return false;
+        }
+        if (!isNullOrEmpty(filterEntity.getHighPrice()) && !isMatchedRegex(filterEntity.getHighPrice(), REGEX_DIGITS)) {
+            return false;
+        }
+        return (NAME.equals(filterEntity.getOrderKey()) || COST.equals(filterEntity.getOrderKey())) &&
+                (ASC.equals(filterEntity.getOrderDirection()) || DESC.equals(filterEntity.getOrderDirection()));
     }
 
     private static boolean validateFullName(String fullName) {

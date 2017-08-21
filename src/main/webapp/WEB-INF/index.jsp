@@ -101,7 +101,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <li class="active"><a href="/viewHomePage" class="act">Home</a></li>
                         <!-- Mega Menu -->
                         <li class="dropdown">
-                            <a href="/viewTools?numberToolsOnPage=3">Tool</a>
+                            <a href="/viewTools">Tool</a>
                         </li>
                     </ul>
                 </div>

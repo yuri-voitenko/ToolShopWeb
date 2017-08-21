@@ -101,7 +101,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <li><a href="/viewHomePage" class="act">Home</a></li>
                         <!-- Mega Menu -->
                         <li class="dropdown">
-                            <a href="/viewTools?numberToolsOnPage=3">Tool</a>
+                            <a href="/viewTools">Tool</a>
                         </li>
                     </ul>
                 </div>
@@ -206,8 +206,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </div>
             </div>
             <!--//price-->
-            <input type="submit" value="Apply" form="filter">
-            <input type="reset" value="Reset" form="filter">
+            <input type="submit" class="btn btn-lg btn-success" value="Apply" form="filter">&emsp;&emsp;
+            <a href="/viewTools" lass="act"><span class="label label-warning">Reset filter</span></a>
         </div>
         <div class="col-md-9 animated wow fadeInRight" data-wow-delay=".5s">
             <div class="mens-toolbar">
