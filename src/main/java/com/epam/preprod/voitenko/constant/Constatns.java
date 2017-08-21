@@ -5,7 +5,9 @@ public class Constatns {
     }
 
     public static final String PATH_TO_AVATARS = "/src/main/webapp/images/avatars/";
+    public static final String PATH_TO_TOOL_IMAGES = "/src/main/webapp/images/tools/";
     public static final String DEFAULT_AVATAR = "default.png";
+    public static final String DEFAULT_TOOL_IMAGE = "default.png";
     public static final String EMPTY_STRING = "";
 
     public class RegEx {

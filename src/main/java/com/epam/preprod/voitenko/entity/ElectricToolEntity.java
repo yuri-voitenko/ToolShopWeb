@@ -2,6 +2,8 @@ package com.epam.preprod.voitenko.entity;
 
 import java.math.BigDecimal;
 
+import static com.epam.preprod.voitenko.constant.Constatns.DEFAULT_TOOL_IMAGE;
+
 public class ElectricToolEntity {
     private int id;
     private String name;
@@ -15,6 +17,8 @@ public class ElectricToolEntity {
     private String additionalImage;
 
     public ElectricToolEntity() {
+        this.mainImage = DEFAULT_TOOL_IMAGE;
+        this.additionalImage = DEFAULT_TOOL_IMAGE;
     }
 
     public ElectricToolEntity(String name, String category, String manufacturer, int power,

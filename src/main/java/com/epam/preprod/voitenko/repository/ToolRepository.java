@@ -4,6 +4,7 @@ import com.epam.preprod.voitenko.entity.ElectricToolEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,8 @@ import java.util.List;
 
 import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.*;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
+import static com.epam.preprod.voitenko.constant.Constatns.PATH_TO_TOOL_IMAGES;
+import static java.nio.file.Files.exists;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 public class ToolRepository implements GeneralRepository<ElectricToolEntity, Integer> {
@@ -222,9 +225,23 @@ public class ToolRepository implements GeneralRepository<ElectricToolEntity, Int
         toolEntity.setMaxRotationSpeed(resultSet.getInt(MAX_ROTATION_SPEED));
         toolEntity.setWeight(resultSet.getBigDecimal(WEIGHT));
         toolEntity.setCost(resultSet.getBigDecimal(COST));
-        toolEntity.setMainImage(resultSet.getString(MAIN_IMAGE));
-        toolEntity.setAdditionalImage(resultSet.getString(ADDITIONAL_IMAGE));
+        Object mainImage = resultSet.getObject(MAIN_IMAGE);
+        if (isExistToolImage(mainImage)) {
+            toolEntity.setMainImage(mainImage.toString());
+        }
+        Object additionalImage = resultSet.getObject(ADDITIONAL_IMAGE);
+        if (isExistToolImage(additionalImage)) {
+            toolEntity.setAdditionalImage(additionalImage.toString());
+        }
         return toolEntity;
+    }
+
+    private boolean isExistToolImage(Object image) {
+        if (image != null) {
+            String fullPath = System.getProperty("user.dir") + PATH_TO_TOOL_IMAGES + image.toString();
+            return exists(Paths.get(fullPath));
+        }
+        return false;
     }
 
     private void checkObjectIsNull(Object object) {

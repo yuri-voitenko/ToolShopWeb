@@ -270,10 +270,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <figure>
                                     <a href="#">
                                         <div class="grid-img">
-                                            <img src="images/pr1_1.jpg" class="img-responsive" alt="">
+                                            <img src="images/tools/${curTool.additionalImage}" class="img-responsive" alt="">
                                         </div>
                                         <div class="grid-img">
-                                            <img src="images/pr1_2.jpg" class="img-responsive" alt="">
+                                            <img src="images/tools/${curTool.mainImage}" class="img-responsive" alt="">
                                         </div>
                                     </a>
                                 </figure>
