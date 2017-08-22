@@ -1,8 +1,10 @@
 package com.epam.preprod.voitenko.entity;
 
+import java.io.Serializable;
+
 import static com.epam.preprod.voitenko.constant.Constatns.DEFAULT_AVATAR;
 
-public class UserEntity {
+public class UserEntity implements Serializable {
     private int id;
     private String email;
     private String password;

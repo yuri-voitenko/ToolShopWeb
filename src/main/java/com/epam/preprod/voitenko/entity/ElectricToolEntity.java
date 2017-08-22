@@ -1,10 +1,11 @@
 package com.epam.preprod.voitenko.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import static com.epam.preprod.voitenko.constant.Constatns.DEFAULT_TOOL_IMAGE;
 
-public class ElectricToolEntity {
+public class ElectricToolEntity implements Serializable {
     private int id;
     private String name;
     private String category;

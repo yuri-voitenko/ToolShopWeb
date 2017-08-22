@@ -1,8 +1,10 @@
 package com.epam.preprod.voitenko.entity;
 
+import java.io.Serializable;
+
 import static com.epam.preprod.voitenko.constant.Constatns.EMPTY_STRING;
 
-public class LoginEntity {
+public class LoginEntity implements Serializable {
     private String email;
     private String password;
 

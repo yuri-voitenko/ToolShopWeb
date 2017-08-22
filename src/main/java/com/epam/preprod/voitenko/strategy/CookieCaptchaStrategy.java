@@ -13,6 +13,7 @@ public class CookieCaptchaStrategy implements CaptchaStrategy {
     public void setIdCaptcha(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         String valueCookie = String.valueOf(CaptchaRepository.addCaptcha());
         Cookie cookie = new Cookie(ID_CAPTCHA, valueCookie);
+        cookie.setSecure(true);
         httpServletResponse.addCookie(cookie);
     }
 

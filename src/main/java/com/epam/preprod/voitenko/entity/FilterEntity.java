@@ -1,11 +1,12 @@
 package com.epam.preprod.voitenko.entity;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.ASC;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.COST;
 
-public class FilterEntity {
+public class FilterEntity implements Serializable {
     private String nameTool;
     private String category;
     private String[] manufacturers;
