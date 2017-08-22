@@ -17,7 +17,6 @@ import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.*;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 import static com.epam.preprod.voitenko.constant.Constatns.PATH_TO_AVATARS;
 import static com.epam.preprod.voitenko.util.ServiceUtil.getHashPassword;
-import static java.nio.file.Files.exists;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 public class UserRepository implements GeneralRepository<UserEntity, Integer> {
@@ -185,7 +184,7 @@ public class UserRepository implements GeneralRepository<UserEntity, Integer> {
         Object avatar = resultSet.getObject(AVATAR);
         if (avatar != null) {
             String fullPath = System.getProperty("user.dir") + PATH_TO_AVATARS + avatar.toString();
-            if (exists(Paths.get(fullPath))) {
+            if (Paths.get(fullPath).toFile().exists()) {
                 userEntity.setAvatar(avatar.toString());
             }
         }

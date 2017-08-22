@@ -21,7 +21,6 @@ import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 import static com.epam.preprod.voitenko.constant.Constatns.PATH_TO_AVATARS;
 import static com.epam.preprod.voitenko.constant.Constatns.RegEx.*;
 import static com.epam.preprod.voitenko.util.ValidatorUtil.isNullOrEmpty;
-import static java.nio.file.Files.exists;
 
 public class ServiceUtil {
     private static final Logger LOGGER = LogManager.getLogger(ServiceUtil.class);
@@ -44,7 +43,7 @@ public class ServiceUtil {
 
     public static FilterEntity extractFilterEntity(HttpServletRequest httpServletRequest) {
         FilterEntity filterEntity = new FilterEntity();
-        filterEntity.setNameTool(httpServletRequest.getParameter(NAME_TOOl));
+        filterEntity.setNameTool(httpServletRequest.getParameter(NAME_TOOL));
         filterEntity.setCategory(httpServletRequest.getParameter(CATEGORY));
         filterEntity.setManufacturers(httpServletRequest.getParameterValues(MANUFACTURER));
         filterEntity.setLowPrice(httpServletRequest.getParameter(LOW_PRICE));
@@ -139,7 +138,7 @@ public class ServiceUtil {
                     String newFileName = "avatar_" + UUID.randomUUID() + "$2$3";
                     fileName = fileName.replaceFirst(REGEX_REPLACE_FILE_NAME_IMAGE, newFileName);
                     fullPath = System.getProperty("user.dir") + PATH_TO_AVATARS + fileName;
-                } while (exists(Paths.get(fullPath)));
+                } while (Paths.get(fullPath).toFile().exists());
                 regBean.setAvatar(fileName);
                 part.write(fullPath);
             }

@@ -36,15 +36,8 @@ public class ElectricToolEntity implements Serializable {
     }
 
     public ElectricToolEntity(ElectricToolEntity anotherObject) {
-        this.name = anotherObject.name;
-        this.category = anotherObject.category;
-        this.manufacturer = anotherObject.manufacturer;
-        this.power = anotherObject.power;
-        this.maxRotationSpeed = anotherObject.maxRotationSpeed;
-        this.weight = anotherObject.weight;
-        this.cost = anotherObject.cost;
-        this.mainImage = anotherObject.mainImage;
-        this.additionalImage = anotherObject.additionalImage;
+        this(anotherObject.name, anotherObject.category, anotherObject.manufacturer, anotherObject.power, anotherObject.maxRotationSpeed,
+                anotherObject.weight, anotherObject.cost, anotherObject.mainImage, anotherObject.additionalImage);
     }
 
     public int getId() {

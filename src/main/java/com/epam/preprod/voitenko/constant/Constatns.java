@@ -32,7 +32,7 @@ public class Constatns {
         public static final String STRATEGY = "strategy";
         public static final String CAPTCHA_STRATEGY = "CaptchaStrategy";
         public static final String TIMEOUT = "Timeout";
-        public static final String NAME_TOOl = "nameTool";
+        public static final String NAME_TOOL = "nameTool";
         public static final String LOW_PRICE = "lowPrice";
         public static final String HIGH_PRICE = "highPrice";
         public static final String ORDER_KEY = "orderKey";

@@ -7,14 +7,11 @@ import static com.epam.preprod.voitenko.constant.Constatns.Keys.COST;
 
 public class SQLBuilder {
 
-    private List<String> wheres = new ArrayList<String>();
+    private List<String> wheres = new ArrayList<>();
     private String orderKey = null;
     private String orderDirection = null;
     private String offset = null;
     private String numberRecords = null;
-
-    public SQLBuilder() {
-    }
 
     public SQLBuilder where(String expr) {
         wheres.add(expr);

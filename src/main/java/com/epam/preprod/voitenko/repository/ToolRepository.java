@@ -15,7 +15,6 @@ import java.util.List;
 import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.*;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 import static com.epam.preprod.voitenko.constant.Constatns.PATH_TO_TOOL_IMAGES;
-import static java.nio.file.Files.exists;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 public class ToolRepository implements GeneralRepository<ElectricToolEntity, Integer> {
@@ -239,7 +238,7 @@ public class ToolRepository implements GeneralRepository<ElectricToolEntity, Int
     private boolean isExistToolImage(Object image) {
         if (image != null) {
             String fullPath = System.getProperty("user.dir") + PATH_TO_TOOL_IMAGES + image.toString();
-            return exists(Paths.get(fullPath));
+            return Paths.get(fullPath).toFile().exists();
         }
         return false;
     }
