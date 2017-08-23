@@ -33,6 +33,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <!-- //js -->
                     <!-- cart -->
                     <script src="js/simpleCart.min.js"></script>
+                    <script src="js/cart.js"></script>
                     <!-- cart -->
                     <!-- for bootstrap working -->
                     <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
@@ -269,7 +270,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                                     <h5>Max rotation speed:${curTool.maxRotationSpeed}</h5>
                                                     <h5>Weight:${curTool.weight}</h5>
                                                     <em class="item_price">$${curTool.cost}</em></p>
-                                                    <a href="#" data-text="Add To Cart" class="but-hover1 item_add">Add To Cart</a>
+                                                    <button id="${curTool.id}" class="item_add">Add To Cart</a></button>
                                                 </div>
                                             </div>
                                         </div>
