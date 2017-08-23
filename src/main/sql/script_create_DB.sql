@@ -27,6 +27,31 @@ CREATE TABLE tools (
   PRIMARY KEY (id), UNIQUE (id), UNIQUE (manufacturer), UNIQUE (category)
 );
 
+CREATE TABLE info_ordered_tools (
+  id int NOT NULL AUTO_INCREMENT,
+  toolID int,
+  cost DECIMAL(5, 2) NOT NULL,
+  amount int NOT NULL,
+  PRIMARY KEY (id), UNIQUE (id),
+  FOREIGN KEY (toolID) REFERENCES tools(id) ON DELETE CASCADE
+);
+
+CREATE TABLE orders (
+  id int NOT NULL AUTO_INCREMENT,
+  status ENUM( 'ACCEPTED', 'CONFIRMED', 'FORMING', 'SENT', 'COMPLETED', 'CANCELED'),
+  statusDetail varchar(255) NOT NULL,
+  dateTime DATETIME DEFAULT CURRENT_TIMESTAMP,
+  userID int,
+  PRIMARY KEY (id), UNIQUE (id),
+  FOREIGN KEY (userID) REFERENCES users(id) ON DELETE CASCADE
+);
+CREATE TABLE list_ordered_tools (
+  orderID int,
+  infoOrderedToolID int,
+  FOREIGN KEY (orderID) REFERENCES orders(id) ON DELETE CASCADE,
+  FOREIGN KEY (infoOrderedToolID) REFERENCES info_ordered_tools(id) ON DELETE CASCADE
+);
+
 INSERT INTO users
     (email, password, fullName, phoneNumber, address, avatar)
 VALUES
@@ -59,3 +84,25 @@ VALUES
     ("YTG-85933", "Electric airbrush", "Stern", 3500, 8000, 4.2, 36.1, "pr18_1.jpg", "pr18_2.jpg"),
     ("FAJ-56317", "Vibrating grinder", "Дніпро-М", 4000, 15000, 2.0, 48.0, "pr19_1.jpg", "pr19_2.jpg"),
     ("XSZ-12517", "Wall chaser", "Hitachi", 3200, 8500, 4.9, 25.9, "pr20_1.jpg", "pr20_2.jpg");
+
+INSERT INTO info_ordered_tools
+    (toolID, cost, amount)
+VALUES
+    (1, 2.2, 1),
+    (5, 2.2, 5),
+    (10, 2.2, 2);
+
+INSERT INTO orders
+    (status, statusDetail, userID)
+VALUES
+    ("ACCEPTED", "Detail status1", 1),
+    ("FORMING", "Detail status2", 2),
+    ("COMPLETED", "Detail status3", 3);
+
+INSERT INTO list_ordered_tools
+    (orderID, infoOrderedToolID)
+VALUES
+    (1, 2),
+    (1, 1),
+    (1, 3),
+    (2, 2);
