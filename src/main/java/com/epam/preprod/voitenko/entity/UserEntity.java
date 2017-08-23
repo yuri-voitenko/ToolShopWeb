@@ -1,8 +1,10 @@
 package com.epam.preprod.voitenko.entity;
 
+import java.io.Serializable;
+
 import static com.epam.preprod.voitenko.constant.Constatns.DEFAULT_AVATAR;
 
-public class UserEntity {
+public class UserEntity implements Serializable {
     private int id;
     private String email;
     private String password;
@@ -16,12 +18,7 @@ public class UserEntity {
     }
 
     public UserEntity(String email, String password, String fullName, String phoneNumber, String address) {
-        this.email = email;
-        this.password = password;
-        this.fullName = fullName;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.avatar = DEFAULT_AVATAR;
+        this(email, password, fullName, phoneNumber, address, DEFAULT_AVATAR);
     }
 
     public UserEntity(String email, String password, String fullName, String phoneNumber, String address, String avatar) {

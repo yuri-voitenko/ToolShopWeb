@@ -1,9 +1,11 @@
 package com.epam.preprod.voitenko.entity;
 
+import java.io.Serializable;
+
 import static com.epam.preprod.voitenko.constant.Constatns.DEFAULT_AVATAR;
 import static com.epam.preprod.voitenko.constant.Constatns.EMPTY_STRING;
 
-public class RegisterEntity {
+public class RegisterEntity implements Serializable {
     private String email;
     private String password;
     private String repeatedPassword;

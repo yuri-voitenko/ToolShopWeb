@@ -50,9 +50,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <div class="header">
     <div class="header-grid">
         <div class="container">
-            <div class="header-left animated wow fadeInLeft" data-wow-delay=".5s">
-                <myTag:login/>
-            </div>
             <div class="header-right animated wow fadeInRight" data-wow-delay=".5s">
                 <div class="header-right1 ">
                     <ul>
@@ -102,21 +99,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <li><a href="/viewHomePage" class="act">Home</a></li>
                         <!-- Mega Menu -->
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools <b class="caret"></b></a>
-                            <ul class="dropdown-menu multi multi1">
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <ul class="multi-column-dropdown">
-                                            <h6>Electric Tools</h6>
-                                            <li><a href="products.html">All</a></li>
-                                            <li><a href="products.html">Angle Grinder</a></li>
-                                            <li><a href="products.html">Drill</a></li>
-                                            <li><a href="products.html">Perforator</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </ul>
+                            <a href="/viewTools">Tool</a>
                         </li>
                     </ul>
                 </div>

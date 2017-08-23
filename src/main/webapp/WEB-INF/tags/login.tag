@@ -7,7 +7,7 @@
             <input type="email" name="email" placeholder="Email" required="">
             <input type="password" name="password"
                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$" placeholder="Password"
-                   title="Password requirements:&#013;&emsp;* At least one upper case English letter&#013;&emsp;* At least one lower case English letter&#013;&emsp;* At least one digit&#013;&emsp;* At least one special character&#013;&emsp;* Minimum eight in length"
+                   title="Password requirements:&#10;&emsp;* At least one upper case English letter&#10;&emsp;* At least one lower case English letter&#10;&emsp;* At least one digit&#10;&emsp;* At least one special character&#10;&emsp;* Minimum eight in length"
                    required="">
             <input type="submit" value="login">
         </form>

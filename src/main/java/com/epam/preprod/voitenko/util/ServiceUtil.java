@@ -1,8 +1,10 @@
 package com.epam.preprod.voitenko.util;
 
+import com.epam.preprod.voitenko.entity.FilterEntity;
 import com.epam.preprod.voitenko.entity.LoginEntity;
 import com.epam.preprod.voitenko.entity.RegisterEntity;
 import com.epam.preprod.voitenko.entity.UserEntity;
+import com.epam.preprod.voitenko.sqlbuilder.SQLBuilder;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +20,7 @@ import java.util.UUID;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 import static com.epam.preprod.voitenko.constant.Constatns.PATH_TO_AVATARS;
 import static com.epam.preprod.voitenko.constant.Constatns.RegEx.*;
-import static java.nio.file.Files.exists;
+import static com.epam.preprod.voitenko.util.ValidatorUtil.isNullOrEmpty;
 
 public class ServiceUtil {
     private static final Logger LOGGER = LogManager.getLogger(ServiceUtil.class);
@@ -39,26 +41,82 @@ public class ServiceUtil {
         }
     }
 
-    public static LoginEntity extractLoginBean(HttpServletRequest httpServletRequest) {
+    public static FilterEntity extractFilterEntity(HttpServletRequest httpServletRequest) {
+        FilterEntity filterEntity = new FilterEntity();
+        filterEntity.setNameTool(httpServletRequest.getParameter(NAME_TOOL));
+        filterEntity.setCategory(httpServletRequest.getParameter(CATEGORY));
+        filterEntity.setManufacturers(httpServletRequest.getParameterValues(MANUFACTURER));
+        filterEntity.setLowPrice(httpServletRequest.getParameter(LOW_PRICE));
+        filterEntity.setHighPrice(httpServletRequest.getParameter(HIGH_PRICE));
+
+        String orderKey = httpServletRequest.getParameter(ORDER_KEY);
+        if (orderKey != null) {
+            filterEntity.setOrderKey(orderKey);
+        }
+        String orderDirection = httpServletRequest.getParameter(ORDER_DIRECTION);
+        if (orderDirection != null) {
+            filterEntity.setOrderDirection(orderDirection);
+        }
+        String numberToolsOnPage = httpServletRequest.getParameter(NUMBER_TOOLS_ON_PAGE);
+        if (numberToolsOnPage != null) {
+            filterEntity.setNumberToolsOnPage(numberToolsOnPage);
+        }
+        String numberPage = httpServletRequest.getParameter(NUMBER_PAGE);
+        if (numberPage != null) {
+            filterEntity.setNumberPage(numberPage);
+        }
+        return filterEntity;
+    }
+
+    public static LoginEntity extractLoginEntity(HttpServletRequest httpServletRequest) {
         LoginEntity loginEntity = new LoginEntity();
         loginEntity.setEmail(httpServletRequest.getParameter(EMAIL));
         loginEntity.setPassword(httpServletRequest.getParameter(PASSWORD));
         return loginEntity;
     }
 
-    public static RegisterEntity extractRegisterBean(HttpServletRequest httpServletRequest) {
-        RegisterEntity regBean = new RegisterEntity();
-        regBean.setFullName(httpServletRequest.getParameter(FULL_NAME));
-        regBean.setAddress(httpServletRequest.getParameter(ADDRESS));
-        regBean.setPhoneNumber(httpServletRequest.getParameter(PHONE_NUMBER));
-        regBean.setEmail(httpServletRequest.getParameter(EMAIL));
-        regBean.setPassword(httpServletRequest.getParameter(PASSWORD));
-        regBean.setRepeatedPassword(httpServletRequest.getParameter(PASSWORD_CHECK));
-        uploadAvatar(httpServletRequest, regBean);
-        return regBean;
+    public static RegisterEntity extractRegisterEntity(HttpServletRequest httpServletRequest) {
+        RegisterEntity registerEntity = new RegisterEntity();
+        registerEntity.setFullName(httpServletRequest.getParameter(FULL_NAME));
+        registerEntity.setAddress(httpServletRequest.getParameter(ADDRESS));
+        registerEntity.setPhoneNumber(httpServletRequest.getParameter(PHONE_NUMBER));
+        registerEntity.setEmail(httpServletRequest.getParameter(EMAIL));
+        registerEntity.setPassword(httpServletRequest.getParameter(PASSWORD));
+        registerEntity.setRepeatedPassword(httpServletRequest.getParameter(PASSWORD_CHECK));
+        uploadAvatar(httpServletRequest, registerEntity);
+        return registerEntity;
     }
 
-    public static UserEntity fillUserBean(RegisterEntity registerEntity) {
+    public static String createSQL(FilterEntity filterEntity) {
+        SQLBuilder sqlBuilder = new SQLBuilder();
+        if (!isNullOrEmpty(filterEntity.getNameTool())) {
+            sqlBuilder.where(NAME + " LIKE '%" + filterEntity.getNameTool() + "%'");
+        }
+        if (!isNullOrEmpty(filterEntity.getCategory())) {
+            sqlBuilder.where(CATEGORY + " LIKE '" + filterEntity.getCategory() + "'");
+        }
+        if (!isNullOrEmpty(filterEntity.getManufacturers())) {
+            StringBuilder values = new StringBuilder();
+            for (String manufacturer : filterEntity.getManufacturers()) {
+                values.append('\'');
+                values.append(manufacturer);
+                values.append("', ");
+            }
+            values.delete(values.length() - 2, values.length());
+            sqlBuilder.where(MANUFACTURER + " IN (" + values + ")");
+        }
+        if (!isNullOrEmpty(filterEntity.getLowPrice())) {
+            sqlBuilder.where(COST + " >= " + filterEntity.getLowPrice());
+        }
+        if (!isNullOrEmpty(filterEntity.getHighPrice())) {
+            sqlBuilder.where(COST + " <= " + filterEntity.getHighPrice());
+        }
+        sqlBuilder.orderBy(filterEntity.getOrderKey(), filterEntity.getOrderDirection());
+        sqlBuilder.limit(filterEntity.getNumberPage(), filterEntity.getNumberToolsOnPage());
+        return sqlBuilder.toString();
+    }
+
+    public static UserEntity fillUserEntity(RegisterEntity registerEntity) {
         UserEntity userEntity = new UserEntity();
         userEntity.setFullName(registerEntity.getFullName());
         userEntity.setAddress(registerEntity.getAddress());
@@ -80,7 +138,7 @@ public class ServiceUtil {
                     String newFileName = "avatar_" + UUID.randomUUID() + "$2$3";
                     fileName = fileName.replaceFirst(REGEX_REPLACE_FILE_NAME_IMAGE, newFileName);
                     fullPath = System.getProperty("user.dir") + PATH_TO_AVATARS + fileName;
-                } while (exists(Paths.get(fullPath)));
+                } while (Paths.get(fullPath).toFile().exists());
                 regBean.setAvatar(fileName);
                 part.write(fullPath);
             }

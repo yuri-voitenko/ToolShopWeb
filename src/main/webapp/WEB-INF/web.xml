@@ -16,6 +16,14 @@
         <servlet-name>ViewLogin</servlet-name>
         <url-pattern>/viewLoginForm</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>BadRequest</servlet-name>
+        <jsp-file>/WEB-INF/400.html</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BadRequest</servlet-name>
+        <url-pattern>/badRequest</url-pattern>
+    </servlet-mapping>
     <context-param>
         <param-name>CaptchaStrategy</param-name>
         <param-value>session</param-value>

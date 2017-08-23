@@ -5,7 +5,9 @@ public class Constatns {
     }
 
     public static final String PATH_TO_AVATARS = "/src/main/webapp/images/avatars/";
+    public static final String PATH_TO_TOOL_IMAGES = "/src/main/webapp/images/tools/";
     public static final String DEFAULT_AVATAR = "default.png";
+    public static final String DEFAULT_TOOL_IMAGE = "default.png";
     public static final String EMPTY_STRING = "";
 
     public class RegEx {
@@ -14,6 +16,7 @@ public class Constatns {
 
         public static final String REGEX_FULL_NAME = "([a-zA-Z]{2,}\\s[a-zA-z]{1,}'?-?[a-zA-Z]{2,}\\s?([a-zA-Z]{1,})?)";
         public static final String REGEX_NOT_DIGIT = "\\D";
+        public static final String REGEX_DIGITS = "\\d+";
         public static final String REGEX_EMAIL = "(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))";
         public static final String REGEX_PASSWORD = "(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}";
         public static final String REGEX_CAPTCHA_CODE = "\\d{10}";
@@ -29,24 +32,52 @@ public class Constatns {
         public static final String STRATEGY = "strategy";
         public static final String CAPTCHA_STRATEGY = "CaptchaStrategy";
         public static final String TIMEOUT = "Timeout";
+        public static final String NAME_TOOL = "nameTool";
+        public static final String LOW_PRICE = "lowPrice";
+        public static final String HIGH_PRICE = "highPrice";
+        public static final String ORDER_KEY = "orderKey";
+        public static final String ORDER_DIRECTION = "orderDirection";
+        public static final String NUMBER_TOOLS_ON_PAGE = "numberToolsOnPage";
+        public static final String NUMBER_PAGE = "numberPage";
+        public static final String CATEGORIES = "categories";
+        public static final String MANUFACTURERS = "manufacturers";
+        public static final String TOOLS = "tools";
+        public static final String NUMBER_SUITABLE_TOOLS = "numberSuitableTools";
+        public static final String AMOUNT_PAGES = "amountPages";
 
         public static final String REG_ENTITY = "regEntity";
         public static final String LOGIN_ENTITY = "logEntity";
         public static final String USER_ENTITY = "userEntity";
+        public static final String FILTER_ENTITY = "filterEntity";
         public static final String ERRORS = "errors";
 
+        public static final String PASSWORD_CHECK = "passwordCheck";
+        public static final String CAPTCHA = "captcha";
+        public static final String ID_CAPTCHA = "idCaptcha";
+        public static final String SUCCESS_REGISTRATION = "successRegistration";
+        public static final String FAIL_REGISTRATION = "failRegistration";
+
+        // common
         public static final String ID = "id";
+        public static final String ASC = "ASC";
+        public static final String DESC = "DESC";
+        // users
         public static final String FULL_NAME = "fullName";
         public static final String ADDRESS = "address";
         public static final String PHONE_NUMBER = "phoneNumber";
         public static final String EMAIL = "email";
         public static final String PASSWORD = "password";
-        public static final String PASSWORD_CHECK = "passwordCheck";
-        public static final String CAPTCHA = "captcha";
         public static final String AVATAR = "avatar";
-        public static final String ID_CAPTCHA = "idCaptcha";
-        public static final String SUCCESS_REGISTRATION = "successRegistration";
-        public static final String FAIL_REGISTRATION = "failRegistration";
+        // tools
+        public static final String NAME = "name";
+        public static final String CATEGORY = "category";
+        public static final String MANUFACTURER = "manufacturer";
+        public static final String POWER = "power";
+        public static final String MAX_ROTATION_SPEED = "maxRotationSpeed";
+        public static final String WEIGHT = "weight";
+        public static final String COST = "cost";
+        public static final String MAIN_IMAGE = "mainImage";
+        public static final String ADDITIONAL_IMAGE = "additionalImage";
     }
 
     public class Message {
@@ -80,12 +111,21 @@ public class Constatns {
         }
 
         public static final String INTERRUPTED_EXCEPTION = "InterruptedException has occurred in CaptchaCleaner";
+        // user
         public static final String CANNOT_GET_ALL_USERS = "Can not get a list of all users";
         public static final String CANNOT_GET_USER_BY_ID = "Can not get a user with such id";
         public static final String CANNOT_GET_USER_BY_EMAIL = "Can not get a user with such email";
         public static final String CANNOT_UPDATE_USER = "Can not update user";
         public static final String CANNOT_DELETE_USER = "Can not delete user with such id";
         public static final String CANNOT_CREATE_USER = "Can not create a new user";
+        // tool
+        public static final String CANNOT_GET_ALL_TOOLS = "Can not get a list of all tools";
+        public static final String CANNOT_GET_ALL_CATEGORIES = "Can not get a list of all categories";
+        public static final String CANNOT_GET_ALL_MANUFACTURERS = "Can not get a list of all manufacturers";
+        public static final String CANNOT_GET_TOOL_BY_ID = "Can not get a tool with such id";
+        public static final String CANNOT_UPDATE_TOOL = "Can not update tool";
+        public static final String CANNOT_DELETE_TOOL = "Can not delete tool with such id";
+        public static final String CANNOT_CREATE_TOOL = "Can not create a new tool";
 
         public static final String CANNOT_CLOSE_RESULT_SET = "Can not close ResultSet";
         public static final String CANNOT_CLOSE_STATEMENT = "Can not close Statement";

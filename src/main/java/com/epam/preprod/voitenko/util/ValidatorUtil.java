@@ -1,6 +1,7 @@
 package com.epam.preprod.voitenko.util;
 
 import com.epam.preprod.voitenko.captcha.Captcha;
+import com.epam.preprod.voitenko.entity.FilterEntity;
 import com.epam.preprod.voitenko.entity.LoginEntity;
 import com.epam.preprod.voitenko.entity.RegisterEntity;
 import com.epam.preprod.voitenko.repository.CaptchaRepository;
@@ -52,6 +53,17 @@ public class ValidatorUtil {
             loginEntity.setPassword(EMPTY_STRING);
         }
         return errorMessages;
+    }
+
+    public static boolean validate(FilterEntity filterEntity) {
+        if (!isNullOrEmpty(filterEntity.getLowPrice()) && !isMatchedRegex(filterEntity.getLowPrice(), REGEX_DIGITS)) {
+            return false;
+        }
+        if (!isNullOrEmpty(filterEntity.getHighPrice()) && !isMatchedRegex(filterEntity.getHighPrice(), REGEX_DIGITS)) {
+            return false;
+        }
+        return (NAME.equals(filterEntity.getOrderKey()) || COST.equals(filterEntity.getOrderKey())) &&
+                (ASC.equals(filterEntity.getOrderDirection()) || DESC.equals(filterEntity.getOrderDirection()));
     }
 
     private static boolean validateFullName(String fullName) {
@@ -150,7 +162,11 @@ public class ValidatorUtil {
         return verify != null && verify.matches(regexPattern);
     }
 
-    private static boolean isNullOrEmpty(String verify) {
+    public static boolean isNullOrEmpty(String verify) {
         return verify == null || verify.isEmpty();
+    }
+
+    public static boolean isNullOrEmpty(String[] array) {
+        return array == null || array.length == 0;
     }
 }
