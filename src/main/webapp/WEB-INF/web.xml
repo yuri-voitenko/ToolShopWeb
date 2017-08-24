@@ -17,6 +17,14 @@
         <url-pattern>/viewLoginForm</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>ViewCart</servlet-name>
+        <jsp-file>/WEB-INF/cart.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewCart</servlet-name>
+        <url-pattern>/viewCart</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>BadRequest</servlet-name>
         <jsp-file>/WEB-INF/400.html</jsp-file>
     </servlet>

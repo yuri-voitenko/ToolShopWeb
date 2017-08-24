@@ -8,7 +8,13 @@ public interface Cart<T> {
 
     Integer deleteProduct(T entity);
 
+    Integer reduceQuantityProduct(T entity);
+
+    void clear();
+
     Map<T, Integer> getContent();
 
     BigDecimal getTotalSumPurchase();
+
+    Integer getTotalQuantityProducts();
 }

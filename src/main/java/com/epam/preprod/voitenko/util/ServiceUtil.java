@@ -1,9 +1,6 @@
 package com.epam.preprod.voitenko.util;
 
-import com.epam.preprod.voitenko.entity.FilterEntity;
-import com.epam.preprod.voitenko.entity.LoginEntity;
-import com.epam.preprod.voitenko.entity.RegisterEntity;
-import com.epam.preprod.voitenko.entity.UserEntity;
+import com.epam.preprod.voitenko.entity.*;
 import com.epam.preprod.voitenko.sqlbuilder.SQLBuilder;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
@@ -125,6 +122,14 @@ public class ServiceUtil {
         userEntity.setPassword(registerEntity.getPassword());
         userEntity.setAvatar(registerEntity.getAvatar());
         return userEntity;
+    }
+
+    public static Cart<ElectricToolEntity> getCart(HttpSession session) {
+        Cart<ElectricToolEntity> cart = (CartEntity) session.getAttribute(CART);
+        if (cart == null) {
+            cart = new CartEntity();
+        }
+        return cart;
     }
 
     private static void uploadAvatar(HttpServletRequest httpServletRequest, RegisterEntity regBean) {
