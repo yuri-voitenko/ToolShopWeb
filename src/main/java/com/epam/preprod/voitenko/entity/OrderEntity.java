@@ -1,9 +1,10 @@
 package com.epam.preprod.voitenko.entity;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
-public class Order {
+public class OrderEntity {
     private int id;
     private OrderStatus status;
     private String detailStatus;
@@ -12,11 +13,14 @@ public class Order {
     private UserEntity user;
     private List<InfoOrderedToolEntity> orders;
 
-    public Order(OrderStatus status, String detailStatus, String address, Timestamp dateTime, UserEntity user, List<InfoOrderedToolEntity> orders) {
+    public OrderEntity() {
+    }
+
+    public OrderEntity(OrderStatus status, String detailStatus, String address, UserEntity user, List<InfoOrderedToolEntity> orders) {
         this.status = status;
         this.detailStatus = detailStatus;
         this.address = address;
-        this.dateTime = dateTime;
+        this.dateTime = getCurrentTimestamp();
         this.user = user;
         this.orders = orders;
     }
@@ -75,5 +79,11 @@ public class Order {
 
     public void setOrders(List<InfoOrderedToolEntity> orders) {
         this.orders = orders;
+    }
+
+    private Timestamp getCurrentTimestamp() {
+        Instant instant = Instant.now();
+        long timeStampMillis = instant.toEpochMilli();
+        return new Timestamp(timeStampMillis);
     }
 }

@@ -64,11 +64,11 @@ public class Constatns {
 
         // common
         public static final String ID = "id";
+        public static final String ADDRESS = "address";
         public static final String ASC = "ASC";
         public static final String DESC = "DESC";
         // users
         public static final String FULL_NAME = "fullName";
-        public static final String ADDRESS = "address";
         public static final String PHONE_NUMBER = "phoneNumber";
         public static final String EMAIL = "email";
         public static final String PASSWORD = "password";
@@ -83,6 +83,12 @@ public class Constatns {
         public static final String COST = "cost";
         public static final String MAIN_IMAGE = "mainImage";
         public static final String ADDITIONAL_IMAGE = "additionalImage";
+        // orders
+        public static final String STATUS = "status";
+        public static final String STATUS_DETAIL = "statusDetail";
+        public static final String DATE_TIME = "dateTime";
+        public static final String USER_ID = "userID";
+
     }
 
     public class Message {
@@ -109,6 +115,7 @@ public class Constatns {
 
         public static final String NOT_LOGIN_EMAIL = "There is no registered user with such e-mail!";
         public static final String NOT_LOGIN_PASSWORD = "There is no registered user with such password";
+        public static final String UNAUTHORIZED_USER = "You need to sign in or register to place an order";
     }
 
     public class Exceptions {
@@ -131,6 +138,12 @@ public class Constatns {
         public static final String CANNOT_UPDATE_TOOL = "Can not update tool";
         public static final String CANNOT_DELETE_TOOL = "Can not delete tool with such id";
         public static final String CANNOT_CREATE_TOOL = "Can not create a new tool";
+        // order
+        public static final String CANNOT_GET_ALL_ORDERS = "Can not get a list of all orders";
+        public static final String CANNOT_GET_ORDER_BY_ID = "Can not get a order with such id";
+        public static final String CANNOT_UPDATE_ORDER = "Can not update order";
+        public static final String CANNOT_DELETE_ORDER = "Can not delete tool order such id";
+        public static final String CANNOT_CREATE_ORDER = "Can not create a new order";
 
         public static final String CANNOT_CLOSE_RESULT_SET = "Can not close ResultSet";
         public static final String CANNOT_CLOSE_STATEMENT = "Can not close Statement";
