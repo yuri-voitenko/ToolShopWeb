@@ -7,13 +7,15 @@ public class Order {
     private int id;
     private OrderStatus status;
     private String detailStatus;
+    private String address;
     private Timestamp dateTime;
     private UserEntity user;
     private List<InfoOrderedToolEntity> orders;
 
-    public Order(OrderStatus status, String detailStatus, Timestamp dateTime, UserEntity user, List<InfoOrderedToolEntity> orders) {
+    public Order(OrderStatus status, String detailStatus, String address, Timestamp dateTime, UserEntity user, List<InfoOrderedToolEntity> orders) {
         this.status = status;
         this.detailStatus = detailStatus;
+        this.address = address;
         this.dateTime = dateTime;
         this.user = user;
         this.orders = orders;
@@ -41,6 +43,14 @@ public class Order {
 
     public void setDetailStatus(String detailStatus) {
         this.detailStatus = detailStatus;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Timestamp getDateTime() {

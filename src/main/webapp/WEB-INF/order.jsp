@@ -29,9 +29,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- js -->
     <script src="js/jquery.min.js"></script>
     <!-- //js -->
-    <!-- cart -->
-    <script src="js/cart.js"></script>
-    <!-- cart -->
     <!-- for bootstrap working -->
     <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
     <!-- //for bootstrap working -->
@@ -108,10 +105,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <div class="check-out">
     <div class="container">
         <c:choose>
-            <c:when test="${empty sessionScope.cart || sessionScope.cart.getContent().size() == 0}">
+            <c:when test="${empty sessionScope.cart}">
                 <center><img src="images/cart-empty.png" alt="" /></center>
             </c:when>
             <c:otherwise>
+                <c:set var="countTotalSum" value="0" scope="page" />
                 <table class="table animated wow fadeInLeft" data-wow-delay=".5s">
                     <tr>
                         <th class="t-head head-it ">Item</th>
@@ -119,42 +117,59 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <th class="t-head">Quantity</th>
                         <th class="t-head">Total</th>
                     </tr>
-                    <c:forEach var="entry" items="${sessionScope.cart.getContent()}">
-                        <tr class="cross" id="${entry.key.id}">
+                    <c:forEach items="${requestScope.listOrderedTools}" var="orderedTool">
+                        <tr class="cross" id="${orderedTool.electricTool.id}">
                             <td class="ring-in t-data">
                                 <a href="#" class="at-in">
-                                                <img src="images/tools/${entry.key.mainImage}" width="100" height="136" alt="">
+                                                <img src="images/tools/${orderedTool.electricTool.mainImage}" width="100" height="136" alt="">
                                             </a>
                                 <div class="sed">
-                                    <h2>${entry.key.category}</h2>
-                                    <h3>${entry.key.manufacturer}</h3>
-                                    <h4>${entry.key.name}</h4>
+                                    <h2>${orderedTool.electricTool.category}</h2>
+                                    <h3>${orderedTool.electricTool.manufacturer}</h3>
+                                    <h4>${orderedTool.electricTool.name}</h4>
                                 </div>
                                 <div class="clearfix"></div>
-                                <div class="close1" id="${entry.key.id}"></div>
                             </td>
-                            <td class="t-data">${entry.key.cost}</td>
-                            <td class="t-data">
-                                <div class="quantity">
-                                    <div class="quantity-select">
-                                        <div class="entry value-minus" onclick="carts.reduce(${entry.key.id})">&nbsp;</div>
-                                        <div class="entry value"><span class="span-1">${entry.value}</span></div>
-                                        <div class="entry value-plus active" onclick="carts.increase(${entry.key.id})">&nbsp;
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td id="totalCostSpecificTool" class="t-data">$ ${entry.key.cost*entry.value}</td>
+                            <td class="t-data"><h4>${orderedTool.unitPrice}</h4></td>
+                            <td class="t-data"><h4>${orderedTool.amount}</h4></td>
+                            <td id="totalCostSpecificTool" class="t-data"><h4>$ ${orderedTool.unitPrice*orderedTool.amount}</h4></td>
+                            <c:set var="countTotalSum" value="${countTotalSum + (orderedTool.unitPrice*orderedTool.amount)}" scope="page"/>
                         </tr>
                     </c:forEach>
                 </table>
                 <h5 class="continue">Cart Total:
-                    <span id="cartTotal" class="simpleCart_total">$ ${sessionScope.cart.getTotalSumPurchase()}</span>
+                    <span id="cartTotal" class="simpleCart_total">$ ${countTotalSum}</span>
                 </h5>
-                <div class=" cart-total">
-                    <a href="javascript:carts.clear();$(location).attr('href', '/viewCart');">Clear Cart</a>
-                    <a href="/viewOrder">Order</a>
-                </div><br><br><br>
+                <form name="orderDetails" method="post">
+                            <div class="col-md-6 login-do1 animated wow fadeInLeft" data-wow-delay=".5s">
+                                Select type of delivery
+                                <select name="delivery" style="width: 540px;" required>
+                                    <option value="Free On Truck" selected="">Free On Truck</option>
+                                    <option value="Nearest post officer">Nearest post office</option>
+                                    <option value="Courier">Courier</option>
+                                </select>
+                                <br><br>
+                                <div class="login-mail">
+                                    <input type="text" name="address" placeholder="Address"
+                                     pattern="^.{6,}$" required="">
+                                    <i class="glyphicon glyphicon-map-marker"></i>
+                                </div>
+                                <div class="login-mail">
+                                    <input type="text" name="phoneNumber" placeholder="XXXX XXXX XXXX XXXX"
+                                     pattern="^[0-9]{4}\s[0-9]{4}\s[0-9]{4}\s[0-9]{4}$"
+                                     title="Please input correct number bank card. Hint: 1111 2222 3333 4444"
+                                     required="">
+                                    <img src="images/bank-card.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="col-md-6 login-do animated wow fadeInRight" data-wow-delay=".5s">
+                                <a href="/viewCart" class="hvr-sweep-to-top">Back</a><p>
+                                <label class="hvr-sweep-to-top login-sub">
+                                    <input type="submit" value="Complete the order">
+                                </label>
+                            </div>
+                            <div class="clearfix"></div>
+                        </form>
             </c:otherwise>
         </c:choose>
     </div>

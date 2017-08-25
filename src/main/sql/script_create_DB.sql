@@ -40,6 +40,7 @@ CREATE TABLE orders (
   id int NOT NULL AUTO_INCREMENT,
   status ENUM( 'ACCEPTED', 'CONFIRMED', 'FORMING', 'SENT', 'COMPLETED', 'CANCELED'),
   statusDetail varchar(255) NOT NULL,
+  address varchar(255) NOT NULL,
   dateTime DATETIME DEFAULT CURRENT_TIMESTAMP,
   userID int,
   PRIMARY KEY (id), UNIQUE (id),
@@ -93,11 +94,11 @@ VALUES
     (10, 2.2, 2);
 
 INSERT INTO orders
-    (status, statusDetail, userID)
+    (status, statusDetail, address, userID)
 VALUES
-    ("ACCEPTED", "Detail status1", 1),
-    ("FORMING", "Detail status2", 2),
-    ("COMPLETED", "Detail status3", 3);
+    ("ACCEPTED", "Detail status1", "Kharkiv, Puskinska st., 79", 1),
+    ("FORMING", "Detail status2", "Donetsk, Lenina st., 2", 2),
+    ("COMPLETED", "Detail status3", "Kiev, Belyaeva st., 45", 3);
 
 INSERT INTO list_ordered_tools
     (orderID, infoOrderedToolID)
