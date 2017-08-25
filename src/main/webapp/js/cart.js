@@ -1,3 +1,9 @@
+$(document).ready(function(c) {
+    $('.close1').on('click', function(c){
+        carts.delete(this.id);
+	});
+});
+
 var carts = {
     add: function (productID) {
         $.ajax({
@@ -23,7 +29,8 @@ var carts = {
             dataType: "json",
             data: {id: productID},
             success: function (data) {
-                setNewCost(data, productID);
+                setCartParameterFromJSON(data);
+                setTotalCostSpecificTool(data, productID);
             }
         });
     },
@@ -34,7 +41,20 @@ var carts = {
             dataType: "json",
             data: {id: productID},
             success: function (data) {
-                setNewCost(data, productID);
+                setCartParameterFromJSON(data);
+                setTotalCostSpecificTool(data, productID);
+            }
+        });
+    },
+    delete: function (productID) {
+        $.ajax({
+            type: "post",
+            url: "/deleteToolFromCart",
+            dataType: "json",
+            data: {id: productID},
+            success: function (data) {
+                setCartParameterFromJSON(data);
+                removeTool(productID);
             }
         });
     }
@@ -47,8 +67,13 @@ function setCartParameterFromJSON(data) {
     totalQuantity.text(' (' + data.cartQuantity + ' items)');
 }
 
-function setNewCost(data, productID) {
-    setCartParameterFromJSON(data);
+function setTotalCostSpecificTool(data, productID) {
     var totalCostSpecificTool = $("#" + productID + " #totalCostSpecificTool");
     totalCostSpecificTool.text('$ ' + data.totalCostSpecificTool);
+}
+
+function removeTool(productID) {
+    $('#' + productID + '.cross').fadeOut('slow', function(c){
+        $('#' + productID + '.cross').remove();
+    });
 }

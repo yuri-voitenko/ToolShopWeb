@@ -278,7 +278,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <h5>Weight:${curTool.weight}</h5>
                                 <em class="item_price">$${curTool.cost}</em>
                                 <p>
-                                    <button onclick="carts.add(${curTool.id})" class="item_add">Add To Cart</button>
+                                <a href="javascript:carts.add(${curTool.id})" data-text="Add To Cart" class="but-hover1 item_add">Add To Cart</a>
                             </div>
                         </div>
                     </div>
