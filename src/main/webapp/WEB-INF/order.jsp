@@ -117,7 +117,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <th class="t-head">Quantity</th>
                         <th class="t-head">Total</th>
                     </tr>
-                    <c:forEach items="${requestScope.listOrderedTools}" var="orderedTool">
+                    <c:forEach items="${sessionScope.listOrderedTools}" var="orderedTool">
                         <tr class="cross" id="${orderedTool.electricTool.id}">
                             <td class="ring-in t-data">
                                 <a href="#" class="at-in">
@@ -140,7 +140,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <h5 class="continue">Cart Total:
                     <span id="cartTotal" class="simpleCart_total">$ ${countTotalSum}</span>
                 </h5>
-                <form name="orderDetails" method="post">
+                <form name="orderDetails" action="/executeOrder" method="POST">
                             <div class="col-md-6 login-do1 animated wow fadeInLeft" data-wow-delay=".5s">
                                 Select type of delivery
                                 <select name="delivery" style="width: 540px;" required>

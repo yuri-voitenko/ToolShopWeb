@@ -8,6 +8,14 @@ public final class InfoOrderedToolEntity {
     private final BigDecimal unitPrice;
     private final Integer amount;
 
+
+    public InfoOrderedToolEntity(ElectricToolEntity electricTool, BigDecimal unitPrice, Integer amount) {
+        this.id = 0;
+        this.electricTool = electricTool;
+        this.unitPrice = unitPrice;
+        this.amount = amount;
+    }
+
     public InfoOrderedToolEntity(int id, ElectricToolEntity electricTool, BigDecimal unitPrice, Integer amount) {
         this.id = id;
         this.electricTool = electricTool;
