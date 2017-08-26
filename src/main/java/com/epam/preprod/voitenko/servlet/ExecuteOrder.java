@@ -16,32 +16,35 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
-import static com.epam.preprod.voitenko.constant.Constatns.Message.SUCCESS_ORDER;
+import static com.epam.preprod.voitenko.util.ServiceUtil.removeSessionAttributeAndSetRequestAttribute;
 
 @WebServlet("/executeOrder")
 public class ExecuteOrder extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/viewOrder").forward(req, resp);
+        removeSessionAttributeAndSetRequestAttribute(req, ORDER_ENTITY);
+        removeSessionAttributeAndSetRequestAttribute(req, DELIVERY);
+        req.getRequestDispatcher("/viewCompletedOrder").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession httpSession = req.getSession();
+
         String address = req.getParameter(ADDRESS);
+        String delivery = req.getParameter(DELIVERY);
         List<InfoOrderedToolEntity> listOrderedTools = (List<InfoOrderedToolEntity>) httpSession.getAttribute(LIST_ORDERED_TOOLS);
+        UserEntity userEntity = (UserEntity) httpSession.getAttribute(USER_ENTITY);
 
-        UserEntity sss = (UserEntity) httpSession.getAttribute(USER_ENTITY);
-
-        OrderEntity orderEntity = new OrderEntity(OrderStatus.ACCEPTED, "created", address, sss, listOrderedTools);
+        OrderEntity orderEntity = new OrderEntity(OrderStatus.ACCEPTED, "created", address, userEntity, listOrderedTools);
         DataSource dataSource = DataSourceHandler.getInstance().getDataSource();
         OrderService orderService = new OrderService(dataSource);
         orderService.createOrder(orderEntity);
         Cart<ElectricToolEntity> cart = ServiceUtil.getCart(httpSession);
         cart.clear();
         httpSession.setAttribute(CART, cart);
-        req.setAttribute(ORDER_ENTITY, orderEntity);
-        req.setAttribute(ORDER_STATE, SUCCESS_ORDER);
-        req.getRequestDispatcher("/viewCompletedOrder").forward(req, resp);
+        httpSession.setAttribute(ORDER_ENTITY, orderEntity);
+        httpSession.setAttribute(DELIVERY, delivery);
+        resp.sendRedirect("/executeOrder");
     }
 }

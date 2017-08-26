@@ -62,7 +62,7 @@ public class Constatns {
         public static final String ID_CAPTCHA = "idCaptcha";
         public static final String SUCCESS_REGISTRATION = "successRegistration";
         public static final String FAIL_REGISTRATION = "failRegistration";
-        public static final String ORDER_STATE = "orderState";
+        public static final String DELIVERY = "delivery";
 
         // common
         public static final String ID = "id";
@@ -123,8 +123,6 @@ public class Constatns {
         public static final String NOT_LOGIN_EMAIL = "There is no registered user with such e-mail!";
         public static final String NOT_LOGIN_PASSWORD = "There is no registered user with such password";
         public static final String UNAUTHORIZED_USER = "You need to sign in or register to place an order";
-        public static final String SUCCESS_ORDER = "";
-        public static final String FAIL_ORDER = "";
     }
 
     public class Exceptions {

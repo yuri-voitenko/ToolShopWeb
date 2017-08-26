@@ -22,15 +22,15 @@ import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 import static com.epam.preprod.voitenko.constant.Constatns.Message.NOT_LOGIN_EMAIL;
 import static com.epam.preprod.voitenko.constant.Constatns.Message.NOT_LOGIN_PASSWORD;
 import static com.epam.preprod.voitenko.util.ServiceUtil.getHashPassword;
-import static com.epam.preprod.voitenko.util.ServiceUtil.removeSessionAttribute;
+import static com.epam.preprod.voitenko.util.ServiceUtil.removeSessionAttributeAndSetRequestAttribute;
 
 @WebServlet("/loginUser")
 public class LoginUser extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        removeSessionAttribute(req, LOGIN_ENTITY);
-        removeSessionAttribute(req, ERRORS);
+        removeSessionAttributeAndSetRequestAttribute(req, LOGIN_ENTITY);
+        removeSessionAttributeAndSetRequestAttribute(req, ERRORS);
         req.getRequestDispatcher("/viewLoginForm").forward(req, resp);
     }
 

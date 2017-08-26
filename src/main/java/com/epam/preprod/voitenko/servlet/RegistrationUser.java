@@ -23,7 +23,7 @@ import java.util.Map;
 import static com.epam.preprod.voitenko.constant.Constatns.EMPTY_STRING;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 import static com.epam.preprod.voitenko.constant.Constatns.Message.*;
-import static com.epam.preprod.voitenko.util.ServiceUtil.removeSessionAttribute;
+import static com.epam.preprod.voitenko.util.ServiceUtil.removeSessionAttributeAndSetRequestAttribute;
 
 @WebServlet("/registerUser")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
@@ -33,9 +33,9 @@ public class RegistrationUser extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        removeSessionAttribute(req, REG_ENTITY);
-        removeSessionAttribute(req, ERRORS);
-        removeSessionAttribute(req, SUCCESS_REGISTRATION);
+        removeSessionAttributeAndSetRequestAttribute(req, REG_ENTITY);
+        removeSessionAttributeAndSetRequestAttribute(req, ERRORS);
+        removeSessionAttributeAndSetRequestAttribute(req, SUCCESS_REGISTRATION);
         req.getRequestDispatcher("/viewRegisterForm").forward(req, resp);
     }
 

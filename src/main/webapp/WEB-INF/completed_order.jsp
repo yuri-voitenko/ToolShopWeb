@@ -129,6 +129,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </thead>
                     <tbody>
                     <c:set var="countRow" value="1" scope="page"/>
+                    <c:set var="countPlace" value="0" scope="page"/>
                     <c:forEach items="${sessionScope.listOrderedTools}" var="orderedTool">
                         <c:choose>
                             <c:when test="countRow % 2 == 0">
@@ -147,6 +148,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <td>$ ${orderedTool.unitPrice*orderedTool.amount}</td>
                         </tr>
                         <c:set var="countRow" value="${countRow + 1}" scope="page"/>
+                        <c:set var="countPlace" value="${countPlace + orderedTool.amount}" scope="page"/>
                         <c:set var="countTotalSum"
                                value="${countTotalSum + (orderedTool.unitPrice*orderedTool.amount)}" scope="page"/>
                     </c:forEach>
@@ -160,9 +162,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <span>Status</span>
                         <span class="total1">${requestScope.orderEntity.status}</span>
                         <span>Places</span>
-                        <span class="total1">${countRow}</span>
+                        <span class="total1">${countPlace}</span>
                         <span>Delivery</span>
-                        <span class="total1">---</span>
+                        <span class="total1">${requestScope.delivery}</span>
                         <span>Client</span>
                         <span class="total1">${requestScope.orderEntity.user.fullName}</span>
                         <div class="clearfix"></div>

@@ -29,7 +29,7 @@ public class ServiceUtil {
         return DigestUtils.md5Hex(password);
     }
 
-    public static void removeSessionAttribute(HttpServletRequest httpServletRequest, String key) {
+    public static void removeSessionAttributeAndSetRequestAttribute(HttpServletRequest httpServletRequest, String key) {
         HttpSession session = httpServletRequest.getSession();
         Object object = session.getAttribute(key);
         if (object != null) {

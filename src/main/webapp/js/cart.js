@@ -1,13 +1,13 @@
-$(document).ready(function(c) {
-	$('.value-plus').on('click', function () {
+$(document).ready(function (c) {
+    $('.value-plus').on('click', function () {
         var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) + 1;
-       divUpd.text(newVal);
+        divUpd.text(newVal);
     });
     $('.value-minus').on('click', function () {
         var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) - 1;
         if (newVal >= 1) divUpd.text(newVal);
     });
-    $('.close1').on('click', function(c){
+    $('.close1').on('click', function (c) {
         carts.delete(this.id);
     });
 });
@@ -62,6 +62,9 @@ var carts = {
             data: {id: productID},
             success: function (data) {
                 setCartParameterFromJSON(data);
+                if (data.cartQuantity == 0) {
+                    $(location).attr('href', '/viewCart');
+                }
                 removeTool(productID);
             }
         });
@@ -81,7 +84,7 @@ function setTotalCostSpecificTool(data, productID) {
 }
 
 function removeTool(productID) {
-    $('#' + productID + '.cross').fadeOut('slow', function(c){
+    $('#' + productID + '.cross').fadeOut('slow', function (c) {
         $('#' + productID + '.cross').remove();
     });
 }
