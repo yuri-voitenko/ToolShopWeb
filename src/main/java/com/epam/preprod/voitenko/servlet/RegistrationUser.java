@@ -32,19 +32,19 @@ import static com.epam.preprod.voitenko.util.ServiceUtil.removeSessionAttribute;
 public class RegistrationUser extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        removeSessionAttribute(httpServletRequest, REG_ENTITY);
-        removeSessionAttribute(httpServletRequest, ERRORS);
-        removeSessionAttribute(httpServletRequest, SUCCESS_REGISTRATION);
-        httpServletRequest.getRequestDispatcher("/viewRegisterForm").forward(httpServletRequest, httpServletResponse);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        removeSessionAttribute(req, REG_ENTITY);
+        removeSessionAttribute(req, ERRORS);
+        removeSessionAttribute(req, SUCCESS_REGISTRATION);
+        req.getRequestDispatcher("/viewRegisterForm").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        RegisterEntity regBean = ServiceUtil.extractRegisterEntity(httpServletRequest);
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RegisterEntity regBean = ServiceUtil.extractRegisterEntity(req);
         Map<String, String> errors = ValidatorUtil.validate(regBean);
-        HttpSession session = httpServletRequest.getSession();
-        validateCaptcha(httpServletRequest);
+        HttpSession session = req.getSession();
+        validateCaptcha(req);
 
         if (!errors.isEmpty()) {
             session.setAttribute(REG_ENTITY, regBean);
@@ -65,14 +65,14 @@ public class RegistrationUser extends HttpServlet {
             }
         }
         session.setAttribute(ERRORS, errors);
-        httpServletResponse.sendRedirect("/registerUser");
+        resp.sendRedirect("/registerUser");
     }
 
-    private void validateCaptcha(HttpServletRequest httpServletRequest) {
-        ServletContext servletContext = httpServletRequest.getServletContext();
-        String codeCaptcha = httpServletRequest.getParameter(CAPTCHA);
+    private void validateCaptcha(HttpServletRequest request) {
+        ServletContext servletContext = request.getServletContext();
+        String codeCaptcha = request.getParameter(CAPTCHA);
         CaptchaStrategy strategy = (CaptchaStrategy) servletContext.getAttribute(STRATEGY);
-        int idCaptcha = strategy.getIdCaptcha(httpServletRequest);
+        int idCaptcha = strategy.getIdCaptcha(request);
         long timeout = Long.parseLong(servletContext.getInitParameter(TIMEOUT));
         ValidatorUtil.validateCaptcha(idCaptcha, codeCaptcha, timeout);
     }

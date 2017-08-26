@@ -1,11 +1,9 @@
 package com.epam.preprod.voitenko.servlet;
 
-import com.epam.preprod.voitenko.entity.InfoOrderedToolEntity;
-import com.epam.preprod.voitenko.entity.OrderEntity;
-import com.epam.preprod.voitenko.entity.OrderStatus;
-import com.epam.preprod.voitenko.entity.UserEntity;
+import com.epam.preprod.voitenko.entity.*;
 import com.epam.preprod.voitenko.handler.DataSourceHandler;
 import com.epam.preprod.voitenko.service.OrderService;
+import com.epam.preprod.voitenko.util.ServiceUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,14 +15,14 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.List;
 
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.ADDRESS;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.LIST_ORDERED_TOOLS;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Message.SUCCESS_ORDER;
 
 @WebServlet("/executeOrder")
 public class ExecuteOrder extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        req.getRequestDispatcher("/viewOrder").forward(req, resp);
     }
 
     @Override
@@ -33,13 +31,17 @@ public class ExecuteOrder extends HttpServlet {
         String address = req.getParameter(ADDRESS);
         List<InfoOrderedToolEntity> listOrderedTools = (List<InfoOrderedToolEntity>) httpSession.getAttribute(LIST_ORDERED_TOOLS);
 
-        UserEntity sss = new UserEntity("aaaaaat@gmail.com", "Voitenko!335", "Yuri Voitenko", "+380505730182", "Kharkiv, Puskinska st., 79");
-        sss.setId(1);
+        UserEntity sss = (UserEntity) httpSession.getAttribute(USER_ENTITY);
 
-        OrderEntity orderEntity = new OrderEntity(OrderStatus.ACCEPTED, "created", "asdasdasd", sss, listOrderedTools);
+        OrderEntity orderEntity = new OrderEntity(OrderStatus.ACCEPTED, "created", address, sss, listOrderedTools);
         DataSource dataSource = DataSourceHandler.getInstance().getDataSource();
         OrderService orderService = new OrderService(dataSource);
         orderService.createOrder(orderEntity);
-        resp.sendRedirect("/executeOrder");
+        Cart<ElectricToolEntity> cart = ServiceUtil.getCart(httpSession);
+        cart.clear();
+        httpSession.setAttribute(CART, cart);
+        req.setAttribute(ORDER_ENTITY, orderEntity);
+        req.setAttribute(ORDER_STATE, SUCCESS_ORDER);
+        req.getRequestDispatcher("/viewCompletedOrder").forward(req, resp);
     }
 }

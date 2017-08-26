@@ -53,6 +53,7 @@ public class Constatns {
         public static final String REG_ENTITY = "regEntity";
         public static final String LOGIN_ENTITY = "logEntity";
         public static final String USER_ENTITY = "userEntity";
+        public static final String ORDER_ENTITY = "orderEntity";
         public static final String FILTER_ENTITY = "filterEntity";
         public static final String ERRORS = "errors";
 
@@ -61,6 +62,7 @@ public class Constatns {
         public static final String ID_CAPTCHA = "idCaptcha";
         public static final String SUCCESS_REGISTRATION = "successRegistration";
         public static final String FAIL_REGISTRATION = "failRegistration";
+        public static final String ORDER_STATE = "orderState";
 
         // common
         public static final String ID = "id";
@@ -91,7 +93,9 @@ public class Constatns {
         // info_ordered_tools
         public static final String TOOL_ID = "toolID";
         public static final String AMOUNT = "amount";
-
+        // order_bunch
+        public static final String ORDER_ID = "orderID";
+        public static final String INFO_ORDERED_TOOL_ID = "infoOrderedToolID";
     }
 
     public class Message {
@@ -119,6 +123,8 @@ public class Constatns {
         public static final String NOT_LOGIN_EMAIL = "There is no registered user with such e-mail!";
         public static final String NOT_LOGIN_PASSWORD = "There is no registered user with such password";
         public static final String UNAUTHORIZED_USER = "You need to sign in or register to place an order";
+        public static final String SUCCESS_ORDER = "";
+        public static final String FAIL_ORDER = "";
     }
 
     public class Exceptions {
@@ -153,6 +159,10 @@ public class Constatns {
         public static final String CANNOT_UPDATE_INFO_ORDERED_TOOL = "Can not update infoOrderedTool";
         public static final String CANNOT_DELETE_INFO_ORDERED_TOOL = "Can not delete infoOrderedTool with such id";
         public static final String CANNOT_CREATE_INFO_ORDERED_TOOL = "Can not create a new infoOrderedTool";
+        // order_bunch
+        public static final String CANNOT_GET_ORDER_BUNCH_BY_ID = "Can not get an order_bunch with such id";
+        public static final String CANNOT_DELETE_ORDER_BUNCH = "Can not delete order_bunch with such id";
+        public static final String CANNOT_CREATE_ORDER_BUNCH = "Can not create a new order_bunch";
 
         public static final String CANNOT_CLOSE_RESULT_SET = "Can not close ResultSet";
         public static final String CANNOT_CLOSE_STATEMENT = "Can not close Statement";

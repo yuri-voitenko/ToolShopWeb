@@ -46,7 +46,7 @@ CREATE TABLE orders (
   PRIMARY KEY (id), UNIQUE (id),
   FOREIGN KEY (userID) REFERENCES users(id) ON DELETE CASCADE
 );
-CREATE TABLE list_ordered_tools (
+CREATE TABLE order_bunch (
   orderID int,
   infoOrderedToolID int,
   FOREIGN KEY (orderID) REFERENCES orders(id) ON DELETE CASCADE,
@@ -85,25 +85,3 @@ VALUES
     ("YTG-85933", "Electric airbrush", "Stern", 3500, 8000, 4.2, 36.1, "pr18_1.jpg", "pr18_2.jpg"),
     ("FAJ-56317", "Vibrating grinder", "Дніпро-М", 4000, 15000, 2.0, 48.0, "pr19_1.jpg", "pr19_2.jpg"),
     ("XSZ-12517", "Wall chaser", "Hitachi", 3200, 8500, 4.9, 25.9, "pr20_1.jpg", "pr20_2.jpg");
-
-INSERT INTO info_ordered_tools
-    (toolID, cost, amount)
-VALUES
-    (1, 2.2, 1),
-    (5, 2.2, 5),
-    (10, 2.2, 2);
-
-INSERT INTO orders
-    (status, statusDetail, address, userID)
-VALUES
-    ("ACCEPTED", "Detail status1", "Kharkiv, Puskinska st., 79", 1),
-    ("FORMING", "Detail status2", "Donetsk, Lenina st., 2", 2),
-    ("COMPLETED", "Detail status3", "Kiev, Belyaeva st., 45", 3);
-
-INSERT INTO list_ordered_tools
-    (orderID, infoOrderedToolID)
-VALUES
-    (1, 2),
-    (1, 1),
-    (1, 3),
-    (2, 2);

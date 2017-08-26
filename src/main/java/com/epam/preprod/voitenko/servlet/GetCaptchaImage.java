@@ -19,13 +19,13 @@ import static com.epam.preprod.voitenko.constant.Constatns.Keys.STRATEGY;
 @WebServlet("/getCaptchaImage")
 public class GetCaptchaImage extends HttpServlet {
     @Override
-    protected void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         CaptchaStrategy strategy = (CaptchaStrategy) getServletContext().getAttribute(STRATEGY);
-        int idCaptcha = strategy.getIdCaptcha(httpServletRequest);
+        int idCaptcha = strategy.getIdCaptcha(req);
         if (idCaptcha != -1) {
             Captcha captcha = CaptchaRepository.getCaptcha(idCaptcha);
             captcha.updateImage();
-            OutputStream osImage = httpServletResponse.getOutputStream();
+            OutputStream osImage = resp.getOutputStream();
             ImageIO.write((RenderedImage) captcha.getImage(), "jpeg", osImage);
             osImage.flush();
             osImage.close();

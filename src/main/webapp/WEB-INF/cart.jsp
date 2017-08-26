@@ -99,7 +99,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <div class="banner-top">
     <div class="container">
         <h2 class="animated wow fadeInLeft" data-wow-delay=".5s">Checkout</h2>
-        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a href="index.html">Home</a><label>/</label>Checkout
+        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a href="/viewHomePage">Home</a><label>/</label>Checkout
         </h3>
         <div class="clearfix"></div>
     </div>
@@ -109,7 +109,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <div class="container">
         <c:choose>
             <c:when test="${empty sessionScope.cart || sessionScope.cart.getContent().size() == 0}">
-                <center><img src="images/cart-empty.png" alt="" /></center>
+                <center><img src="images/cart-empty.png" alt=""/></center>
             </c:when>
             <c:otherwise>
                 <table class="table animated wow fadeInLeft" data-wow-delay=".5s">
@@ -123,8 +123,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <tr class="cross" id="${entry.key.id}">
                             <td class="ring-in t-data">
                                 <a href="#" class="at-in">
-                                                <img src="images/tools/${entry.key.mainImage}" width="100" height="136" alt="">
-                                            </a>
+                                    <img src="images/tools/${entry.key.mainImage}" width="100" height="136" alt="">
+                                </a>
                                 <div class="sed">
                                     <h2>${entry.key.category}</h2>
                                     <h3>${entry.key.manufacturer}</h3>
@@ -137,9 +137,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <td class="t-data">
                                 <div class="quantity">
                                     <div class="quantity-select">
-                                        <div class="entry value-minus" onclick="carts.reduce(${entry.key.id})">&nbsp;</div>
+                                        <div class="entry value-minus" onclick="carts.reduce(${entry.key.id})">&nbsp;
+                                        </div>
                                         <div class="entry value"><span class="span-1">${entry.value}</span></div>
-                                        <div class="entry value-plus active" onclick="carts.increase(${entry.key.id})">&nbsp;
+                                        <div class="entry value-plus active" onclick="carts.increase(${entry.key.id})">
+                                            &nbsp;
                                         </div>
                                     </div>
                                 </div>
@@ -154,7 +156,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <div class=" cart-total">
                     <a href="javascript:carts.clear();$(location).attr('href', '/viewCart');">Clear Cart</a>
                     <a href="/viewOrder">Order</a>
-                </div><br><br><br>
+                </div>
+                <br><br><br>
             </c:otherwise>
         </c:choose>
     </div>
@@ -162,18 +165,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!-- footer -->
 <div class="footer">
     <div class="container">
-        <div class="footer-top">
-            <div class="col-md-9 footer-top1">
-                <h4>Duis aute irure dolor in reprehenderit in voluptate </h4>
-                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse.Excepteur sint occaecat cupidatat non
-                    proident Duis
-                    aute irure dolor in reprehenderit in voluptate velit esse</p>
-            </div>
-            <div class="col-md-3 footer-top2">
-                <a href="contact.html">Contact Us</a>
-            </div>
-            <div class="clearfix"></div>
-        </div>
         <div class="footer-grids">
             <div class="col-md-4 footer-grid animated wow fadeInLeft" data-wow-delay=".5s">
                 <h3>About Us</h3>

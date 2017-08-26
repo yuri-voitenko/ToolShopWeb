@@ -15,6 +15,7 @@ import java.util.List;
 
 import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.*;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 public class InfoOrderedToolRepository implements GeneralRepository<InfoOrderedToolEntity, Integer> {
     private static final Logger LOGGER = LogManager.getLogger(InfoOrderedToolRepository.class);
@@ -110,13 +111,19 @@ public class InfoOrderedToolRepository implements GeneralRepository<InfoOrderedT
     public boolean create(Connection connection, InfoOrderedToolEntity entity) {
         checkObjectIsNull(entity);
         PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             int index = 0;
-            statement = connection.prepareStatement(SQL_INSERT_INFO_ORDERED_TOOL);
+            statement = connection.prepareStatement(SQL_INSERT_INFO_ORDERED_TOOL, RETURN_GENERATED_KEYS);
             statement.setInt(++index, entity.getElectricTool().getId());
             statement.setBigDecimal(++index, entity.getUnitPrice());
             statement.setInt(++index, entity.getAmount());
             statement.executeUpdate();
+            resultSet = statement.getGeneratedKeys();
+            if (resultSet != null && resultSet.next()) {
+                int id = (int) resultSet.getLong(1);
+                entity.setId(id);
+            }
         } catch (SQLException e) {
             LOGGER.error(CANNOT_CREATE_INFO_ORDERED_TOOL, e);
             return false;

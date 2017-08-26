@@ -25,6 +25,14 @@
         <url-pattern>/viewCart</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>ViewCompletedOrder</servlet-name>
+        <jsp-file>/WEB-INF/completed_order.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewCompletedOrder</servlet-name>
+        <url-pattern>/viewCompletedOrder</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>BadRequest</servlet-name>
         <jsp-file>/WEB-INF/400.html</jsp-file>
     </servlet>

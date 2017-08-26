@@ -95,8 +95,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!--banner-->
 <div class="banner-top">
     <div class="container">
-        <h2 class="animated wow fadeInLeft" data-wow-delay=".5s">Order</h2>
+        <h2 class="animated wow fadeInLeft" data-wow-delay=".5s">Order result</h2>
         <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a href="/viewHomePage">Home</a><label>/</label>Order
+            result
         </h3>
         <div class="clearfix"></div>
     </div>
@@ -110,70 +111,68 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             </c:when>
             <c:otherwise>
                 <c:set var="countTotalSum" value="0" scope="page"/>
-                <table class="table animated wow fadeInLeft" data-wow-delay=".5s">
-                    <tr>
-                        <th class="t-head head-it ">Item</th>
-                        <th class="t-head">Price</th>
-                        <th class="t-head">Quantity</th>
-                        <th class="t-head">Total</th>
+                <h5 class="continue">Order result</h5>
+                <table class="table">
+                    <thead>
+                    <tr class="success">
+                        <th rowspan="2">#</th>
+                        <th colspan="3">Product</th>
+                        <th rowspan="2">Price</th>
+                        <th rowspan="2">Quantity</th>
+                        <th rowspan="2">Total</th>
                     </tr>
+                    <tr class="success">
+                        <th>Category</th>
+                        <th>Manufacturer</th>
+                        <th>Model</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:set var="countRow" value="1" scope="page"/>
                     <c:forEach items="${sessionScope.listOrderedTools}" var="orderedTool">
-                        <tr class="cross" id="${orderedTool.electricTool.id}">
-                            <td class="ring-in t-data">
-                                <a href="#" class="at-in">
-                                    <img src="images/tools/${orderedTool.electricTool.mainImage}" width="100"
-                                         height="136" alt="">
-                                </a>
-                                <div class="sed">
-                                    <h2>${orderedTool.electricTool.category}</h2>
-                                    <h3>${orderedTool.electricTool.manufacturer}</h3>
-                                    <h4>${orderedTool.electricTool.name}</h4>
-                                </div>
-                                <div class="clearfix"></div>
-                            </td>
-                            <td class="t-data"><h4>${orderedTool.unitPrice}</h4></td>
-                            <td class="t-data"><h4>${orderedTool.amount}</h4></td>
-                            <td id="totalCostSpecificTool" class="t-data"><h4>
-                                $ ${orderedTool.unitPrice*orderedTool.amount}</h4></td>
-                            <c:set var="countTotalSum"
-                                   value="${countTotalSum + (orderedTool.unitPrice*orderedTool.amount)}" scope="page"/>
+                        <c:choose>
+                            <c:when test="countRow % 2 == 0">
+                                <tr class="active">
+                            </c:when>
+                            <c:otherwise>
+                                <tr>
+                            </c:otherwise>
+                        </c:choose>
+                        <th scope="row">${countRow}</th>
+                        <td>${orderedTool.electricTool.category}</td>
+                        <td>${orderedTool.electricTool.manufacturer}</td>
+                        <td>${orderedTool.electricTool.name}</td>
+                        <td>${orderedTool.unitPrice}</td>
+                        <td>${orderedTool.amount}</td>
+                        <td>$ ${orderedTool.unitPrice*orderedTool.amount}</td>
                         </tr>
+                        <c:set var="countRow" value="${countRow + 1}" scope="page"/>
+                        <c:set var="countTotalSum"
+                               value="${countTotalSum + (orderedTool.unitPrice*orderedTool.amount)}" scope="page"/>
                     </c:forEach>
+                    </tbody>
                 </table>
-                <h5 class="continue">Cart Total:
-                    <span id="cartTotal" class="simpleCart_total">$ ${countTotalSum}</span>
-                </h5>
-                <form name="orderDetails" action="/executeOrder" method="POST">
-                    <div class="col-md-6 login-do1 animated wow fadeInLeft" data-wow-delay=".5s">
-                        Select type of delivery
-                        <select name="delivery" style="width: 540px;" required>
-                            <option value="Free On Truck" selected="">Free On Truck</option>
-                            <option value="Nearest post officer">Nearest post office</option>
-                            <option value="Courier">Courier</option>
-                        </select>
-                        <br><br>
-                        <div class="login-mail">
-                            <input type="text" name="address" placeholder="Address"
-                                   pattern="^.{6,}$" required="">
-                            <i class="glyphicon glyphicon-map-marker"></i>
-                        </div>
-                        <div class="login-mail">
-                            <input type="text" name="phoneNumber" placeholder="XXXX XXXX XXXX XXXX"
-                                   pattern="^[0-9]{4}\s[0-9]{4}\s[0-9]{4}\s[0-9]{4}$"
-                                   title="Please input correct number bank card. Hint: 1111 2222 3333 4444"
-                                   required="">
-                            <img src="images/bank-card.png" alt=""/>
-                        </div>
+                <div>
+                    <div class="price-details">
+                        <h3>Details</h3>
+                        <span>ID</span>
+                        <span class="total1">${requestScope.orderEntity.id}</span>
+                        <span>Status</span>
+                        <span class="total1">${requestScope.orderEntity.status}</span>
+                        <span>Places</span>
+                        <span class="total1">${countRow}</span>
+                        <span>Delivery</span>
+                        <span class="total1">---</span>
+                        <span>Client</span>
+                        <span class="total1">${requestScope.orderEntity.user.fullName}</span>
+                        <div class="clearfix"></div>
                     </div>
-                    <div class="col-md-6 login-do animated wow fadeInRight" data-wow-delay=".5s">
-                        <a href="/viewCart" class="hvr-sweep-to-top">Back</a>
-                        <p>
-                            <label class="hvr-sweep-to-top login-sub">
-                                <input type="submit" value="Complete the order">
-                            </label>
-                    </div>
-                    <div class="clearfix"></div>
-                </form>
+                    <ul class="total_price">
+                        <li class="last_price"><h4>TOTAL</h4></li>
+                        <span id="cartTotal" class="simpleCart_total">$ ${countTotalSum}</span>
+                        <div class="clearfix"></div>
+                    </ul>
+                </div>
             </c:otherwise>
         </c:choose>
     </div>
