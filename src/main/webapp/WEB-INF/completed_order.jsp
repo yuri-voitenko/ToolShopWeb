@@ -132,7 +132,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <c:set var="countPlace" value="0" scope="page"/>
                     <c:forEach items="${sessionScope.listOrderedTools}" var="orderedTool">
                         <c:choose>
-                            <c:when test="countRow % 2 == 0">
+                            <c:when test="${countRow % 2 == 0}">
                                 <tr class="active">
                             </c:when>
                             <c:otherwise>
