@@ -52,6 +52,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <div class="header">
     <div class="header-grid">
         <div class="container">
+            <myTag:switch_locale/>
             <div class="header-right animated wow fadeInRight" data-wow-delay=".5s">
                 <div class="header-right1 ">
                     <ul>

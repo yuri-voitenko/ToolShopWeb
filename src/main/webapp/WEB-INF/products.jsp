@@ -54,6 +54,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="header-left animated wow fadeInLeft" data-wow-delay=".5s">
                 <myTag:login/>
             </div>
+            <myTag:switch_locale/>
             <div class="header-right animated wow fadeInRight" data-wow-delay=".5s">
                 <div class="header-right1 ">
                     <ul>
