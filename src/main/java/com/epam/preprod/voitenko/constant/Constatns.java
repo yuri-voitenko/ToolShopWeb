@@ -49,6 +49,11 @@ public class Constatns {
         public static final String CART_QUANTITY = "cartQuantity";
         public static final String TOTAL_COST_SPECIFIC_TOOL = "totalCostSpecificTool";
         public static final String LIST_ORDERED_TOOLS = "listOrderedTools";
+        public static final String SELECTED_LOCALE = "selectedLocale";
+        public static final String DEFAULT_LOCALE = "defaultLocale";
+        public static final String LOCALE_STRATEGY = "localeStrategy";
+        public static final String LANG = "lang";
+
 
         public static final String REG_ENTITY = "regEntity";
         public static final String LOGIN_ENTITY = "logEntity";

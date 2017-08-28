@@ -1,4 +1,4 @@
-package com.epam.preprod.voitenko.strategy;
+package com.epam.preprod.voitenko.strategy.captcha;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

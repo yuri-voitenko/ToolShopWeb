@@ -1,6 +1,7 @@
-package com.epam.preprod.voitenko.strategy;
+package com.epam.preprod.voitenko.strategy.captcha;
 
 import com.epam.preprod.voitenko.repository.CaptchaRepository;
+import com.epam.preprod.voitenko.strategy.captcha.CaptchaStrategy;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

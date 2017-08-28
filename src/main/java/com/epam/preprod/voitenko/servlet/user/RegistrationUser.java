@@ -4,7 +4,7 @@ import com.epam.preprod.voitenko.entity.RegisterEntity;
 import com.epam.preprod.voitenko.entity.UserEntity;
 import com.epam.preprod.voitenko.handler.DataSourceHandler;
 import com.epam.preprod.voitenko.service.UserService;
-import com.epam.preprod.voitenko.strategy.CaptchaStrategy;
+import com.epam.preprod.voitenko.strategy.captcha.CaptchaStrategy;
 import com.epam.preprod.voitenko.util.ServiceUtil;
 import com.epam.preprod.voitenko.util.ValidatorUtil;
 

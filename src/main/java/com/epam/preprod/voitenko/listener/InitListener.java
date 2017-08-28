@@ -1,10 +1,10 @@
 package com.epam.preprod.voitenko.listener;
 
 import com.epam.preprod.voitenko.captchacleaner.CaptchaCleaner;
-import com.epam.preprod.voitenko.strategy.CaptchaStrategy;
-import com.epam.preprod.voitenko.strategy.CookieCaptchaStrategy;
-import com.epam.preprod.voitenko.strategy.InputHiddenCaptchaStorage;
-import com.epam.preprod.voitenko.strategy.SessionCaptchaStrategy;
+import com.epam.preprod.voitenko.strategy.captcha.CaptchaStrategy;
+import com.epam.preprod.voitenko.strategy.captcha.CookieCaptchaStrategy;
+import com.epam.preprod.voitenko.strategy.captcha.InputHiddenCaptchaStorage;
+import com.epam.preprod.voitenko.strategy.captcha.SessionCaptchaStrategy;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
