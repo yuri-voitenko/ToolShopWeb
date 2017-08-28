@@ -1,4 +1,4 @@
-package com.epam.preprod.voitenko.servlet;
+package com.epam.preprod.voitenko.servlet.order;
 
 import com.epam.preprod.voitenko.entity.*;
 import com.epam.preprod.voitenko.handler.DataSourceHandler;

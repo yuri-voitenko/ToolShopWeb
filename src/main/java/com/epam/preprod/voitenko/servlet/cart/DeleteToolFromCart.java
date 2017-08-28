@@ -1,4 +1,4 @@
-package com.epam.preprod.voitenko.servlet;
+package com.epam.preprod.voitenko.servlet.cart;
 
 import com.epam.preprod.voitenko.entity.Cart;
 import com.epam.preprod.voitenko.entity.ElectricToolEntity;
@@ -16,12 +16,11 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.Writer;
-import java.math.BigDecimal;
 
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 
-@WebServlet("/reduceQuantityToolInCart")
-public class ReduceQuantityToolInCart extends HttpServlet {
+@WebServlet("/deleteToolFromCart")
+public class DeleteToolFromCart extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,18 +37,13 @@ public class ReduceQuantityToolInCart extends HttpServlet {
         ToolService toolService = new ToolService(dataSource);
         ElectricToolEntity tool = toolService.getToolById(toolID);
 
-        BigDecimal totalCostSpecificTool = tool.getCost();
-        BigDecimal quantitySpecificTool = new BigDecimal(cart.reduceQuantityProduct(tool));
-        totalCostSpecificTool = totalCostSpecificTool.multiply(quantitySpecificTool);
-        totalCostSpecificTool = totalCostSpecificTool.setScale(2, BigDecimal.ROUND_HALF_UP);
+        cart.deleteProduct(tool);
 
         session.setAttribute(CART, cart);
 
         JSONObject jsonObject = new JSONObject();
-
         jsonObject.put(CART_TOTAL, cart.getTotalSumPurchase().toString());
         jsonObject.put(CART_QUANTITY, cart.getTotalQuantityProducts().toString());
-        jsonObject.put(TOTAL_COST_SPECIFIC_TOOL, totalCostSpecificTool.toString());
         Writer writer = resp.getWriter();
         jsonObject.writeJSONString(writer);
     }

@@ -1,5 +1,6 @@
-package com.epam.preprod.voitenko.servlet;
+package com.epam.preprod.voitenko.servlet.user;
 
+import com.epam.preprod.voitenko.servlet.user.Logout;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

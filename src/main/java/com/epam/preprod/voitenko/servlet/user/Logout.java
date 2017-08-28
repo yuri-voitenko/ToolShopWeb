@@ -1,4 +1,4 @@
-package com.epam.preprod.voitenko.servlet;
+package com.epam.preprod.voitenko.servlet.user;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
