@@ -8,6 +8,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="captcha" uri="tld/captcha.tld" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="myTag" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<fmt:setBundle basename="ToolShopWeb"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,7 +60,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="header-right animated wow fadeInRight" data-wow-delay=".5s">
                 <div class="header-right1 ">
                     <ul>
-                        <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">Register</a></li>
+                        <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">
+                            <fmt:message key="register"/></a></li>
                     </ul>
                 </div>
                 <myTag:cart/>
@@ -86,10 +89,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </div>
                 <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                     <ul class="nav navbar-nav">
-                        <li><a href="/viewHomePage" class="act">Home</a></li>
+                        <li class="active"><a href="/viewHomePage" class="act"><fmt:message key="home"/></a></li>
                         <!-- Mega Menu -->
                         <li class="dropdown">
-                            <a href="/viewTools">Tool</a>
+                            <a href="/viewTools"><fmt:message key="tools"/></a>
                         </li>
                     </ul>
                 </div>
@@ -101,9 +104,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!--banner-->
 <div class="banner-top">
     <div class="container">
-        <h2 class="animated wow fadeInLeft" data-wow-delay=".5s">Tools</h2>
+        <h2 class="animated wow fadeInLeft" data-wow-delay=".5s"><fmt:message key="tools"/></h2>
         <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a
-                href="/viewHomePage">Home</a><label>/</label>Tools<label>/</label>Electric Tools</h3>
+                href="/viewHomePage"><fmt:message key="home"/></a><label>/</label><fmt:message key="tools"/></h3>
         <div class="clearfix"></div>
     </div>
 </div>
@@ -114,7 +117,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <div class="container">
         <div class="col-md-3 product-bottom">
             <div class="price">
-                <h3>Name</h3>
+                <h3><fmt:message key="name"/></h3>
                 <div class="price-head">
                     <div class="col-md-6 price-head1">
                         <div class="price-top1" style="width: 250px;">
@@ -128,7 +131,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             </div>
             <!--categories-->
             <div class="categories">
-                <h3>Categories</h3><br>
+                <h3><fmt:message key="category"/></h3><br>
                 <select form="filter" name="category" style="width: 250px;">
                     <option disabled selected>Select type of tool</option>
                     <c:forEach items="${requestScope.categories}" var="type">
@@ -145,7 +148,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             </div>
             <br>
             <div class="categories">
-                <h3>Manufacturer</h3>
+                <h3><fmt:message key="manufacturer"/></h3>
                 <c:forEach items="${requestScope.manufacturers}" var="manufacturer">
                     <c:choose>
                         <c:when test="${empty requestScope.filterEntity.manufacturers}">
@@ -177,7 +180,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <!--//menu-->
             <!--price-->
             <div class="price">
-                <h3>Price Range</h3>
+                <h3><fmt:message key="price"/></h3>
                 <div class="price-head">
                     <div class="col-md-6 price-head1">
                         <div class="price-top1">
@@ -197,8 +200,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </div>
             </div>
             <!--//price-->
-            <input type="submit" class="btn btn-lg btn-success" value="Apply" form="filter">&emsp;&emsp;
-            <a href="/viewTools" lass="act"><span class="label label-warning">Reset filter</span></a>
+            <input type="submit" class="btn btn-lg btn-success" value="<fmt:message key="apply"/>" form="filter">&emsp;&emsp;
+            <a href="/viewTools" lass="act"><span class="label label-warning"><fmt:message
+                    key="reset_filter"/></span></a>
         </div>
         <div class="col-md-9 animated wow fadeInRight" data-wow-delay=".5s">
             <div class="mens-toolbar">
@@ -271,16 +275,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 </figure>
                             </div>
                             <div class="women">
-                                <h5>Name:${curTool.name}</h5>
-                                <h5>Category:${curTool.category}</h5>
-                                <h5>Manufacturer:${curTool.manufacturer}</h5>
-                                <h5>Power:${curTool.power}</h5>
-                                <h5>Max rotation speed:${curTool.maxRotationSpeed}</h5>
-                                <h5>Weight:${curTool.weight}</h5>
+                                <h5><fmt:message key="name"/>:${curTool.name}</h5>
+                                <h5><fmt:message key="category"/>:${curTool.category}</h5>
+                                <h5><fmt:message key="manufacturer"/>:${curTool.manufacturer}</h5>
+                                <h5><fmt:message key="power"/>:${curTool.power}</h5>
+                                <h5><fmt:message key="max_rotation_speed"/>:${curTool.maxRotationSpeed}</h5>
+                                <h5><fmt:message key="weight"/>:${curTool.weight}</h5>
                                 <em class="item_price">$${curTool.cost}</em>
                                 <p>
-                                    <a href="javascript:carts.add(${curTool.id})" data-text="Add To Cart"
-                                       class="but-hover1 item_add">Add To Cart</a>
+                                    <a href="javascript:carts.add(${curTool.id})"
+                                       data-text="<fmt:message key="add_to_cart"/>"
+                                       class="but-hover1 item_add"><fmt:message key="add_to_cart"/></a>
                             </div>
                         </div>
                     </div>

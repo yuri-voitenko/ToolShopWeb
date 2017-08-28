@@ -8,6 +8,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="myTag" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<fmt:setBundle basename="ToolShopWeb"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,7 +60,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="header-right animated wow fadeInRight" data-wow-delay=".5s">
                 <div class="header-right1 ">
                     <ul>
-                        <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">Register</a></li>
+                        <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">
+                            <fmt:message key="register"/></a></li>
                     </ul>
                 </div>
                 <myTag:cart/>
@@ -86,10 +89,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </div>
                 <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="/viewHomePage" class="act">Home</a></li>
+                        <li class="active"><a href="/viewHomePage" class="act"><fmt:message key="home"/></a></li>
                         <!-- Mega Menu -->
                         <li class="dropdown">
-                            <a href="/viewTools">Tool</a>
+                            <a href="/viewTools"><fmt:message key="tools"/></a>
                         </li>
                     </ul>
                 </div>

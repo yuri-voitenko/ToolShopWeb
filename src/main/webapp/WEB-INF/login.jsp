@@ -7,6 +7,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="myTag" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<fmt:setBundle basename="ToolShopWeb"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,7 +58,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="header-right animated wow fadeInRight" data-wow-delay=".5s">
                 <div class="header-right1 ">
                     <ul>
-                        <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">Register</a></li>
+                        <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">
+                            <fmt:message key="register"/></a></li>
                     </ul>
                 </div>
                 <myTag:cart/>
@@ -84,10 +87,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </div>
                 <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                     <ul class="nav navbar-nav">
-                        <li><a href="/viewHomePage" class="act">Home</a></li>
+                        <li class="active"><a href="/viewHomePage" class="act"><fmt:message key="home"/></a></li>
                         <!-- Mega Menu -->
                         <li class="dropdown">
-                            <a href="/viewTools">Tool</a>
+                            <a href="/viewTools"><fmt:message key="tools"/></a>
                         </li>
                     </ul>
                 </div>
@@ -99,8 +102,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!--banner-->
 <div class="banner-top">
     <div class="container">
-        <h2 class="animated wow fadeInLeft" data-wow-delay=".5s">Login</h2>
-        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a href="/viewHomePage">Home</a><label>/</label>Login
+        <h2 class="animated wow fadeInLeft" data-wow-delay=".5s"><fmt:message key="login"/></h2>
+        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a href="/viewHomePage"><fmt:message
+                key="home"/></a><label>/</label><fmt:message key="login"/>
         </h3>
         <div class="clearfix"></div>
     </div>
@@ -119,12 +123,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <form name="loginForm" action="/loginUser" method="post" onsubmit="return validateLoginForm('loginForm')">
             <div class="col-md-6 login-do1 animated wow fadeInLeft" data-wow-delay=".5s">
                 <div class="login-mail">
-                    <input type="text" name="email" placeholder="Email" value="${requestScope.logEntity.email}"
+                    <input type="text" name="email" placeholder="<fmt:message key="email"/>"
+                           value="${requestScope.logEntity.email}"
                            required="">
                     <i class="glyphicon glyphicon-envelope"></i>
                 </div>
                 <div class="login-mail">
-                    <input type="password" name="password" placeholder="Password"
+                    <input type="password" name="password" placeholder="<fmt:message key="password"/>"
                            value="${requestScope.logEntity.password}" required="">
                     <i class="glyphicon glyphicon-lock"></i>
                 </div>
@@ -134,10 +139,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             </div>
             <div class="col-md-6 login-do animated wow fadeInRight" data-wow-delay=".5s">
                 <label class="hvr-sweep-to-top login-sub">
-                    <input type="submit" value="login">
+                    <input type="submit" value="<fmt:message key="login"/>">
                 </label>
                 <p>Do not have an account?</p>
-                <a href="/viewRegisterForm" class="hvr-sweep-to-top">Signup</a>
+                <a href="/viewRegisterForm" class="hvr-sweep-to-top"><fmt:message key="register"/></a>
             </div>
             <div class="clearfix"></div>
         </form>

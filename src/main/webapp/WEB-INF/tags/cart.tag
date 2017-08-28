@@ -1,6 +1,8 @@
 <%@tag pageEncoding="UTF-8" %>
 <%@tag body-content="empty" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<fmt:setBundle basename="ToolShopWeb"/>
 <div class="header-right2">
     <div class="cart box_1">
         <a href="/viewCart">
@@ -22,7 +24,7 @@
                 <img src="images/cart.png" alt=""/>
             </h3>
         </a>
-        <p><a href="javascript:carts.clear();" class="simpleCart_empty">Empty Cart</a></p>
+        <p><a href="javascript:carts.clear();" class="simpleCart_empty"><fmt:message key="empty_cart"/></a></p>
         <div class="clearfix"></div>
     </div>
 </div>
