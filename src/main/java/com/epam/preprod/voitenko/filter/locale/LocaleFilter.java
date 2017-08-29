@@ -1,4 +1,4 @@
-package com.epam.preprod.voitenko.filter;
+package com.epam.preprod.voitenko.filter.locale;
 
 import com.epam.preprod.voitenko.strategy.locale.CookieLocaleStrategy;
 import com.epam.preprod.voitenko.strategy.locale.LocaleStrategy;
@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Locale;
 
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 
@@ -58,21 +61,8 @@ public class LocaleFilter implements Filter {
         if (selectedLocale == null) {
             selectedLocale = defaultLocale;
         }
-
-        final Locale finalSelectedLocale = selectedLocale;
-        HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(httpServletRequest) {
-            @Override
-            public Locale getLocale() {
-                return finalSelectedLocale;
-            }
-
-            @Override
-            public Enumeration<Locale> getLocales() {
-                return Collections.enumeration(Collections.singletonList(finalSelectedLocale));
-            }
-        };
-
-        filterChain.doFilter(requestWrapper, httpServletResponse);
+        HttpServletRequestWrapper localeSubstitutionRequestWrapper = new LocaleSubstitutionRequestWrapper(httpServletRequest, selectedLocale);
+        filterChain.doFilter(localeSubstitutionRequestWrapper, httpServletResponse);
     }
 
     @Override
