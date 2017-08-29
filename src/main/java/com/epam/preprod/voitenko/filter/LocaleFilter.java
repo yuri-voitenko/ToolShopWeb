@@ -38,26 +38,29 @@ public class LocaleFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        final HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+        final HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
         Locale selectedLocale;
+        // First check url parameter
         String lang = servletRequest.getParameter(LANG);
         if (lang != null && !lang.isEmpty()) {
             Locale urlLocale = new Locale(lang);
             if (locales.contains(urlLocale)) {
-                localeStrategy.setLocale(urlLocale, (HttpServletRequest) servletRequest, (HttpServletResponse) servletResponse);
+                localeStrategy.setLocale(urlLocale, httpServletRequest, httpServletResponse);
             }
         }
-        selectedLocale = localeStrategy.getLocale((HttpServletRequest) servletRequest);
-        System.out.println(selectedLocale);
+        selectedLocale = localeStrategy.getLocale(httpServletRequest);
+        // if not url parameter, get locale from browser
         if (selectedLocale == null) {
             selectedLocale = getAcceptableLocale(Collections.list(servletRequest.getLocales()));
         }
+        // if not acceptable locale, set default
         if (selectedLocale == null) {
             selectedLocale = defaultLocale;
         }
-        localeStrategy.setLocale(selectedLocale, (HttpServletRequest) servletRequest, (HttpServletResponse) servletResponse);
 
         final Locale finalSelectedLocale = selectedLocale;
-        HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper((HttpServletRequest) servletRequest) {
+        HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(httpServletRequest) {
             @Override
             public Locale getLocale() {
                 return finalSelectedLocale;
@@ -69,7 +72,7 @@ public class LocaleFilter implements Filter {
             }
         };
 
-        filterChain.doFilter(requestWrapper, servletResponse);
+        filterChain.doFilter(requestWrapper, httpServletResponse);
     }
 
     @Override

@@ -48,6 +48,10 @@
         <param-name>Timeout</param-name>
         <param-value>300</param-value>
     </context-param>
+    <context-param>
+        <param-name>CookieMaxAge</param-name>
+        <param-value>60</param-value>
+    </context-param>
     <welcome-file-list>
         <welcome-file>/WEB-INF/index.jsp</welcome-file>
     </welcome-file-list>

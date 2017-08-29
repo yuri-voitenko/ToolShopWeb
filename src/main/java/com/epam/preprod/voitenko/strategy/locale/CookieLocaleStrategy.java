@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Locale;
 
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.COOKIE_MAX_AGE;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.SELECTED_LOCALE;
 
 public class CookieLocaleStrategy implements LocaleStrategy {
@@ -24,8 +25,9 @@ public class CookieLocaleStrategy implements LocaleStrategy {
 
     @Override
     public void setLocale(Locale newLocale, HttpServletRequest request, HttpServletResponse response) {
+        int cookieMaxAge = Integer.parseInt(request.getServletContext().getInitParameter(COOKIE_MAX_AGE));
         Cookie cookie = new Cookie(SELECTED_LOCALE, newLocale.toString());
-        cookie.setSecure(true);
+        cookie.setMaxAge(cookieMaxAge);
         response.addCookie(cookie);
     }
 }

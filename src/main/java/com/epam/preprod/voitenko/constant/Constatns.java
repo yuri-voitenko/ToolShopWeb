@@ -53,7 +53,7 @@ public class Constatns {
         public static final String DEFAULT_LOCALE = "defaultLocale";
         public static final String LOCALE_STRATEGY = "localeStrategy";
         public static final String LANG = "lang";
-
+        public static final String COOKIE_MAX_AGE = "CookieMaxAge";
 
         public static final String REG_ENTITY = "regEntity";
         public static final String LOGIN_ENTITY = "logEntity";
