@@ -122,7 +122,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div class="col-md-6 price-head1">
                         <div class="price-top1" style="width: 250px;">
                             <span class="price-top">#</span>
-                            <input form="filter" type="text" name="nameTool" placeholder="name tool"
+                            <input form="filter" type="text" name="nameTool" placeholder="<fmt:message key="name_tool"/>"
                                    value="${requestScope.filterEntity.nameTool}">
                         </div>
                     </div>
@@ -133,7 +133,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="categories">
                 <h3><fmt:message key="category"/></h3><br>
                 <select form="filter" name="category" style="width: 250px;">
-                    <option disabled selected>Select type of tool</option>
+                    <option disabled selected><fmt:message key="select_type_tool"/></option>
                     <c:forEach items="${requestScope.categories}" var="type">
                         <c:choose>
                             <c:when test="${type == requestScope.filterEntity.category}">
@@ -215,33 +215,34 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <c:set var="indexFinishToolOnPage" value="${requestScope.numberSuitableTools}"/>
                 </c:if>
                 <p>
-                    Showing ${indexStartToolOnPage+1}–${indexFinishToolOnPage} of ${requestScope.numberSuitableTools}
-                    results</p>
-                <p class="showing">Sorting By
+
+                    <fmt:message key="showing"/> ${indexStartToolOnPage+1}–${indexFinishToolOnPage} <fmt:message key="of"/> ${requestScope.numberSuitableTools}
+                    <fmt:message key="results"/></p>
+                <p class="showing"><fmt:message key="sorting_by"/>
                     <select form="filter" name="orderKey">
-                        <option value="name">Name</option>
+                        <option value="name"><fmt:message key="name"/></option>
                         <c:choose>
                             <c:when test="${requestScope.filterEntity.orderKey == 'cost'}">
-                                <option value="cost" selected>Price</option>
+                                <option value="cost" selected><fmt:message key="price"/></option>
                             </c:when>
                             <c:otherwise>
-                                <option value="cost">Price</option>
+                                <option value="cost"><fmt:message key="price"/></option>
                             </c:otherwise>
                         </c:choose>
                     </select>
                     <select form="filter" name="orderDirection">
-                        <option value="ASC">Up</option>
+                        <option value="ASC"><fmt:message key="up"/></option>
                         <c:choose>
                             <c:when test="${requestScope.filterEntity.orderDirection == 'DESC'}">
-                                <option value="DESC" selected>Down</option>
+                                <option value="DESC" selected><fmt:message key="down"/></option>
                             </c:when>
                             <c:otherwise>
-                                <option value="DESC">Down</option>
+                                <option value="DESC"><fmt:message key="down"/></option>
                             </c:otherwise>
                         </c:choose>
                     </select>
                 </p>
-                <p>Show
+                <p><fmt:message key="items_on_the_page"/>
                     <select form="filter" name="numberToolsOnPage">
                         <c:forEach begin="3" end="27" step="3" varStatus="loop">
                             <c:choose>
