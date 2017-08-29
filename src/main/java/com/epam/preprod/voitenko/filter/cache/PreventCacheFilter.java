@@ -7,7 +7,7 @@ import java.io.IOException;
 public class PreventCacheFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        // NOP
     }
 
     @Override
@@ -21,6 +21,6 @@ public class PreventCacheFilter implements Filter {
 
     @Override
     public void destroy() {
-
+        // NOP
     }
 }

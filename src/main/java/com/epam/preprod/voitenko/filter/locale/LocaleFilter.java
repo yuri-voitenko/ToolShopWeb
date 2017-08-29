@@ -41,8 +41,8 @@ public class LocaleFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        final HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-        final HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
+        HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
         Locale selectedLocale;
         // First check url parameter
         String lang = servletRequest.getParameter(LANG);
@@ -67,6 +67,7 @@ public class LocaleFilter implements Filter {
 
     @Override
     public void destroy() {
+        // NOP
     }
 
     private Locale getAcceptableLocale(Collection<Locale> userLocale) {

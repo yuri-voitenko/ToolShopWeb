@@ -102,4 +102,12 @@
         <filter-name>PreventCacheFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <filter>
+        <filter-name>GZipServletFilter</filter-name>
+        <filter-class>com.epam.preprod.voitenko.filter.gzip.GZipServletFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>GZipServletFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>
