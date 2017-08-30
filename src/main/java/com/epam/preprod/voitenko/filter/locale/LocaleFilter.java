@@ -28,21 +28,15 @@ public class LocaleFilter implements Filter {
         for (String nameParameter : Collections.list(filterConfig.getInitParameterNames())) {
             locales.add(new Locale(filterConfig.getInitParameter(nameParameter)));
         }
-        switch (filterConfig.getInitParameter(LOCALE_STRATEGY)) {
-            case "cookie":
-                localeStrategy = new CookieLocaleStrategy();
-                break;
-            case "session":
-            default:
-                localeStrategy = new SessionLocaleStrategy();
-                break;
-        }
+        String keyStrategy = filterConfig.getInitParameter(LOCALE_STRATEGY);
+        localeStrategy = getLocaleStrategy(keyStrategy);
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
+        HttpServletRequestWrapper localeSubstitutionRequestWrapper = null;
         Locale selectedLocale;
         // First check url parameter
         String lang = servletRequest.getParameter(LANG);
@@ -50,6 +44,9 @@ public class LocaleFilter implements Filter {
             Locale urlLocale = new Locale(lang);
             if (locales.contains(urlLocale)) {
                 localeStrategy.setLocale(urlLocale, httpServletRequest, httpServletResponse);
+                if (localeStrategy instanceof CookieLocaleStrategy) {
+                    localeSubstitutionRequestWrapper = new LocaleSubstitutionRequestWrapper(httpServletRequest, urlLocale);
+                }
             }
         }
         selectedLocale = localeStrategy.getLocale(httpServletRequest);
@@ -61,13 +58,29 @@ public class LocaleFilter implements Filter {
         if (selectedLocale == null) {
             selectedLocale = defaultLocale;
         }
-        HttpServletRequestWrapper localeSubstitutionRequestWrapper = new LocaleSubstitutionRequestWrapper(httpServletRequest, selectedLocale);
+        httpServletResponse.setLocale(selectedLocale);
+        if (localeSubstitutionRequestWrapper == null) {
+            localeSubstitutionRequestWrapper = new LocaleSubstitutionRequestWrapper(httpServletRequest, selectedLocale);
+        }
         filterChain.doFilter(localeSubstitutionRequestWrapper, httpServletResponse);
     }
 
     @Override
     public void destroy() {
         // NOP
+    }
+
+    private LocaleStrategy getLocaleStrategy(String keyStrategy) {
+        if (keyStrategy == null) {
+            return new SessionLocaleStrategy();
+        }
+        switch (keyStrategy) {
+            case "cookie":
+                return new CookieLocaleStrategy();
+            case "session":
+            default:
+                return new SessionLocaleStrategy();
+        }
     }
 
     private Locale getAcceptableLocale(Collection<Locale> userLocale) {
