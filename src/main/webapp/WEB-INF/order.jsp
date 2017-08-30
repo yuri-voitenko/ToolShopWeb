@@ -6,12 +6,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="captcha" uri="tld/captcha.tld" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="myTag" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tool Shop | Register</title>
+    <title>Tool Shop | Cart</title>
     <!-- for-mobile-apps -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -30,12 +29,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- js -->
     <script src="js/jquery.min.js"></script>
     <!-- //js -->
-    <!-- validate -->
-    <script type="text/javascript" src="js/validate.js"></script>
-    <script type="text/javascript" src="js/captcha.js"></script>
-    <!-- cart -->
-    <script src="js/cart.js"></script>
-    <!-- cart -->
     <!-- for bootstrap working -->
     <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
     <!-- //for bootstrap working -->
@@ -63,7 +56,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">Register</a></li>
                     </ul>
                 </div>
-                <myTag:cart/>
                 <div class="clearfix"></div>
             </div>
             <div class="clearfix"></div>
@@ -103,78 +95,87 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!--banner-->
 <div class="banner-top">
     <div class="container">
-        <h2 class="animated wow fadeInLeft" data-wow-delay=".5s">Register</h2>
-        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a href="/viewHomePage">Home</a><label>/</label>Register
+        <h2 class="animated wow fadeInLeft" data-wow-delay=".5s">Order</h2>
+        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a href="/viewHomePage">Home</a><label>/</label>Order
         </h3>
         <div class="clearfix"></div>
     </div>
 </div>
 <!-- contact -->
-<div class="login">
-    <div class="container" id="container">
-        <c:if test="${not empty requestScope.successRegistration}">
-            <div class="alert alert-success" role="alert">
-                <strong>Well done!</strong>${requestScope.successRegistration}
-            </div>
-        </c:if>
-        <c:if test="${not empty requestScope.errors}">
-            <div class="alert alert-danger" role="alert">
-                <strong>Oops! </strong>Something went wrong :( Please fix and try again.<br><br>
-                <c:forEach items="${requestScope.errors}" var="entry">
-                    <strong> ${entry.key}</strong><br>${entry.value}<br>
-                </c:forEach>
-            </div>
-        </c:if>
-        <form name="registerForm" action="/registerUser" method="post" enctype="multipart/form-data"
-              onsubmit="return validateRegisterForm('registerForm')">
-            <div class="col-md-6 login-do1 animated wow fadeInLeft" data-wow-delay=".5s">
-                <div class="login-mail">
-                    <input type="text" name="fullName" placeholder="Full name"
-                           value="${requestScope.regEntity.fullName}" required="">
-                    <img src="images/ID.png" alt=""/>
-                </div>
-                <div class="login-mail">
-                    <input type="text" name="address" placeholder="Address" value="${requestScope.regEntity.address}"
-                           required="">
-                    <i class="glyphicon glyphicon-map-marker"></i>
-                </div>
-                <div class="login-mail">
-                    <input type="text" name="phoneNumber" placeholder="+X-XXX-XXX-XXXX"
-                           value="${requestScope.regEntity.phoneNumber}" required="">
-                    <i class="glyphicon glyphicon-earphone"></i>
-                </div>
-                <div class="login-mail">
-                    <input type="text" name="email" placeholder="Email" value="${requestScope.regEntity.email}"
-                           required="">
-                    <i class="glyphicon glyphicon-envelope"></i>
-                </div>
-                <div class="login-mail">
-                    <input type="password" name="password" placeholder="Password"
-                           value="${requestScope.regEntity.password}" required="">
-                    <i class="glyphicon glyphicon-lock"></i>
-                </div>
-                <div class="login-mail">
-                    <input type="password" name="passwordCheck" placeholder="Repeated password"
-                           value="${requestScope.regEntity.repeatedPassword}"
-                           required="">
-                    <img src="images/password-check.png" alt=""/>
-                </div>
-                <captcha:CaptchaImage/>
-                <div class="login-mail">
-                    <input type="text" name="captcha" placeholder="Captcha" required="">
-                    <img src="images/stop_robot.png" alt=""/>
-                </div>
-                <input type="file" name="avatar" accept="image/jpeg,image/png"/>
-            </div>
-            <div class="col-md-6 login-do animated wow fadeInRight" data-wow-delay=".5s">
-                <label class="hvr-sweep-to-top login-sub">
-                    <input type="submit" value="Submit">
-                </label>
-                <p>Already register</p>
-                <a href="/viewLoginForm" class="hvr-sweep-to-top">Login</a>
-            </div>
-            <div class="clearfix"></div>
-        </form>
+<div class="check-out">
+    <div class="container">
+        <c:choose>
+            <c:when test="${empty sessionScope.cart}">
+                <center><img src="images/cart-empty.png" alt=""/></center>
+            </c:when>
+            <c:otherwise>
+                <c:set var="countTotalSum" value="0" scope="page"/>
+                <table class="table animated wow fadeInLeft" data-wow-delay=".5s">
+                    <tr>
+                        <th class="t-head head-it ">Item</th>
+                        <th class="t-head">Price</th>
+                        <th class="t-head">Quantity</th>
+                        <th class="t-head">Total</th>
+                    </tr>
+                    <c:forEach items="${sessionScope.listOrderedTools}" var="orderedTool">
+                        <tr class="cross" id="${orderedTool.electricTool.id}">
+                            <td class="ring-in t-data">
+                                <a href="#" class="at-in">
+                                    <img src="images/tools/${orderedTool.electricTool.mainImage}" width="100"
+                                         height="136" alt="">
+                                </a>
+                                <div class="sed">
+                                    <h2>${orderedTool.electricTool.category}</h2>
+                                    <h3>${orderedTool.electricTool.manufacturer}</h3>
+                                    <h4>${orderedTool.electricTool.name}</h4>
+                                </div>
+                                <div class="clearfix"></div>
+                            </td>
+                            <td class="t-data"><h4>${orderedTool.unitPrice}</h4></td>
+                            <td class="t-data"><h4>${orderedTool.amount}</h4></td>
+                            <td id="totalCostSpecificTool" class="t-data"><h4>
+                                $ ${orderedTool.unitPrice*orderedTool.amount}</h4></td>
+                            <c:set var="countTotalSum"
+                                   value="${countTotalSum + (orderedTool.unitPrice*orderedTool.amount)}" scope="page"/>
+                        </tr>
+                    </c:forEach>
+                </table>
+                <h5 class="continue">Cart Total:
+                    <span id="cartTotal" class="simpleCart_total">$ ${countTotalSum}</span>
+                </h5>
+                <form name="orderDetails" action="/executeOrder" method="POST">
+                    <div class="col-md-6 login-do1 animated wow fadeInLeft" data-wow-delay=".5s">
+                        Select type of delivery
+                        <select name="delivery" style="width: 540px;" required>
+                            <option value="Free On Truck" selected="">Free On Truck</option>
+                            <option value="Nearest post officer">Nearest post office</option>
+                            <option value="Courier">Courier</option>
+                        </select>
+                        <br><br>
+                        <div class="login-mail">
+                            <input type="text" name="address" placeholder="Address"
+                                   pattern="^.{6,}$" required="">
+                            <i class="glyphicon glyphicon-map-marker"></i>
+                        </div>
+                        <div class="login-mail">
+                            <input type="text" name="phoneNumber" placeholder="XXXX XXXX XXXX XXXX"
+                                   pattern="^[0-9]{4}\s[0-9]{4}\s[0-9]{4}\s[0-9]{4}$"
+                                   title="Please input correct number bank card. Hint: 1111 2222 3333 4444"
+                                   required="">
+                            <img src="images/bank-card.png" alt=""/>
+                        </div>
+                    </div>
+                    <div class="col-md-6 login-do animated wow fadeInRight" data-wow-delay=".5s">
+                        <a href="/viewCart" class="hvr-sweep-to-top">Back</a>
+                        <p>
+                            <label class="hvr-sweep-to-top login-sub">
+                                <input type="submit" value="Complete the order">
+                            </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </form>
+            </c:otherwise>
+        </c:choose>
     </div>
 </div>
 <!-- footer -->
@@ -206,7 +207,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="clearfix"></div>
         </div>
         <div class="copy-right animated wow fadeInUp" data-wow-delay=".5s">
-            <p>&copy 2017 Tool Shop. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
+            <p>&copy 2016 Tool Shop. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
         </div>
     </div>
 </div>

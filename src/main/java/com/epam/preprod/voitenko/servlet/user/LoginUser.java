@@ -1,4 +1,4 @@
-package com.epam.preprod.voitenko.servlet;
+package com.epam.preprod.voitenko.servlet.user;
 
 import com.epam.preprod.voitenko.entity.LoginEntity;
 import com.epam.preprod.voitenko.entity.UserEntity;
@@ -22,23 +22,23 @@ import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 import static com.epam.preprod.voitenko.constant.Constatns.Message.NOT_LOGIN_EMAIL;
 import static com.epam.preprod.voitenko.constant.Constatns.Message.NOT_LOGIN_PASSWORD;
 import static com.epam.preprod.voitenko.util.ServiceUtil.getHashPassword;
-import static com.epam.preprod.voitenko.util.ServiceUtil.removeSessionAttribute;
+import static com.epam.preprod.voitenko.util.ServiceUtil.removeSessionAttributeAndSetRequestAttribute;
 
 @WebServlet("/loginUser")
 public class LoginUser extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        removeSessionAttribute(httpServletRequest, LOGIN_ENTITY);
-        removeSessionAttribute(httpServletRequest, ERRORS);
-        httpServletRequest.getRequestDispatcher("/viewLoginForm").forward(httpServletRequest, httpServletResponse);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        removeSessionAttributeAndSetRequestAttribute(req, LOGIN_ENTITY);
+        removeSessionAttributeAndSetRequestAttribute(req, ERRORS);
+        req.getRequestDispatcher("/viewLoginForm").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        LoginEntity loginEntity = ServiceUtil.extractLoginEntity(httpServletRequest);
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        LoginEntity loginEntity = ServiceUtil.extractLoginEntity(req);
         Map<String, String> errors = ValidatorUtil.validate(loginEntity);
-        HttpSession session = httpServletRequest.getSession();
+        HttpSession session = req.getSession();
 
         if (!errors.isEmpty()) {
             session.setAttribute(LOGIN_ENTITY, loginEntity);
@@ -60,6 +60,6 @@ public class LoginUser extends HttpServlet {
         }
         session.setAttribute(ERRORS, errors);
         String redirect = errors.isEmpty() ? "/viewHomePage" : "/loginUser";
-        httpServletResponse.sendRedirect(redirect);
+        resp.sendRedirect(redirect);
     }
 }

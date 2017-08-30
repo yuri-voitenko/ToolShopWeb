@@ -14,13 +14,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- for-mobile-apps -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <script type="application/x-javascript"> addEventListener("load", function () {
-        setTimeout(hideURLbar, 0);
-    }, false);
+    <script type="application/x-javascript">
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
 
-    function hideURLbar() {
-        window.scrollTo(0, 1);
-    } </script>
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
     <!-- //for-mobile-apps -->
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
@@ -30,7 +32,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- validate -->
     <script type="text/javascript" src="js/validate.js"></script>
     <!-- cart -->
-    <script src="js/simpleCart.min.js"></script>
+    <script src="js/cart.js"></script>
     <!-- cart -->
     <!-- for bootstrap working -->
     <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
@@ -56,22 +58,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">Register</a></li>
                     </ul>
                 </div>
-                <div class="header-right2">
-                    <div class="cart box_1">
-                        <a href="#">
-                            <h3>
-                                <div class="total">
-                                    <span class="simpleCart_total"></span> (<span id="simpleCart_quantity"
-                                                                                  class="simpleCart_quantity"></span>
-                                    items)
-                                </div>
-                                <img src="images/cart.png" alt=""/>
-                            </h3>
-                        </a>
-                        <p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
+                <myTag:cart/>
                 <div class="clearfix"></div>
             </div>
             <div class="clearfix"></div>

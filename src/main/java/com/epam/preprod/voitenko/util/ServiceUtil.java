@@ -1,19 +1,23 @@
 package com.epam.preprod.voitenko.util;
 
-import com.epam.preprod.voitenko.entity.FilterEntity;
-import com.epam.preprod.voitenko.entity.LoginEntity;
-import com.epam.preprod.voitenko.entity.RegisterEntity;
-import com.epam.preprod.voitenko.entity.UserEntity;
+import com.epam.preprod.voitenko.entity.*;
+import com.epam.preprod.voitenko.handler.DataSourceHandler;
+import com.epam.preprod.voitenko.service.ToolService;
 import com.epam.preprod.voitenko.sqlbuilder.SQLBuilder;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import javax.sql.DataSource;
 import java.io.IOException;
+import java.io.Writer;
+import java.math.BigDecimal;
 import java.nio.file.Paths;
 import java.util.UUID;
 
@@ -28,11 +32,20 @@ public class ServiceUtil {
     private ServiceUtil() {
     }
 
+    public static void writeJSONObject(HttpServletResponse resp, BigDecimal totalCart, Integer quantity, BigDecimal costSpecificTool) throws IOException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(CART_TOTAL, totalCart.toString());
+        jsonObject.put(CART_QUANTITY, quantity.toString());
+        jsonObject.put(TOTAL_COST_SPECIFIC_TOOL, costSpecificTool.toString());
+        Writer writer = resp.getWriter();
+        jsonObject.writeJSONString(writer);
+    }
+
     public static String getHashPassword(String password) {
         return DigestUtils.md5Hex(password);
     }
 
-    public static void removeSessionAttribute(HttpServletRequest httpServletRequest, String key) {
+    public static void removeSessionAttributeAndSetRequestAttribute(HttpServletRequest httpServletRequest, String key) {
         HttpSession session = httpServletRequest.getSession();
         Object object = session.getAttribute(key);
         if (object != null) {
@@ -87,6 +100,18 @@ public class ServiceUtil {
         return registerEntity;
     }
 
+    public static ElectricToolEntity extractElectricToolEntity(HttpServletRequest httpServletRequest) {
+        String strToolID = httpServletRequest.getParameter(ID);
+        Integer toolID = 0;
+        if (strToolID != null) {
+            toolID = Integer.parseInt(strToolID);
+        }
+
+        DataSource dataSource = DataSourceHandler.getInstance().getDataSource();
+        ToolService toolService = new ToolService(dataSource);
+        return toolService.getToolById(toolID);
+    }
+
     public static String createSQL(FilterEntity filterEntity) {
         SQLBuilder sqlBuilder = new SQLBuilder();
         if (!isNullOrEmpty(filterEntity.getNameTool())) {
@@ -125,6 +150,14 @@ public class ServiceUtil {
         userEntity.setPassword(registerEntity.getPassword());
         userEntity.setAvatar(registerEntity.getAvatar());
         return userEntity;
+    }
+
+    public static Cart<ElectricToolEntity> getCart(HttpSession session) {
+        Cart<ElectricToolEntity> cart = (CartEntity) session.getAttribute(CART);
+        if (cart == null) {
+            cart = new CartEntity();
+        }
+        return cart;
     }
 
     private static void uploadAvatar(HttpServletRequest httpServletRequest, RegisterEntity regBean) {

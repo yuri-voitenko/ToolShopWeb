@@ -1,4 +1,4 @@
-package com.epam.preprod.voitenko.servlet;
+package com.epam.preprod.voitenko.servlet.user;
 
 import com.epam.preprod.voitenko.strategy.CaptchaStrategy;
 
@@ -15,11 +15,9 @@ import static com.epam.preprod.voitenko.constant.Constatns.Keys.STRATEGY;
 public class ViewRegister extends HttpServlet {
 
     @Override
-    protected void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         CaptchaStrategy strategy = (CaptchaStrategy) getServletContext().getAttribute(STRATEGY);
-        strategy.setIdCaptcha(httpServletRequest, httpServletResponse);
-        httpServletRequest
-                .getRequestDispatcher("/WEB-INF/register.jsp")
-                .forward(httpServletRequest, httpServletResponse);
+        strategy.setIdCaptcha(req, resp);
+        req.getRequestDispatcher("/WEB-INF/register.jsp").forward(req, resp);
     }
 }

@@ -27,6 +27,32 @@ CREATE TABLE tools (
   PRIMARY KEY (id), UNIQUE (id), UNIQUE (manufacturer), UNIQUE (category)
 );
 
+CREATE TABLE info_ordered_tools (
+  id int NOT NULL AUTO_INCREMENT,
+  toolID int,
+  cost DECIMAL(5, 2) NOT NULL,
+  amount int NOT NULL,
+  PRIMARY KEY (id), UNIQUE (id),
+  FOREIGN KEY (toolID) REFERENCES tools(id) ON DELETE CASCADE
+);
+
+CREATE TABLE orders (
+  id int NOT NULL AUTO_INCREMENT,
+  status ENUM( 'ACCEPTED', 'CONFIRMED', 'FORMING', 'SENT', 'COMPLETED', 'CANCELED'),
+  statusDetail varchar(255) NOT NULL,
+  address varchar(255) NOT NULL,
+  dateTime DATETIME DEFAULT CURRENT_TIMESTAMP,
+  userID int,
+  PRIMARY KEY (id), UNIQUE (id),
+  FOREIGN KEY (userID) REFERENCES users(id) ON DELETE CASCADE
+);
+CREATE TABLE order_bunch (
+  orderID int,
+  infoOrderedToolID int,
+  FOREIGN KEY (orderID) REFERENCES orders(id) ON DELETE CASCADE,
+  FOREIGN KEY (infoOrderedToolID) REFERENCES info_ordered_tools(id) ON DELETE CASCADE
+);
+
 INSERT INTO users
     (email, password, fullName, phoneNumber, address, avatar)
 VALUES

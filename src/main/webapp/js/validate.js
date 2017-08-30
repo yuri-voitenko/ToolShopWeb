@@ -4,7 +4,7 @@ function validateLoginForm(formName) {
     var password = document.forms[formName]["password"];
     if (!validateEmail(email.value)) {
         errorDiv.innerHTML += "<strong>Email</strong> Sorry, you entered an incorrect email!<br>" +
-                              "Please fix and try again.<br>";
+            "Please fix and try again.<br>";
         email.focus();
         highlight(email, true);
         return false;
@@ -12,13 +12,13 @@ function validateLoginForm(formName) {
     highlight(email, false);
     if (!validatePassword(password.value)) {
         errorDiv.innerHTML += "<strong>Password</strong> Sorry, you entered an incorrect password!<br>" +
-                              "Please fix and try again.<br>" +
-                              "<br>Password requirements:<br>" +
-                              "&emsp;* At least one upper case English letter<br>" +
-                              "&emsp;* At least one lower case English letter<br>" +
-                              "&emsp;* At least one digit<br>" +
-                              "&emsp;* At least one special character<br>" +
-                              "&emsp;* Minimum eight in length<br>";
+            "Please fix and try again.<br>" +
+            "<br>Password requirements:<br>" +
+            "&emsp;* At least one upper case English letter<br>" +
+            "&emsp;* At least one lower case English letter<br>" +
+            "&emsp;* At least one digit<br>" +
+            "&emsp;* At least one special character<br>" +
+            "&emsp;* Minimum eight in length<br>";
         password.focus();
         highlight(password, true);
         return false;
@@ -33,8 +33,8 @@ function validateRegisterForm(formName) {
     var fullName = document.forms[formName]["fullName"];
     if (!validateFullName(fullName.value)) {
         errorDiv.innerHTML += "<strong>Full name</strong> Sorry, you entered an incorrect fullName!<br>" +
-                              "Please fix and try again.<br>" + "Hint: 'FirstName LastName'<br>";
-         fullName.focus();
+            "Please fix and try again.<br>" + "Hint: 'FirstName LastName'<br>";
+        fullName.focus();
         highlight(fullName, true);
         return false;
     }
@@ -43,7 +43,7 @@ function validateRegisterForm(formName) {
     var phoneNumber = document.forms[formName]["phoneNumber"];
     if (!validatePhoneNumber(phoneNumber.value)) {
         errorDiv.innerHTML += "<strong>Phone number</strong> Sorry, you entered an incorrect phone number!<br>" +
-                              "Please fix and try again.<br>" + "Hint: Use international format!<br>";
+            "Please fix and try again.<br>" + "Hint: Use international format!<br>";
         phoneNumber.focus();
         highlight(phoneNumber, true);
         return false;
@@ -57,7 +57,7 @@ function validateRegisterForm(formName) {
     var passwordCheck = document.forms[formName]["passwordCheck"];
     if (password.value != passwordCheck.value) {
         errorDiv.innerHTML += "<strong>Repeated password</strong> Sorry, you entered an incorrect repeated password!<br>" +
-                              "Please fix and try again.<br>";
+            "Please fix and try again.<br>";
         passwordCheck.focus();
         highlight(passwordCheck, true);
         return false;
@@ -66,8 +66,8 @@ function validateRegisterForm(formName) {
 
     var captchaCode = document.forms[formName]["captcha"];
     if (!validateCaptchaCode(captchaCode.value)) {
-    errorDiv.innerHTML += "<strong>Captcha code</strong> Sorry, you entered an incorrect secret code!<br>" +
-                          "Please fix and try again.<br>" + "Hint: Must be only 10 digits.<br>";
+        errorDiv.innerHTML += "<strong>Captcha code</strong> Sorry, you entered an incorrect secret code!<br>" +
+            "Please fix and try again.<br>" + "Hint: Must be only 10 digits.<br>";
         captchaCode.focus();
         highlight(captchaCode, true);
         return false;
@@ -77,9 +77,9 @@ function validateRegisterForm(formName) {
     return true;
 }
 
-function getErrorDiv(){
+function getErrorDiv() {
     var errorDiv = document.getElementById("errorMessages");
-    if(errorDiv == null){
+    if (errorDiv == null) {
         errorDiv = document.createElement('div');
         errorDiv.setAttribute("id", "errorMessages");
         errorDiv.className = "alert alert-danger";

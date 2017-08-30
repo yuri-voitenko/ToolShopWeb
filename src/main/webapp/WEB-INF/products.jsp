@@ -15,13 +15,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- for-mobile-apps -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <script type="application/x-javascript"> addEventListener("load", function () {
-        setTimeout(hideURLbar, 0);
-    }, false);
+    <script type="application/x-javascript">
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
 
-    function hideURLbar() {
-        window.scrollTo(0, 1);
-    } </script>
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
     <!-- //for-mobile-apps -->
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
@@ -29,7 +31,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <script src="js/jquery.min.js"></script>
     <!-- //js -->
     <!-- cart -->
-    <script src="js/simpleCart.min.js"></script>
+    <script src="js/cart.js"></script>
     <!-- cart -->
     <!-- for bootstrap working -->
     <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
@@ -58,22 +60,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">Register</a></li>
                     </ul>
                 </div>
-                <div class="header-right2">
-                    <div class="cart box_1">
-                        <a href="checkout.html">
-                            <h3>
-                                <div class="total">
-                                    <span class="simpleCart_total"></span> (<span id="simpleCart_quantity"
-                                                                                  class="simpleCart_quantity"></span>
-                                    items)
-                                </div>
-                                <img src="images/cart.png" alt=""/>
-                            </h3>
-                        </a>
-                        <p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
+                <myTag:cart/>
                 <div class="clearfix"></div>
             </div>
             <div class="clearfix"></div>
@@ -161,7 +148,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <c:forEach items="${requestScope.manufacturers}" var="manufacturer">
                     <c:choose>
                         <c:when test="${empty requestScope.filterEntity.manufacturers}">
-                            &emsp;<input form="filter" type="checkbox" name="manufacturer" value="${manufacturer}" />&emsp;${manufacturer}
+                            &emsp;<input form="filter" type="checkbox" name="manufacturer" value="${manufacturer}"
+                            />&emsp;${manufacturer}
                         </c:when>
                         <c:otherwise>
                             <c:set var="isSelected" value="false"/>
@@ -172,10 +160,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             </c:forEach>
                             <c:choose>
                                 <c:when test="${isSelected}">
-                                    &emsp;<input form="filter" type="checkbox" name="manufacturer" value="${manufacturer}" checked/>&emsp;${manufacturer}
+                                    &emsp;<input form="filter" type="checkbox" name="manufacturer" value="${manufacturer}"
+                                    checked/>&emsp;${manufacturer}
                                 </c:when>
                                 <c:otherwise>
-                                    &emsp;<input form="filter" type="checkbox" name="manufacturer" value="${manufacturer}" />&emsp;${manufacturer}
+                                    &emsp;<input form="filter" type="checkbox" name="manufacturer" value="${manufacturer}"
+                                    />&emsp;${manufacturer}
                                 </c:otherwise>
                             </c:choose>
                         </c:otherwise>
@@ -212,16 +202,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <div class="col-md-9 animated wow fadeInRight" data-wow-delay=".5s">
             <div class="mens-toolbar">
                 <c:set var="indexStartToolOnPage"
-                       value="${(requestScope.filterEntity.numberPage*requestScope.filterEntity.numberToolsOnPage)}"/>
+                       value="${(requestScope.filterEntity.numberPage*requestScope.filterEntity.numberToolsOnPage)}"
+                />
                 <c:set var="indexFinishToolOnPage"
                        value="${indexStartToolOnPage+requestScope.filterEntity.numberToolsOnPage}"/>
                 <c:if test="${indexFinishToolOnPage > requestScope.numberSuitableTools}">
-                    <c:set var="indexFinishToolOnPage"
-                           value="${requestScope.numberSuitableTools}"/>
+                    <c:set var="indexFinishToolOnPage" value="${requestScope.numberSuitableTools}"/>
                 </c:if>
                 <p>
-                    Showing ${indexStartToolOnPage+1}–${indexFinishToolOnPage}
-                    of ${requestScope.numberSuitableTools} results</p>
+                    Showing ${indexStartToolOnPage+1}–${indexFinishToolOnPage} of ${requestScope.numberSuitableTools}
+                    results</p>
                 <p class="showing">Sorting By
                     <select form="filter" name="orderKey">
                         <option value="name">Name</option>
@@ -270,7 +260,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <figure>
                                     <a href="#">
                                         <div class="grid-img">
-                                            <img src="images/tools/${curTool.additionalImage}" class="img-responsive" alt="">
+                                            <img src="images/tools/${curTool.additionalImage}" class="img-responsive"
+                                                 alt="">
                                         </div>
                                         <div class="grid-img">
                                             <img src="images/tools/${curTool.mainImage}" class="img-responsive" alt="">
@@ -285,8 +276,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <h5>Power:${curTool.power}</h5>
                                 <h5>Max rotation speed:${curTool.maxRotationSpeed}</h5>
                                 <h5>Weight:${curTool.weight}</h5>
-                                <em class="item_price">$${curTool.cost}</em></p>
-                                <a href="#" data-text="Add To Cart" class="but-hover1 item_add">Add To Cart</a>
+                                <em class="item_price">$${curTool.cost}</em>
+                                <p>
+                                    <a href="javascript:carts.add(${curTool.id})" data-text="Add To Cart"
+                                       class="but-hover1 item_add">Add To Cart</a>
                             </div>
                         </div>
                     </div>
