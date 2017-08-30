@@ -75,12 +75,8 @@ public class InfoOrderedToolRepository implements GeneralRepository<InfoOrderedT
         }
         PreparedStatement statement = null;
         try {
-            int index = 0;
             statement = connection.prepareStatement(SQL_UPDATE_INFO_ORDERED_TOOL);
-            statement.setInt(++index, entity.getElectricTool().getId());
-            statement.setBigDecimal(++index, entity.getUnitPrice());
-            statement.setInt(++index, entity.getAmount());
-            statement.executeUpdate();
+            setInfoOrderedToolParametersAndExecuteupdate(entity, statement);
         } catch (SQLException e) {
             LOGGER.error(CANNOT_UPDATE_INFO_ORDERED_TOOL, e);
         } finally {
@@ -113,12 +109,8 @@ public class InfoOrderedToolRepository implements GeneralRepository<InfoOrderedT
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            int index = 0;
             statement = connection.prepareStatement(SQL_INSERT_INFO_ORDERED_TOOL, RETURN_GENERATED_KEYS);
-            statement.setInt(++index, entity.getElectricTool().getId());
-            statement.setBigDecimal(++index, entity.getUnitPrice());
-            statement.setInt(++index, entity.getAmount());
-            statement.executeUpdate();
+            setInfoOrderedToolParametersAndExecuteupdate(entity, statement);
             resultSet = statement.getGeneratedKeys();
             if (resultSet != null && resultSet.next()) {
                 int id = (int) resultSet.getLong(1);
@@ -131,6 +123,14 @@ public class InfoOrderedToolRepository implements GeneralRepository<InfoOrderedT
             close(statement);
         }
         return true;
+    }
+
+    private void setInfoOrderedToolParametersAndExecuteupdate(InfoOrderedToolEntity entity, PreparedStatement statement) throws SQLException {
+        int index = 0;
+        statement.setInt(++index, entity.getElectricTool().getId());
+        statement.setBigDecimal(++index, entity.getUnitPrice());
+        statement.setInt(++index, entity.getAmount());
+        statement.executeUpdate();
     }
 
     private InfoOrderedToolEntity extractInfoOrderedTool(ResultSet resultSet) throws SQLException {
