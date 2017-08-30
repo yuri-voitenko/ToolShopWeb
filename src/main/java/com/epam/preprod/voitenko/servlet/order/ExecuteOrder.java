@@ -36,15 +36,20 @@ public class ExecuteOrder extends HttpServlet {
         List<InfoOrderedToolEntity> listOrderedTools = (List<InfoOrderedToolEntity>) httpSession.getAttribute(LIST_ORDERED_TOOLS);
         UserEntity userEntity = (UserEntity) httpSession.getAttribute(USER_ENTITY);
 
-        OrderEntity orderEntity = new OrderEntity(OrderStatus.ACCEPTED, "created", address, userEntity, listOrderedTools);
-        DataSource dataSource = DataSourceHandler.getInstance().getDataSource();
-        OrderService orderService = new OrderService(dataSource);
-        orderService.createOrder(orderEntity);
+        OrderEntity orderEntity = createNewOrder(address, listOrderedTools, userEntity);
         Cart<ElectricToolEntity> cart = ServiceUtil.getCart(httpSession);
         cart.clear();
         httpSession.setAttribute(CART, cart);
         httpSession.setAttribute(ORDER_ENTITY, orderEntity);
         httpSession.setAttribute(DELIVERY, delivery);
         resp.sendRedirect("/executeOrder");
+    }
+
+    private OrderEntity createNewOrder(String address, List<InfoOrderedToolEntity> listOrderedTools, UserEntity userEntity) {
+        OrderEntity orderEntity = new OrderEntity(OrderStatus.ACCEPTED, "created", address, userEntity, listOrderedTools);
+        DataSource dataSource = DataSourceHandler.getInstance().getDataSource();
+        OrderService orderService = new OrderService(dataSource);
+        orderService.createOrder(orderEntity);
+        return orderEntity;
     }
 }

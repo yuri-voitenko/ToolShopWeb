@@ -5,6 +5,7 @@ import com.epam.preprod.voitenko.repository.*;
 import com.epam.preprod.voitenko.transaction.TransactionManager;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,19 +32,13 @@ public class OrderService {
             if (orderEntity != null) {
                 UserEntity userEntity = userRepository.getEntityById(connection, orderEntity.getUser().getId());
                 orderEntity.setUser(userEntity);
-                List<InfoOrderedToolEntity> orderedToolEntityList = new ArrayList<>();
                 List<OrderBunchEntity> orderBunchEntities = orderBunchRepository.getEntityById(connection, orderEntity.getId());
-                for (OrderBunchEntity orderBunchEntity : orderBunchEntities) {
-                    InfoOrderedToolEntity orderedToolEntity = infoOrderedToolRepository.getEntityById(connection, orderBunchEntity.getInfoOrderedToolID());
-                    ElectricToolEntity toolEntity = toolRepository.getEntityById(connection, orderedToolEntity.getElectricTool().getId());
-                    orderedToolEntity = orderedToolEntity.setElectricTool(toolEntity);
-                    orderedToolEntityList.add(orderedToolEntity);
-                }
-                orderEntity.setOrders(orderedToolEntityList);
+                orderEntity.setOrders(getInfoOrderedToolEntities(connection, orderBunchEntities));
             }
             return orderEntity;
         });
     }
+
 
     public boolean deleteOrderBunch(Integer id) {
         return transactionManager.doInTransaction(connection -> orderRepository.delete(connection, id));
@@ -56,12 +51,21 @@ public class OrderService {
             }
             List<OrderBunchEntity> orderBunchEntities = new ArrayList<>();
             for (InfoOrderedToolEntity orderedToolEntity : orderEntity.getOrders()) {
-                if (!infoOrderedToolRepository.create(connection, orderedToolEntity)) {
-                    return false;
-                }
+                infoOrderedToolRepository.create(connection, orderedToolEntity);
                 orderBunchEntities.add(new OrderBunchEntity(orderEntity.getId(), orderedToolEntity.getId()));
             }
             return orderBunchRepository.create(connection, orderBunchEntities);
         });
+    }
+
+    private List<InfoOrderedToolEntity> getInfoOrderedToolEntities(Connection connection, List<OrderBunchEntity> orderBunchEntities) {
+        List<InfoOrderedToolEntity> orderedToolEntityList = new ArrayList<>();
+        for (OrderBunchEntity orderBunchEntity : orderBunchEntities) {
+            InfoOrderedToolEntity orderedToolEntity = infoOrderedToolRepository.getEntityById(connection, orderBunchEntity.getInfoOrderedToolID());
+            ElectricToolEntity toolEntity = toolRepository.getEntityById(connection, orderedToolEntity.getElectricTool().getId());
+            orderedToolEntity = orderedToolEntity.setElectricTool(toolEntity);
+            orderedToolEntityList.add(orderedToolEntity);
+        }
+        return orderedToolEntityList;
     }
 }

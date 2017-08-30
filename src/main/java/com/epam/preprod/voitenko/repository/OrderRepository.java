@@ -75,13 +75,8 @@ public class OrderRepository implements GeneralRepository<OrderEntity, Integer> 
         }
         PreparedStatement statement = null;
         try {
-            int index = 0;
             statement = connection.prepareStatement(SQL_UPDATE_ORDER);
-            statement.setString(++index, entity.getStatus().toString());
-            statement.setString(++index, entity.getDetailStatus());
-            statement.setString(++index, entity.getAddress());
-            statement.setTimestamp(++index, entity.getDateTime());
-            statement.setInt(++index, entity.getUser().getId());
+            int index = setOrderParametersToStatement(entity, statement);
             statement.setInt(++index, entity.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -116,14 +111,8 @@ public class OrderRepository implements GeneralRepository<OrderEntity, Integer> 
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            int index = 0;
             statement = connection.prepareStatement(SQL_INSERT_ORDER, RETURN_GENERATED_KEYS);
-            statement.setString(++index, entity.getStatus().toString());
-            statement.setString(++index, entity.getDetailStatus());
-            statement.setString(++index, entity.getAddress());
-            statement.setTimestamp(++index, entity.getDateTime());
-            statement.setInt(++index, entity.getUser().getId());
-
+            setOrderParametersToStatement(entity, statement);
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
             if (resultSet != null && resultSet.next()) {
@@ -137,6 +126,16 @@ public class OrderRepository implements GeneralRepository<OrderEntity, Integer> 
             close(resultSet, statement);
         }
         return true;
+    }
+
+    private int setOrderParametersToStatement(OrderEntity entity, PreparedStatement statement) throws SQLException {
+        int index = 0;
+        statement.setString(++index, entity.getStatus().toString());
+        statement.setString(++index, entity.getDetailStatus());
+        statement.setString(++index, entity.getAddress());
+        statement.setTimestamp(++index, entity.getDateTime());
+        statement.setInt(++index, entity.getUser().getId());
+        return index;
     }
 
     private OrderEntity extractOrder(ResultSet resultSet) throws SQLException {
