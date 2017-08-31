@@ -21,28 +21,67 @@ public class GZipServletResponseWrapper extends HttpServletResponseWrapper {
     }
 
     public void close() throws IOException {
-        if (printWriter != null) {
-            printWriter.close();
-        }
+        closePrintWriter();
+        closeGZipServletOutputStream();
+    }
+
+    @Override
+    public void flushBuffer() {
+        flushPrintWriter();
+        tryFlushGZipServletOutputStream();
+        trySuperFlushBuffer();
+    }
+
+    @Override
+    public ServletOutputStream getOutputStream() throws IOException {
+        tryGetOutputStream();
+        return gzipOutputStream;
+    }
+
+    @Override
+    public PrintWriter getWriter() throws IOException {
+        tryGetPrintWriter();
+        return printWriter;
+    }
+
+    @Override
+    public void setContentLength(int len) {
+        LOGGER.info("Method setContentLength() unimplemented");
+    }
+
+    private void closeGZipServletOutputStream() throws IOException {
         if (gzipOutputStream != null) {
             gzipOutputStream.close();
         }
     }
 
-    @Override
-    public void flushBuffer() {
+    private void closePrintWriter() {
+        if (printWriter != null) {
+            printWriter.close();
+        }
+    }
+
+    private void flushPrintWriter() {
         if (printWriter != null) {
             printWriter.flush();
         }
+    }
 
+    private void tryFlushGZipServletOutputStream() {
         try {
-            if (gzipOutputStream != null) {
-                gzipOutputStream.flush();
-            }
+            flushGZipServletOutputStream();
         } catch (IOException e) {
             LOGGER.error(e);
         }
+    }
 
+    private void flushGZipServletOutputStream() throws IOException {
+        if (gzipOutputStream != null) {
+            gzipOutputStream.flush();
+        }
+    }
+
+    private void trySuperFlushBuffer() {
         try {
             super.flushBuffer();
         } catch (IOException e) {
@@ -50,31 +89,20 @@ public class GZipServletResponseWrapper extends HttpServletResponseWrapper {
         }
     }
 
-    @Override
-    public ServletOutputStream getOutputStream() throws IOException {
+    private void tryGetOutputStream() throws IOException {
         if (printWriter != null) {
             LOGGER.error("PrintWriter obtained already - cannot get OutputStream", new IllegalStateException());
-        }
-        if (gzipOutputStream == null) {
+        } else if (gzipOutputStream == null) {
             gzipOutputStream = new GZipServletOutputStream(getResponse().getOutputStream());
         }
-        return gzipOutputStream;
     }
 
-    @Override
-    public PrintWriter getWriter() throws IOException {
+    private void tryGetPrintWriter() throws IOException {
         if (printWriter == null && gzipOutputStream != null) {
             LOGGER.error("OutputStream obtained already - cannot get PrintWriter", new IllegalStateException());
-        }
-        if (printWriter == null) {
+        } else if (printWriter == null) {
             gzipOutputStream = new GZipServletOutputStream(getResponse().getOutputStream());
             printWriter = new PrintWriter(new OutputStreamWriter(gzipOutputStream, getResponse().getCharacterEncoding()));
         }
-        return printWriter;
-    }
-
-    @Override
-    public void setContentLength(int len) {
-        LOGGER.info("Method setContentLength() unimplemented");
     }
 }

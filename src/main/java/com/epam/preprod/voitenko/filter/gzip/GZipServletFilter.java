@@ -26,13 +26,8 @@ public class GZipServletFilter implements Filter {
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-        if (acceptsGZipEncoding(httpRequest)) {
-            httpResponse.addHeader("Content-Encoding", GZIP);
-            GZipServletResponseWrapper gzipResponse = new GZipServletResponseWrapper(httpResponse);
-            chain.doFilter(request, gzipResponse);
-            gzipResponse.close();
+        if (acceptsGZipEncoding((HttpServletRequest) request)) {
+            chainDoFilterWithGZipEncoding(request, chain, (HttpServletResponse) response);
         } else {
             chain.doFilter(request, response);
         }
@@ -46,5 +41,12 @@ public class GZipServletFilter implements Filter {
     private boolean acceptsGZipEncoding(HttpServletRequest httpRequest) {
         String acceptEncoding = httpRequest.getHeader("Accept-Encoding");
         return acceptEncoding != null && acceptEncoding.contains(GZIP);
+    }
+
+    private void chainDoFilterWithGZipEncoding(ServletRequest request, FilterChain chain, HttpServletResponse httpResponse) throws IOException, ServletException {
+        httpResponse.addHeader("Content-Encoding", GZIP);
+        GZipServletResponseWrapper gzipResponse = new GZipServletResponseWrapper(httpResponse);
+        chain.doFilter(request, gzipResponse);
+        gzipResponse.close();
     }
 }

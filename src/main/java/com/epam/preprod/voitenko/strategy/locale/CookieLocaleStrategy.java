@@ -11,12 +11,11 @@ import static com.epam.preprod.voitenko.constant.Constatns.Keys.SELECTED_LOCALE;
 public class CookieLocaleStrategy implements LocaleStrategy {
     @Override
     public Locale getLocale(HttpServletRequest request) {
-        Locale selectedLocale = null;
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
-            selectedLocale = getLocaleFromCookie(cookies);
+            return getLocaleFromCookie(cookies);
         }
-        return selectedLocale;
+        return null;
     }
 
     @Override
