@@ -1,6 +1,7 @@
 package com.epam.preprod.voitenko.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import static com.epam.preprod.voitenko.constant.Constatns.DEFAULT_AVATAR;
 
@@ -12,6 +13,7 @@ public class UserEntity implements Serializable {
     private String phoneNumber;
     private String address;
     private String avatar;
+    private Timestamp banExpirationDate;
 
     public UserEntity() {
         this.avatar = DEFAULT_AVATAR;
@@ -84,6 +86,14 @@ public class UserEntity implements Serializable {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public Timestamp getBanExpirationDate() {
+        return banExpirationDate;
+    }
+
+    public void setBanExpirationDate(Timestamp banExpirationDate) {
+        this.banExpirationDate = banExpirationDate;
     }
 
     @Override

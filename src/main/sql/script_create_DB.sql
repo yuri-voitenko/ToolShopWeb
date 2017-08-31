@@ -10,6 +10,7 @@ CREATE TABLE users (
   phoneNumber varchar(255) NOT NULL,
   address varchar(255) NOT NULL,
   avatar varchar(255) DEFAULT NULL,
+  banExpirationDate DATETIME DEFAULT NULL,
   PRIMARY KEY (id), UNIQUE (id), UNIQUE (email)
 );
 
@@ -41,7 +42,7 @@ CREATE TABLE orders (
   status ENUM( 'ACCEPTED', 'CONFIRMED', 'FORMING', 'SENT', 'COMPLETED', 'CANCELED'),
   statusDetail varchar(255) NOT NULL,
   address varchar(255) NOT NULL,
-  dateTime DATETIME DEFAULT CURRENT_TIMESTAMP,
+  banExpirationDate DATETIME DEFAULT CURRENT_TIMESTAMP,
   userID int,
   PRIMARY KEY (id), UNIQUE (id),
   FOREIGN KEY (userID) REFERENCES users(id) ON DELETE CASCADE

@@ -61,6 +61,7 @@ public class Constatns {
         public static final String USER_ENTITY = "userEntity";
         public static final String ORDER_ENTITY = "orderEntity";
         public static final String FILTER_ENTITY = "filterEntity";
+        public static final String FAIL_COUNT = "failCount";
         public static final String ERRORS = "errors";
 
         public static final String PASSWORD_CHECK = "passwordCheck";
@@ -69,6 +70,7 @@ public class Constatns {
         public static final String SUCCESS_REGISTRATION = "successRegistration";
         public static final String FAIL_REGISTRATION = "failRegistration";
         public static final String DELIVERY = "delivery";
+        public static final String BAN = "Ban";
 
         // common
         public static final String ID = "id";
@@ -82,6 +84,7 @@ public class Constatns {
         public static final String EMAIL = "email";
         public static final String PASSWORD = "password";
         public static final String AVATAR = "avatar";
+        public static final String BAN_EXPIRATION_DATE = "banExpirationDate";
         // tools
         public static final String NAME = "name";
         public static final String CATEGORY = "category";
@@ -129,6 +132,9 @@ public class Constatns {
         public static final String NOT_LOGIN_EMAIL = "There is no registered user with such e-mail!";
         public static final String NOT_LOGIN_PASSWORD = "There is no registered user with such password";
         public static final String UNAUTHORIZED_USER = "You need to sign in or register to place an order";
+
+        public static final String BAN_ACCOUNT = "For security reasons, your account is locked to ";
+        public static final String WARN_BAN = "You have %d remaining attempts, otherwise your account will be blocked!";
 
         public static final String INIT_UNIMPLEMENTED = "Method init() unimplemented!";
         public static final String DESTROY_UNIMPLEMENTED = "Method destroy() unimplemented!";

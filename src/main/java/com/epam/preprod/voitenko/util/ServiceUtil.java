@@ -1,12 +1,6 @@
 package com.epam.preprod.voitenko.util;
 
-import com.epam.preprod.voitenko.entity.Cart;
-import com.epam.preprod.voitenko.entity.CartEntity;
-import com.epam.preprod.voitenko.entity.ElectricToolEntity;
-import com.epam.preprod.voitenko.entity.FilterEntity;
-import com.epam.preprod.voitenko.entity.LoginEntity;
-import com.epam.preprod.voitenko.entity.RegisterEntity;
-import com.epam.preprod.voitenko.entity.UserEntity;
+import com.epam.preprod.voitenko.entity.*;
 import com.epam.preprod.voitenko.sqlbuilder.SQLBuilder;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
@@ -20,29 +14,9 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.UUID;
 
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.ADDRESS;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.AVATAR;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.CART;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.CATEGORY;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.COST;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.EMAIL;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.FULL_NAME;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.HIGH_PRICE;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.LOW_PRICE;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.MANUFACTURER;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.NAME;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.NAME_TOOL;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.NUMBER_PAGE;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.NUMBER_TOOLS_ON_PAGE;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.ORDER_DIRECTION;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.ORDER_KEY;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.PASSWORD;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.PASSWORD_CHECK;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.PHONE_NUMBER;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 import static com.epam.preprod.voitenko.constant.Constatns.PATH_TO_AVATARS;
-import static com.epam.preprod.voitenko.constant.Constatns.RegEx.REGEX_FILE_NAME_IMAGE;
-import static com.epam.preprod.voitenko.constant.Constatns.RegEx.REGEX_FOR_PARSE_FILE_NAME;
-import static com.epam.preprod.voitenko.constant.Constatns.RegEx.REGEX_REPLACE_FILE_NAME_IMAGE;
+import static com.epam.preprod.voitenko.constant.Constatns.RegEx.*;
 import static com.epam.preprod.voitenko.util.ValidatorUtil.isNullOrEmpty;
 
 public class ServiceUtil {
@@ -95,6 +69,10 @@ public class ServiceUtil {
         LoginEntity loginEntity = new LoginEntity();
         loginEntity.setEmail(httpServletRequest.getParameter(EMAIL));
         loginEntity.setPassword(httpServletRequest.getParameter(PASSWORD));
+        String strFailCount = httpServletRequest.getParameter(FAIL_COUNT);
+        if (strFailCount != null && !strFailCount.isEmpty()) {
+            loginEntity.setFailCount(Integer.parseInt(strFailCount));
+        }
         return loginEntity;
     }
 

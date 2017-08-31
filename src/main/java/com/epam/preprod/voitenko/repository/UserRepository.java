@@ -13,19 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.epam.preprod.voitenko.constant.Constatns.DEFAULT_AVATAR;
-import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_CREATE_USER;
-import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_DELETE_USER;
-import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_GET_ALL_USERS;
-import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_GET_USER_BY_EMAIL;
-import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_GET_USER_BY_ID;
-import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_UPDATE_USER;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.ADDRESS;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.AVATAR;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.EMAIL;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.FULL_NAME;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.ID;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.PASSWORD;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.PHONE_NUMBER;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 import static com.epam.preprod.voitenko.constant.Constatns.PATH_TO_AVATARS;
 import static com.epam.preprod.voitenko.util.ServiceUtil.getHashPassword;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
@@ -36,7 +25,7 @@ public class UserRepository implements GeneralRepository<UserEntity, Integer> {
     private static final String SQL_SELECT_ALL = "SELECT * FROM users;";
     private static final String SQL_GET_USER_BY_ID = "SELECT * FROM users WHERE id=?;";
     private static final String SQL_GET_USER_BY_EMAIL = "SELECT * FROM users WHERE email=?;";
-    private static final String SQL_UPDATE_USER = "UPDATE users SET email=?, password=?, fullName=?, phoneNumber=?, address=? WHERE id=?;";
+    private static final String SQL_UPDATE_USER = "UPDATE users SET email=?, password=?, fullName=?, phoneNumber=?, address=?, banExpirationDate=? WHERE id=?;";
     private static final String SQL_DELETE_USER = "DELETE FROM users WHERE id=?;";
     private static final String SQL_INSERT_USER = "INSERT INTO users (email, password, fullName, phoneNumber, address, avatar) VALUES (?, ?, ?, ?, ?, ?);";
 
@@ -101,6 +90,7 @@ public class UserRepository implements GeneralRepository<UserEntity, Integer> {
             statement.setString(++index, entity.getFullName());
             statement.setString(++index, entity.getPhoneNumber());
             statement.setString(++index, entity.getAddress());
+            statement.setTimestamp(++index, entity.getBanExpirationDate());
             statement.setInt(++index, oldValue.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -192,6 +182,7 @@ public class UserRepository implements GeneralRepository<UserEntity, Integer> {
         userEntity.setFullName(resultSet.getString(FULL_NAME));
         userEntity.setPhoneNumber(resultSet.getString(PHONE_NUMBER));
         userEntity.setAddress(resultSet.getString(ADDRESS));
+        userEntity.setBanExpirationDate(resultSet.getTimestamp(BAN_EXPIRATION_DATE));
         Object avatar = resultSet.getObject(AVATAR);
         if (avatar != null) {
             String fullPath = System.getProperty("user.dir") + PATH_TO_AVATARS + avatar.toString();

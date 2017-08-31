@@ -7,6 +7,7 @@ import static com.epam.preprod.voitenko.constant.Constatns.EMPTY_STRING;
 public class LoginEntity implements Serializable {
     private String email;
     private String password;
+    private int failCount;
 
     public LoginEntity() {
         this.email = EMPTY_STRING;
@@ -27,6 +28,22 @@ public class LoginEntity implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getFailCount() {
+        return failCount;
+    }
+
+    public void setFailCount(int failCount) {
+        this.failCount = failCount;
+    }
+
+    public void increaseCount() {
+        failCount++;
+    }
+
+    public void resetCount() {
+        failCount = 0;
     }
 
     @Override
