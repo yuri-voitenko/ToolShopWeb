@@ -7,7 +7,7 @@ import java.io.OutputStream;
 import java.util.zip.GZIPOutputStream;
 
 public class GZipServletOutputStream extends ServletOutputStream {
-    private GZIPOutputStream gzipOutputStream = null;
+    private GZIPOutputStream gzipOutputStream;
 
     public GZipServletOutputStream(OutputStream output) throws IOException {
         super();

@@ -3,8 +3,15 @@ package com.epam.preprod.voitenko.filter.locale;
 import com.epam.preprod.voitenko.strategy.locale.CookieLocaleStrategy;
 import com.epam.preprod.voitenko.strategy.locale.LocaleStrategy;
 import com.epam.preprod.voitenko.strategy.locale.SessionLocaleStrategy;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import javax.servlet.*;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
@@ -14,9 +21,13 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
 
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.DEFAULT_LOCALE;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.LANG;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.LOCALE_STRATEGY;
+import static com.epam.preprod.voitenko.constant.Constatns.Message.DESTROY_UNIMPLEMENTED;
 
 public class LocaleFilter implements Filter {
+    private static final Logger LOGGER = LogManager.getLogger(LocaleFilter.class);
     private Collection<Locale> locales;
     private LocaleStrategy localeStrategy;
     private Locale defaultLocale;
@@ -36,25 +47,15 @@ public class LocaleFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
-        HttpServletRequestWrapper localeSubstitutionRequestWrapper = null;
         Locale selectedLocale;
-        // First check url parameter
-        String lang = servletRequest.getParameter(LANG);
-        if (lang != null && !lang.isEmpty()) {
-            Locale urlLocale = new Locale(lang);
-            if (locales.contains(urlLocale)) {
-                localeStrategy.setLocale(urlLocale, httpServletRequest, httpServletResponse);
-                if (localeStrategy instanceof CookieLocaleStrategy) {
-                    localeSubstitutionRequestWrapper = new LocaleSubstitutionRequestWrapper(httpServletRequest, urlLocale);
-                }
-            }
-        }
+
+        HttpServletRequestWrapper localeSubstitutionRequestWrapper = getLocaleSubstitutionRequestWrapper(httpServletRequest, httpServletResponse);
         selectedLocale = localeStrategy.getLocale(httpServletRequest);
-        // if not url parameter, get locale from browser
+
         if (selectedLocale == null) {
             selectedLocale = getAcceptableLocale(Collections.list(servletRequest.getLocales()));
         }
-        // if not acceptable locale, set default
+
         if (selectedLocale == null) {
             selectedLocale = defaultLocale;
         }
@@ -67,7 +68,7 @@ public class LocaleFilter implements Filter {
 
     @Override
     public void destroy() {
-        // NOP
+        LOGGER.info(DESTROY_UNIMPLEMENTED);
     }
 
     private LocaleStrategy getLocaleStrategy(String keyStrategy) {
@@ -81,6 +82,26 @@ public class LocaleFilter implements Filter {
             default:
                 return new SessionLocaleStrategy();
         }
+    }
+
+    private HttpServletRequestWrapper getLocaleSubstitutionRequestWrapper(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        Locale urlLocale = getLocaleFromUrl(httpServletRequest);
+
+        if (locales.contains(urlLocale)) {
+            localeStrategy.setLocale(urlLocale, httpServletRequest, httpServletResponse);
+            if (localeStrategy instanceof CookieLocaleStrategy) {
+                return new LocaleSubstitutionRequestWrapper(httpServletRequest, urlLocale);
+            }
+        }
+        return null;
+    }
+
+    private Locale getLocaleFromUrl(HttpServletRequest httpServletRequest) {
+        String lang = httpServletRequest.getParameter(LANG);
+        if (lang != null && !lang.isEmpty()) {
+            return new Locale(lang);
+        }
+        return null;
     }
 
     private Locale getAcceptableLocale(Collection<Locale> userLocale) {

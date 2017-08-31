@@ -12,7 +12,9 @@ import javax.servlet.ServletContextListener;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.CAPTCHA_STRATEGY;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.STRATEGY;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.TIMEOUT;
 
 public class InitListener implements ServletContextListener {
     private Map<String, CaptchaStrategy> strategyMap;

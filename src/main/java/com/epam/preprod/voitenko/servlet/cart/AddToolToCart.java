@@ -18,7 +18,11 @@ import java.io.IOException;
 import java.io.Writer;
 import java.math.BigDecimal;
 
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.CART;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.CART_QUANTITY;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.CART_TOTAL;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.ID;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.TOTAL_COST_SPECIFIC_TOOL;
 
 @WebServlet("/addToolToCart")
 public class AddToolToCart extends HttpServlet {
@@ -27,7 +31,16 @@ public class AddToolToCart extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         Cart<ElectricToolEntity> cart = ServiceUtil.getCart(session);
-        ElectricToolEntity tool = ServiceUtil.extractElectricToolEntity(req);
+
+        String strToolID = req.getParameter(ID);
+        Integer toolID = 0;
+        if (strToolID != null) {
+            toolID = Integer.parseInt(strToolID);
+        }
+
+        DataSource dataSource = DataSourceHandler.getInstance().getDataSource();
+        ToolService toolService = new ToolService(dataSource);
+        ElectricToolEntity tool = toolService.getToolById(toolID);
 
         BigDecimal totalCostSpecificTool = tool.getCost();
         BigDecimal quantitySpecificTool = new BigDecimal(cart.addProduct(tool));
@@ -35,6 +48,12 @@ public class AddToolToCart extends HttpServlet {
         totalCostSpecificTool = totalCostSpecificTool.setScale(2, BigDecimal.ROUND_HALF_UP);
 
         session.setAttribute(CART, cart);
-        ServiceUtil.writeJSONObject(resp, cart.getTotalSumPurchase(), cart.getTotalQuantityProducts(), totalCostSpecificTool);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(CART_TOTAL, cart.getTotalSumPurchase().toString());
+        jsonObject.put(CART_QUANTITY, cart.getTotalQuantityProducts().toString());
+        jsonObject.put(TOTAL_COST_SPECIFIC_TOOL, totalCostSpecificTool.toString());
+        Writer writer = resp.getWriter();
+        jsonObject.writeJSONString(writer);
     }
 }

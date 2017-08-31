@@ -11,9 +11,32 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static com.epam.preprod.voitenko.constant.Constatns.EMPTY_STRING;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
-import static com.epam.preprod.voitenko.constant.Constatns.Message.*;
-import static com.epam.preprod.voitenko.constant.Constatns.RegEx.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.ADDRESS;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.ASC;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.CAPTCHA;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.COST;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.DESC;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.EMAIL;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.FULL_NAME;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.NAME;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.PASSWORD;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.PASSWORD_CHECK;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.PHONE_NUMBER;
+import static com.epam.preprod.voitenko.constant.Constatns.Message.HINT_CAPTCHA_CODE;
+import static com.epam.preprod.voitenko.constant.Constatns.Message.HINT_CAPTCHA_LIFETIME;
+import static com.epam.preprod.voitenko.constant.Constatns.Message.HINT_CAPTCHA_NOT_DIGITS;
+import static com.epam.preprod.voitenko.constant.Constatns.Message.HINT_EMAIL;
+import static com.epam.preprod.voitenko.constant.Constatns.Message.HINT_FULL_NAME;
+import static com.epam.preprod.voitenko.constant.Constatns.Message.HINT_NOT_EMPTY_FIELD;
+import static com.epam.preprod.voitenko.constant.Constatns.Message.HINT_PASSWORD;
+import static com.epam.preprod.voitenko.constant.Constatns.Message.HINT_PASSWORD_CHECK;
+import static com.epam.preprod.voitenko.constant.Constatns.Message.HINT_PHONE_NUMBER;
+import static com.epam.preprod.voitenko.constant.Constatns.RegEx.REGEX_CAPTCHA_CODE;
+import static com.epam.preprod.voitenko.constant.Constatns.RegEx.REGEX_DIGITS;
+import static com.epam.preprod.voitenko.constant.Constatns.RegEx.REGEX_EMAIL;
+import static com.epam.preprod.voitenko.constant.Constatns.RegEx.REGEX_FULL_NAME;
+import static com.epam.preprod.voitenko.constant.Constatns.RegEx.REGEX_NOT_DIGIT;
+import static com.epam.preprod.voitenko.constant.Constatns.RegEx.REGEX_PASSWORD;
 
 public class ValidatorUtil {
     private static Map<String, String> errorMessages = new LinkedHashMap<>();

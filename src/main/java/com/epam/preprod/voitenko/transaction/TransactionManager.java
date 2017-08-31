@@ -7,7 +7,9 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_EXECUTE_COMMIT;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_EXECUTE_ROLLBACK;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_GET_CONNECTION;
 
 public class TransactionManager {
     private static final Logger LOGGER = LogManager.getLogger(TransactionManager.class);

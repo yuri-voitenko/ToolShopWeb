@@ -1,13 +1,26 @@
 package com.epam.preprod.voitenko.filter.cache;
 
-import javax.servlet.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.epam.preprod.voitenko.constant.Constatns.Message.DESTROY_UNIMPLEMENTED;
+import static com.epam.preprod.voitenko.constant.Constatns.Message.INIT_UNIMPLEMENTED;
+
 public class PreventCacheFilter implements Filter {
+    private static final Logger LOGGER = LogManager.getLogger(PreventCacheFilter.class);
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        // NOP
+        LOGGER.info(INIT_UNIMPLEMENTED);
     }
 
     @Override
@@ -21,6 +34,6 @@ public class PreventCacheFilter implements Filter {
 
     @Override
     public void destroy() {
-        // NOP
+        LOGGER.info(DESTROY_UNIMPLEMENTED);
     }
 }

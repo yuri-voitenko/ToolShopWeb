@@ -13,8 +13,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.*;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_CREATE_INFO_ORDERED_TOOL;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_DELETE_INFO_ORDERED_TOOL;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_GET_ALL_INFO_ORDERED_TOOLS;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_GET_INFO_ORDERED_TOOL_BY_ID;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_UPDATE_INFO_ORDERED_TOOL;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.AMOUNT;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.COST;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.ID;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.TOOL_ID;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 public class InfoOrderedToolRepository implements GeneralRepository<InfoOrderedToolEntity, Integer> {
@@ -75,8 +82,12 @@ public class InfoOrderedToolRepository implements GeneralRepository<InfoOrderedT
         }
         PreparedStatement statement = null;
         try {
+            int index = 0;
             statement = connection.prepareStatement(SQL_UPDATE_INFO_ORDERED_TOOL);
-            setInfoOrderedToolParametersAndExecuteupdate(entity, statement);
+            statement.setInt(++index, entity.getElectricTool().getId());
+            statement.setBigDecimal(++index, entity.getUnitPrice());
+            statement.setInt(++index, entity.getAmount());
+            statement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(CANNOT_UPDATE_INFO_ORDERED_TOOL, e);
         } finally {
@@ -109,8 +120,12 @@ public class InfoOrderedToolRepository implements GeneralRepository<InfoOrderedT
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
+            int index = 0;
             statement = connection.prepareStatement(SQL_INSERT_INFO_ORDERED_TOOL, RETURN_GENERATED_KEYS);
-            setInfoOrderedToolParametersAndExecuteupdate(entity, statement);
+            statement.setInt(++index, entity.getElectricTool().getId());
+            statement.setBigDecimal(++index, entity.getUnitPrice());
+            statement.setInt(++index, entity.getAmount());
+            statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
             if (resultSet != null && resultSet.next()) {
                 int id = (int) resultSet.getLong(1);
@@ -123,14 +138,6 @@ public class InfoOrderedToolRepository implements GeneralRepository<InfoOrderedT
             close(statement);
         }
         return true;
-    }
-
-    private void setInfoOrderedToolParametersAndExecuteupdate(InfoOrderedToolEntity entity, PreparedStatement statement) throws SQLException {
-        int index = 0;
-        statement.setInt(++index, entity.getElectricTool().getId());
-        statement.setBigDecimal(++index, entity.getUnitPrice());
-        statement.setInt(++index, entity.getAmount());
-        statement.executeUpdate();
     }
 
     private InfoOrderedToolEntity extractInfoOrderedTool(ResultSet resultSet) throws SQLException {

@@ -14,11 +14,7 @@ public class CookieLocaleStrategy implements LocaleStrategy {
         Locale selectedLocale = null;
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(SELECTED_LOCALE)) {
-                    selectedLocale = new Locale(cookie.getValue());
-                }
-            }
+            selectedLocale = getLocaleFromCookie(cookies);
         }
         return selectedLocale;
     }
@@ -29,5 +25,14 @@ public class CookieLocaleStrategy implements LocaleStrategy {
         Cookie cookie = new Cookie(SELECTED_LOCALE, newLocale.toString());
         cookie.setMaxAge(cookieMaxAge);
         response.addCookie(cookie);
+    }
+
+    private Locale getLocaleFromCookie(Cookie[] cookies) {
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(SELECTED_LOCALE)) {
+                return new Locale(cookie.getValue());
+            }
+        }
+        return null;
     }
 }

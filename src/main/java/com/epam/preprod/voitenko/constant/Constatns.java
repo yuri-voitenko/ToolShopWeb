@@ -9,6 +9,7 @@ public class Constatns {
     public static final String DEFAULT_AVATAR = "default.png";
     public static final String DEFAULT_TOOL_IMAGE = "default.png";
     public static final String EMPTY_STRING = "";
+    public static final String GZIP = "gzip";
 
     public class RegEx {
         private RegEx() {
@@ -128,6 +129,9 @@ public class Constatns {
         public static final String NOT_LOGIN_EMAIL = "There is no registered user with such e-mail!";
         public static final String NOT_LOGIN_PASSWORD = "There is no registered user with such password";
         public static final String UNAUTHORIZED_USER = "You need to sign in or register to place an order";
+
+        public static final String INIT_UNIMPLEMENTED = "Method init() unimplemented!";
+        public static final String DESTROY_UNIMPLEMENTED = "Method destroy() unimplemented!";
     }
 
     public class Exceptions {

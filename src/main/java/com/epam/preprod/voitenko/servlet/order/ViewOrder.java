@@ -17,7 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.ERRORS;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.LIST_ORDERED_TOOLS;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.USER_ENTITY;
 import static com.epam.preprod.voitenko.constant.Constatns.Message.UNAUTHORIZED_USER;
 
 @WebServlet("/viewOrder")

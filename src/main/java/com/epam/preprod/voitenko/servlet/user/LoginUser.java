@@ -18,7 +18,11 @@ import java.io.IOException;
 import java.util.Map;
 
 import static com.epam.preprod.voitenko.constant.Constatns.EMPTY_STRING;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.EMAIL;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.ERRORS;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.LOGIN_ENTITY;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.PASSWORD;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.USER_ENTITY;
 import static com.epam.preprod.voitenko.constant.Constatns.Message.NOT_LOGIN_EMAIL;
 import static com.epam.preprod.voitenko.constant.Constatns.Message.NOT_LOGIN_PASSWORD;
 import static com.epam.preprod.voitenko.util.ServiceUtil.getHashPassword;

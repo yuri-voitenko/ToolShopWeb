@@ -47,6 +47,7 @@ public class ToolService {
     public List<ElectricToolEntity> getToolsByFilter(String sql) {
         return transactionManager.doInTransaction(connection -> repository.getToolsByFilter(connection, sql));
     }
+
     public Long getNumberSuitableTools(String sql) {
         return transactionManager.doInTransaction(connection -> repository.getNumberSuitableTools(connection, sql));
     }

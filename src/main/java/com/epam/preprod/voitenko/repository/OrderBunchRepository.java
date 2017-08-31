@@ -11,7 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_CREATE_ORDER_BUNCH;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_DELETE_ORDER_BUNCH;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_GET_ORDER_BUNCH_BY_ID;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.INFO_ORDERED_TOOL_ID;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.ORDER_ID;
 

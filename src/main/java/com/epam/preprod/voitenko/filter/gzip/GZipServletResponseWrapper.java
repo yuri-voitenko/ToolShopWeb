@@ -1,5 +1,8 @@
 package com.epam.preprod.voitenko.filter.gzip;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
@@ -8,11 +11,12 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
 public class GZipServletResponseWrapper extends HttpServletResponseWrapper {
+    private static final Logger LOGGER = LogManager.getLogger(GZipServletResponseWrapper.class);
 
-    private GZipServletOutputStream gzipOutputStream = null;
-    private PrintWriter printWriter = null;
+    private GZipServletOutputStream gzipOutputStream;
+    private PrintWriter printWriter;
 
-    public GZipServletResponseWrapper(HttpServletResponse response) throws IOException {
+    public GZipServletResponseWrapper(HttpServletResponse response) {
         super(response);
     }
 
@@ -26,35 +30,30 @@ public class GZipServletResponseWrapper extends HttpServletResponseWrapper {
     }
 
     @Override
-    public void flushBuffer() throws IOException {
+    public void flushBuffer() {
         if (printWriter != null) {
             printWriter.flush();
         }
 
-        IOException exception1 = null;
         try {
             if (gzipOutputStream != null) {
                 gzipOutputStream.flush();
             }
         } catch (IOException e) {
-            exception1 = e;
+            LOGGER.error(e);
         }
 
-        IOException exception2 = null;
         try {
             super.flushBuffer();
         } catch (IOException e) {
-            exception2 = e;
+            LOGGER.error(e);
         }
-
-        if (exception1 != null) throw exception1;
-        if (exception2 != null) throw exception2;
     }
 
     @Override
     public ServletOutputStream getOutputStream() throws IOException {
         if (printWriter != null) {
-            throw new IllegalStateException("PrintWriter obtained already - cannot get OutputStream");
+            LOGGER.error("PrintWriter obtained already - cannot get OutputStream", new IllegalStateException());
         }
         if (gzipOutputStream == null) {
             gzipOutputStream = new GZipServletOutputStream(getResponse().getOutputStream());
@@ -65,7 +64,7 @@ public class GZipServletResponseWrapper extends HttpServletResponseWrapper {
     @Override
     public PrintWriter getWriter() throws IOException {
         if (printWriter == null && gzipOutputStream != null) {
-            throw new IllegalStateException("OutputStream obtained already - cannot get PrintWriter");
+            LOGGER.error("OutputStream obtained already - cannot get PrintWriter", new IllegalStateException());
         }
         if (printWriter == null) {
             gzipOutputStream = new GZipServletOutputStream(getResponse().getOutputStream());
@@ -74,10 +73,8 @@ public class GZipServletResponseWrapper extends HttpServletResponseWrapper {
         return printWriter;
     }
 
-
     @Override
     public void setContentLength(int len) {
-        //ignore, since content length of zipped content
-        //does not match content length of unzipped content.
+        LOGGER.info("Method setContentLength() unimplemented");
     }
 }
