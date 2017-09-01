@@ -135,9 +135,6 @@ public class Constatns {
 
         public static final String BAN_ACCOUNT = "For security reasons, your account is locked to ";
         public static final String WARN_BAN = "You have %d remaining attempts, otherwise your account will be blocked!";
-
-        public static final String INIT_UNIMPLEMENTED = "Method init() unimplemented!";
-        public static final String DESTROY_UNIMPLEMENTED = "Method destroy() unimplemented!";
     }
 
     public class Exceptions {
@@ -145,6 +142,8 @@ public class Constatns {
         }
 
         public static final String INTERRUPTED_EXCEPTION = "InterruptedException has occurred in CaptchaCleaner";
+        public static final String INIT_UNIMPLEMENTED = "Method init() unimplemented!";
+        public static final String DESTROY_UNIMPLEMENTED = "Method destroy() unimplemented!";
         // user
         public static final String CANNOT_GET_ALL_USERS = "Can not get a list of all users";
         public static final String CANNOT_GET_USER_BY_ID = "Can not get a user with such id";

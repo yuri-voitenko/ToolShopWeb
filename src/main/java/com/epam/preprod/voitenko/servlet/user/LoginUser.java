@@ -34,8 +34,8 @@ import static com.epam.preprod.voitenko.util.ServiceUtil.removeSessionAttributeA
 
 @WebServlet("/loginUser")
 public class LoginUser extends HttpServlet {
-    private final int NUMBER_OF_ATTEMPTS = 5;
-    private final int BAN_TIME_IN_MINUTES = 2;
+    public static final int NUMBER_OF_ATTEMPTS = 5;
+    public static int BAN_TIME_IN_MINUTES = 2;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

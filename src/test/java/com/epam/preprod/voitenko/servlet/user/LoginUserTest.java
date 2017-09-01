@@ -27,6 +27,7 @@ import java.util.Map;
 import static com.epam.preprod.voitenko.constant.Constatns.EMPTY_STRING;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
 import static com.epam.preprod.voitenko.constant.Constatns.Message.*;
+import static com.epam.preprod.voitenko.servlet.user.LoginUser.NUMBER_OF_ATTEMPTS;
 import static com.epam.preprod.voitenko.util.ServiceUtil.getHashPassword;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
@@ -119,11 +120,17 @@ public class LoginUserTest {
         when(mockHttpServletRequest.getParameter(PASSWORD)).thenReturn(correctLogEntity.getPassword());
         UserEntity userEntity = new UserEntity();
         userEntity.setPassword(getHashPassword("Another password"));
+        LoginEntity loginEntity = new LoginEntity();
+        loginEntity.setEmail(correctLogEntity.getEmail());
+        loginEntity.increaseCount();
+
         when(mockUserService.getUserByEmail(anyString())).thenReturn(userEntity);
         loginUser.doPost(mockHttpServletRequest, mockHttpServletResponse);
 
+        String mes = NOT_LOGIN_PASSWORD + "<br>" + String.format(WARN_BAN, NUMBER_OF_ATTEMPTS - loginEntity.getFailCount());
         Map<String, String> errors = new LinkedHashMap<>();
-        errors.put(PASSWORD, NOT_LOGIN_PASSWORD);
+        errors.put(PASSWORD, mes);
+        verify(mockHttpSession).setAttribute(LOGIN_ENTITY, loginEntity);
         verify(mockHttpSession).setAttribute(ERRORS, errors);
         verify(mockHttpServletResponse).sendRedirect("/loginUser");
     }
