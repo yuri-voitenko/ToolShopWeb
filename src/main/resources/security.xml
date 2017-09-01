@@ -5,6 +5,18 @@
         <role>admin</role>
     </constraint>
     <constraint>
+        <url-pattern>/</url-pattern>
+        <role>admin</role>
+        <role>client</role>
+        <role>anyone</role>
+    </constraint>
+    <constraint>
+        <url-pattern>/favicon.ico</url-pattern>
+        <role>admin</role>
+        <role>client</role>
+        <role>anyone</role>
+    </constraint>
+    <constraint>
         <url-pattern>/viewHomePage</url-pattern>
         <role>admin</role>
         <role>client</role>
@@ -46,15 +58,32 @@
         <role>anyone</role>
     </constraint>
     <constraint>
-        <url-pattern>/executeOrder</url-pattern>
+        <url-pattern>/viewCart</url-pattern>
+        <role>admin</role>
         <role>client</role>
+        <role>anyone</role>
     </constraint>
     <constraint>
         <url-pattern>/viewOrder</url-pattern>
         <role>client</role>
+        <role>anyone</role>
+    </constraint>
+    <constraint>
+        <url-pattern>/executeOrder</url-pattern>
+        <role>client</role>
+    </constraint>
+    <constraint>
+        <url-pattern>/viewCompletedOrder</url-pattern>
+        <role>client</role>
     </constraint>
     <constraint>
         <url-pattern>/badRequest</url-pattern>
+        <role>admin</role>
+        <role>client</role>
+        <role>anyone</role>
+    </constraint>
+    <constraint>
+        <url-pattern>/accessDenied</url-pattern>
         <role>admin</role>
         <role>client</role>
         <role>anyone</role>

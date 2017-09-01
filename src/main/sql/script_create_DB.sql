@@ -43,7 +43,7 @@ CREATE TABLE orders (
   status ENUM( 'ACCEPTED', 'CONFIRMED', 'FORMING', 'SENT', 'COMPLETED', 'CANCELED'),
   statusDetail varchar(255) NOT NULL,
   address varchar(255) NOT NULL,
-  banExpirationDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+  dateTime DATETIME DEFAULT CURRENT_TIMESTAMP,
   userID int,
   PRIMARY KEY (id), UNIQUE (id),
   FOREIGN KEY (userID) REFERENCES users(id) ON DELETE CASCADE

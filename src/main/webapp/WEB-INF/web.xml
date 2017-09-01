@@ -40,6 +40,14 @@
         <servlet-name>BadRequest</servlet-name>
         <url-pattern>/badRequest</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AccessDenied</servlet-name>
+        <jsp-file>/WEB-INF/access_denied.html</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AccessDenied</servlet-name>
+        <url-pattern>/accessDenied</url-pattern>
+    </servlet-mapping>
     <context-param>
         <param-name>CaptchaStrategy</param-name>
         <param-value>session</param-value>
