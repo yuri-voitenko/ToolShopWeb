@@ -1,5 +1,6 @@
 package com.epam.preprod.voitenko.repository;
 
+import com.epam.preprod.voitenko.entity.Role;
 import com.epam.preprod.voitenko.entity.UserEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,8 +14,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.epam.preprod.voitenko.constant.Constatns.DEFAULT_AVATAR;
-import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.*;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_CREATE_USER;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_DELETE_USER;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_GET_ALL_USERS;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_GET_USER_BY_EMAIL;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_GET_USER_BY_ID;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_UPDATE_USER;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.ADDRESS;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.AVATAR;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.BAN_EXPIRATION_DATE;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.EMAIL;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.FULL_NAME;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.ID;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.PASSWORD;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.PHONE_NUMBER;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.ROLE;
 import static com.epam.preprod.voitenko.constant.Constatns.PATH_TO_AVATARS;
 import static com.epam.preprod.voitenko.util.ServiceUtil.getHashPassword;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
@@ -183,6 +197,7 @@ public class UserRepository implements GeneralRepository<UserEntity, Integer> {
         userEntity.setPhoneNumber(resultSet.getString(PHONE_NUMBER));
         userEntity.setAddress(resultSet.getString(ADDRESS));
         userEntity.setBanExpirationDate(resultSet.getTimestamp(BAN_EXPIRATION_DATE));
+        userEntity.setRole(Role.valueOf(resultSet.getString(ROLE)));
         Object avatar = resultSet.getObject(AVATAR);
         if (avatar != null) {
             String fullPath = System.getProperty("user.dir") + PATH_TO_AVATARS + avatar.toString();

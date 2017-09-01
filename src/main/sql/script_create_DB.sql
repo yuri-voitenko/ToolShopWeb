@@ -11,6 +11,7 @@ CREATE TABLE users (
   address varchar(255) NOT NULL,
   avatar varchar(255) DEFAULT NULL,
   banExpirationDate DATETIME DEFAULT NULL,
+  role ENUM('CLIENT', 'ADMIN') DEFAULT 'CLIENT',
   PRIMARY KEY (id), UNIQUE (id), UNIQUE (email)
 );
 

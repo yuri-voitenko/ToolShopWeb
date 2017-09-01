@@ -85,6 +85,7 @@ public class Constatns {
         public static final String PASSWORD = "password";
         public static final String AVATAR = "avatar";
         public static final String BAN_EXPIRATION_DATE = "banExpirationDate";
+        public static final String ROLE = "role";
         // tools
         public static final String NAME = "name";
         public static final String CATEGORY = "category";

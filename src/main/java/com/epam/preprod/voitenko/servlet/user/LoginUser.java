@@ -98,6 +98,7 @@ public class LoginUser extends HttpServlet {
 
     private boolean isCorrectPassword(LoginEntity loginEntity, HttpSession session, UserEntity userEntity) {
         if (getHashPassword(loginEntity.getPassword()).equals(userEntity.getPassword())) {
+            System.out.println(userEntity.getRole());
             session.setAttribute(USER_ENTITY, userEntity);
             return true;
         }
