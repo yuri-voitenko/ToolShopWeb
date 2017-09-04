@@ -55,23 +55,8 @@ public class RegistrationUser extends HttpServlet {
         HttpSession session = req.getSession();
         validateCaptcha(req);
 
-        if (!errors.isEmpty()) {
-            session.setAttribute(REG_ENTITY, regBean);
-        } else {
-            UserEntity user = ServiceUtil.fillUserEntity(regBean);
-            DataSource dataSource = DataSourceHandler.getInstance().getDataSource();
-            UserService userService = new UserService(dataSource);
-            if (userService.getUserByEmail(user.getEmail()) != null) {
-                regBean.setEmail(EMPTY_STRING);
-                session.setAttribute(REG_ENTITY, regBean);
-                errors.put(EMAIL, HINT_SAME_EMAIl);
-            } else {
-                if (userService.registerUser(user)) {
-                    session.setAttribute(SUCCESS_REGISTRATION, HINT_SUCCESS_REGISTRATION);
-                } else {
-                    errors.put(FAIL_REGISTRATION, HINT_FAIL_REGISTRATION);
-                }
-            }
+        if (isFormCorrectlyFilled(regBean, errors, session)) {
+            tryRegisterNewUser(regBean, errors, session);
         }
         session.setAttribute(ERRORS, errors);
         resp.sendRedirect("/registerUser");
@@ -84,5 +69,44 @@ public class RegistrationUser extends HttpServlet {
         int idCaptcha = strategy.getIdCaptcha(request);
         long timeout = Long.parseLong(servletContext.getInitParameter(TIMEOUT));
         ValidatorUtil.validateCaptcha(idCaptcha, codeCaptcha, timeout);
+    }
+
+    private boolean isFormCorrectlyFilled(RegisterEntity regBean, Map<String, String> errors, HttpSession session) {
+        if (!errors.isEmpty()) {
+            session.setAttribute(REG_ENTITY, regBean);
+            return false;
+        }
+        return true;
+    }
+
+    private void tryRegisterNewUser(RegisterEntity regBean, Map<String, String> errors, HttpSession session) {
+        UserEntity user = ServiceUtil.fillUserEntity(regBean);
+        UserService userService = getUserService();
+        if (!isAlreadyRegisteredUserWithSuchEmail(regBean, errors, session, user, userService)) {
+            registerNewUser(errors, session, user, userService);
+        }
+    }
+
+    private UserService getUserService() {
+        DataSource dataSource = DataSourceHandler.getInstance().getDataSource();
+        return new UserService(dataSource);
+    }
+
+    private boolean isAlreadyRegisteredUserWithSuchEmail(RegisterEntity regBean, Map<String, String> errors, HttpSession session, UserEntity user, UserService userService) {
+        if (userService.getUserByEmail(user.getEmail()) != null) {
+            regBean.setEmail(EMPTY_STRING);
+            session.setAttribute(REG_ENTITY, regBean);
+            errors.put(EMAIL, HINT_SAME_EMAIl);
+            return true;
+        }
+        return false;
+    }
+
+    private void registerNewUser(Map<String, String> errors, HttpSession session, UserEntity user, UserService userService) {
+        if (userService.registerUser(user)) {
+            session.setAttribute(SUCCESS_REGISTRATION, HINT_SUCCESS_REGISTRATION);
+        } else {
+            errors.put(FAIL_REGISTRATION, HINT_FAIL_REGISTRATION);
+        }
     }
 }
