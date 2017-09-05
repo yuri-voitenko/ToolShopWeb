@@ -1,4 +1,4 @@
-package com.epam.preprod.voitenko.strategy;
+package com.epam.preprod.voitenko.strategy.captcha;
 
 import com.epam.preprod.voitenko.repository.CaptchaRepository;
 

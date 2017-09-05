@@ -2,7 +2,7 @@ package com.epam.preprod.voitenko.servlet;
 
 import com.epam.preprod.voitenko.captcha.Captcha;
 import com.epam.preprod.voitenko.repository.CaptchaRepository;
-import com.epam.preprod.voitenko.strategy.CaptchaStrategy;
+import com.epam.preprod.voitenko.strategy.captcha.CaptchaStrategy;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;

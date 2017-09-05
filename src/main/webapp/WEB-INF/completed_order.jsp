@@ -7,6 +7,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="myTag" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<fmt:setBundle basename="ToolShopWeb"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,10 +52,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="header-left animated wow fadeInLeft" data-wow-delay=".5s">
                 <myTag:login/>
             </div>
+            <myTag:switch_locale/>
             <div class="header-right animated wow fadeInRight" data-wow-delay=".5s">
                 <div class="header-right1 ">
                     <ul>
-                        <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">Register</a></li>
+                        <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm"><fmt:message key="register"/></a></li>
                     </ul>
                 </div>
                 <div class="clearfix"></div>
@@ -80,10 +83,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </div>
                 <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                     <ul class="nav navbar-nav">
-                        <li><a href="/viewHomePage" class="act">Home</a></li>
+                        <li><a href="/viewHomePage" class="act"><fmt:message key="home"/></a></li>
                         <!-- Mega Menu -->
                         <li class="dropdown">
-                            <a href="/viewTools">Tool</a>
+                            <a href="/viewTools"><fmt:message key="tools"/></a>
                         </li>
                     </ul>
                 </div>
@@ -95,9 +98,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!--banner-->
 <div class="banner-top">
     <div class="container">
-        <h2 class="animated wow fadeInLeft" data-wow-delay=".5s">Order result</h2>
-        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a href="/viewHomePage">Home</a><label>/</label>Order
-            result
+        <h2 class="animated wow fadeInLeft" data-wow-delay=".5s"><fmt:message key="order_result"/></h2>
+        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a href="/viewHomePage"><fmt:message key="home"/></a>
+        <label>/</label><fmt:message key="order_result"/>
         </h3>
         <div class="clearfix"></div>
     </div>
@@ -111,20 +114,20 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             </c:when>
             <c:otherwise>
                 <c:set var="countTotalSum" value="0" scope="page"/>
-                <h5 class="continue">Order result</h5>
+                <h5 class="continue"><fmt:message key="order_result"/></h5>
                 <table class="table">
                     <thead>
                     <tr class="success">
                         <th rowspan="2">#</th>
-                        <th colspan="3">Product</th>
-                        <th rowspan="2">Price</th>
-                        <th rowspan="2">Quantity</th>
-                        <th rowspan="2">Total</th>
+                        <th colspan="3"><fmt:message key="product"/></th>
+                        <th rowspan="2"><fmt:message key="price"/></th>
+                        <th rowspan="2"><fmt:message key="quantity"/></th>
+                        <th rowspan="2"><fmt:message key="total"/></th>
                     </tr>
                     <tr class="success">
-                        <th>Category</th>
-                        <th>Manufacturer</th>
-                        <th>Model</th>
+                        <th><fmt:message key="category"/></th>
+                        <th><fmt:message key="manufacturer"/></th>
+                        <th><fmt:message key="name"/></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -156,21 +159,21 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </table>
                 <div>
                     <div class="price-details">
-                        <h3>Details</h3>
-                        <span>ID</span>
+                        <h3><fmt:message key="details"/></h3>
+                        <span><fmt:message key="order_id"/></span>
                         <span class="total1">${requestScope.orderEntity.id}</span>
-                        <span>Status</span>
+                        <span><fmt:message key="order_status"/></span>
                         <span class="total1">${requestScope.orderEntity.status}</span>
-                        <span>Places</span>
+                        <span><fmt:message key="places"/></span>
                         <span class="total1">${countPlace}</span>
-                        <span>Delivery</span>
+                        <span><fmt:message key="delivery"/></span>
                         <span class="total1">${requestScope.delivery}</span>
-                        <span>Client</span>
+                        <span><fmt:message key="client"/></span>
                         <span class="total1">${requestScope.orderEntity.user.fullName}</span>
                         <div class="clearfix"></div>
                     </div>
                     <ul class="total_price">
-                        <li class="last_price"><h4>TOTAL</h4></li>
+                        <li class="last_price"><h3><fmt:message key="total"/></h3></li>
                         <span id="cartTotal" class="simpleCart_total">$ ${countTotalSum}</span>
                         <div class="clearfix"></div>
                     </ul>

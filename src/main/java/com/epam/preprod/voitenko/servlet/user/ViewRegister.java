@@ -1,6 +1,6 @@
 package com.epam.preprod.voitenko.servlet.user;
 
-import com.epam.preprod.voitenko.strategy.CaptchaStrategy;
+import com.epam.preprod.voitenko.strategy.captcha.CaptchaStrategy;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

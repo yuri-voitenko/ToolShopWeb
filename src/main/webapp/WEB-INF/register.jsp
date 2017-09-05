@@ -8,6 +8,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="captcha" uri="tld/captcha.tld" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="myTag" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<fmt:setBundle basename="ToolShopWeb"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,10 +59,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="header-left animated wow fadeInLeft" data-wow-delay=".5s">
                 <myTag:login/>
             </div>
+            <myTag:switch_locale/>
             <div class="header-right animated wow fadeInRight" data-wow-delay=".5s">
                 <div class="header-right1 ">
                     <ul>
-                        <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">Register</a></li>
+                        <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">
+                            <fmt:message key="register"/></a></li>
                     </ul>
                 </div>
                 <myTag:cart/>
@@ -88,10 +92,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </div>
                 <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                     <ul class="nav navbar-nav">
-                        <li><a href="/viewHomePage" class="act">Home</a></li>
+                        <li class="active"><a href="/viewHomePage" class="act"><fmt:message key="home"/></a></li>
                         <!-- Mega Menu -->
                         <li class="dropdown">
-                            <a href="/viewTools">Tool</a>
+                            <a href="/viewTools"><fmt:message key="tools"/></a>
                         </li>
                     </ul>
                 </div>
@@ -103,8 +107,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!--banner-->
 <div class="banner-top">
     <div class="container">
-        <h2 class="animated wow fadeInLeft" data-wow-delay=".5s">Register</h2>
-        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a href="/viewHomePage">Home</a><label>/</label>Register
+        <h2 class="animated wow fadeInLeft" data-wow-delay=".5s"><fmt:message key="register"/></h2>
+        <h3 class="animated wow fadeInRight" data-wow-delay=".5s">
+            <a href="/viewHomePage"><fmt:message key="home"/></a><label>/</label>
+            <fmt:message key="register"/>
         </h3>
         <div class="clearfix"></div>
     </div>
@@ -129,12 +135,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
               onsubmit="return validateRegisterForm('registerForm')">
             <div class="col-md-6 login-do1 animated wow fadeInLeft" data-wow-delay=".5s">
                 <div class="login-mail">
-                    <input type="text" name="fullName" placeholder="Full name"
+                    <input type="text" name="fullName" placeholder="<fmt:message key="full_name"/>"
                            value="${requestScope.regEntity.fullName}" required="">
                     <img src="images/ID.png" alt=""/>
                 </div>
                 <div class="login-mail">
-                    <input type="text" name="address" placeholder="Address" value="${requestScope.regEntity.address}"
+                    <input type="text" name="address" placeholder="<fmt:message key="address"/>"
+                           value="${requestScope.regEntity.address}"
                            required="">
                     <i class="glyphicon glyphicon-map-marker"></i>
                 </div>
@@ -144,34 +151,35 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <i class="glyphicon glyphicon-earphone"></i>
                 </div>
                 <div class="login-mail">
-                    <input type="text" name="email" placeholder="Email" value="${requestScope.regEntity.email}"
+                    <input type="text" name="email" placeholder="<fmt:message key="email"/>"
+                           value="${requestScope.regEntity.email}"
                            required="">
                     <i class="glyphicon glyphicon-envelope"></i>
                 </div>
                 <div class="login-mail">
-                    <input type="password" name="password" placeholder="Password"
+                    <input type="password" name="password" placeholder="<fmt:message key="password"/>"
                            value="${requestScope.regEntity.password}" required="">
                     <i class="glyphicon glyphicon-lock"></i>
                 </div>
                 <div class="login-mail">
-                    <input type="password" name="passwordCheck" placeholder="Repeated password"
+                    <input type="password" name="passwordCheck" placeholder="<fmt:message key="repeated_pas"/>"
                            value="${requestScope.regEntity.repeatedPassword}"
                            required="">
                     <img src="images/password-check.png" alt=""/>
                 </div>
                 <captcha:CaptchaImage/>
                 <div class="login-mail">
-                    <input type="text" name="captcha" placeholder="Captcha" required="">
+                    <input type="text" name="captcha" placeholder="<fmt:message key="captcha"/>" required="">
                     <img src="images/stop_robot.png" alt=""/>
                 </div>
                 <input type="file" name="avatar" accept="image/jpeg,image/png"/>
             </div>
             <div class="col-md-6 login-do animated wow fadeInRight" data-wow-delay=".5s">
                 <label class="hvr-sweep-to-top login-sub">
-                    <input type="submit" value="Submit">
+                    <input type="submit" value="<fmt:message key="submit"/>">
                 </label>
                 <p>Already register</p>
-                <a href="/viewLoginForm" class="hvr-sweep-to-top">Login</a>
+                <a href="/viewLoginForm" class="hvr-sweep-to-top"><fmt:message key="login"/></a>
             </div>
             <div class="clearfix"></div>
         </form>

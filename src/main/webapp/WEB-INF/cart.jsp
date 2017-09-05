@@ -7,6 +7,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="myTag" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<fmt:setBundle basename="ToolShopWeb"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,10 +55,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="header-left animated wow fadeInLeft" data-wow-delay=".5s">
                 <myTag:login/>
             </div>
+            <myTag:switch_locale/>
             <div class="header-right animated wow fadeInRight" data-wow-delay=".5s">
                 <div class="header-right1 ">
                     <ul>
-                        <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">Register</a></li>
+                        <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">
+                            <fmt:message key="register"/></a></li>
                     </ul>
                 </div>
                 <div class="clearfix"></div>
@@ -83,10 +87,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </div>
                 <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                     <ul class="nav navbar-nav">
-                        <li><a href="/viewHomePage" class="act">Home</a></li>
+                        <li class="active"><a href="/viewHomePage" class="act"><fmt:message key="home"/></a></li>
                         <!-- Mega Menu -->
                         <li class="dropdown">
-                            <a href="/viewTools">Tool</a>
+                            <a href="/viewTools"><fmt:message key="tools"/></a>
                         </li>
                     </ul>
                 </div>
@@ -98,8 +102,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!--banner-->
 <div class="banner-top">
     <div class="container">
-        <h2 class="animated wow fadeInLeft" data-wow-delay=".5s">Checkout</h2>
-        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a href="/viewHomePage">Home</a><label>/</label>Checkout
+        <h2 class="animated wow fadeInLeft" data-wow-delay=".5s"><fmt:message key="cart"/></h2>
+        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a
+                href="/viewHomePage"><fmt:message key="home"/></a><label>/</label><fmt:message key="cart"/>
         </h3>
         <div class="clearfix"></div>
     </div>
@@ -114,10 +119,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <c:otherwise>
                 <table class="table animated wow fadeInLeft" data-wow-delay=".5s">
                     <tr>
-                        <th class="t-head head-it ">Item</th>
-                        <th class="t-head">Price</th>
-                        <th class="t-head">Quantity</th>
-                        <th class="t-head">Total</th>
+                        <th class="t-head head-it "><fmt:message key="product"/></th>
+                        <th class="t-head"><fmt:message key="price"/></th>
+                        <th class="t-head"><fmt:message key="quantity"/></th>
+                        <th class="t-head"><fmt:message key="total"/></th>
                     </tr>
                     <c:forEach var="entry" items="${sessionScope.cart.getContent()}">
                         <tr class="cross" id="${entry.key.id}">
@@ -150,12 +155,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         </tr>
                     </c:forEach>
                 </table>
-                <h5 class="continue">Cart Total:
+                <h5 class="continue"><fmt:message key="cart_total"/>:
                     <span id="cartTotal" class="simpleCart_total">$ ${sessionScope.cart.getTotalSumPurchase()}</span>
                 </h5>
                 <div class=" cart-total">
-                    <a href="javascript:carts.clear();$(location).attr('href', '/viewCart');">Clear Cart</a>
-                    <a href="/viewOrder">Order</a>
+                    <a href="javascript:carts.clear();$(location).attr('href', '/viewCart');">
+                        <fmt:message key="empty_cart"/></a>
+                    <a href="/viewOrder"><fmt:message key="order"/></a>
                 </div>
                 <br><br><br>
             </c:otherwise>

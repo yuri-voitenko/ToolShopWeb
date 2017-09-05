@@ -14,7 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
 
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.AMOUNT_PAGES;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.CATEGORIES;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.FILTER_ENTITY;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.MANUFACTURERS;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.NUMBER_SUITABLE_TOOLS;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.TOOLS;
 
 @WebServlet("/viewTools")
 public class ViewTools extends HttpServlet {

@@ -2,10 +2,7 @@ package com.epam.preprod.voitenko.servlet.cart;
 
 import com.epam.preprod.voitenko.entity.Cart;
 import com.epam.preprod.voitenko.entity.ElectricToolEntity;
-import com.epam.preprod.voitenko.handler.DataSourceHandler;
-import com.epam.preprod.voitenko.service.ToolService;
 import com.epam.preprod.voitenko.util.ServiceUtil;
-import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,12 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.sql.DataSource;
 import java.io.IOException;
-import java.io.Writer;
 import java.math.BigDecimal;
 
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.CART;
 
 @WebServlet("/addToolToCart")
 public class AddToolToCart extends HttpServlet {

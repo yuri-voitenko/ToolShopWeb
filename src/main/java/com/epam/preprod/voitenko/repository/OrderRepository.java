@@ -13,8 +13,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.*;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_CREATE_ORDER;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_DELETE_ORDER;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_GET_ALL_ORDERS;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_GET_ORDER_BY_ID;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_UPDATE_ORDER;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.DATE_TIME;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.ID;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.STATUS;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.STATUS_DETAIL;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.USER_ID;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 public class OrderRepository implements GeneralRepository<OrderEntity, Integer> {
@@ -75,8 +83,13 @@ public class OrderRepository implements GeneralRepository<OrderEntity, Integer> 
         }
         PreparedStatement statement = null;
         try {
+            int index = 0;
             statement = connection.prepareStatement(SQL_UPDATE_ORDER);
-            int index = setOrderParametersToStatement(entity, statement);
+            statement.setString(++index, entity.getStatus().toString());
+            statement.setString(++index, entity.getDetailStatus());
+            statement.setString(++index, entity.getAddress());
+            statement.setTimestamp(++index, entity.getDateTime());
+            statement.setInt(++index, entity.getUser().getId());
             statement.setInt(++index, entity.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -111,8 +124,14 @@ public class OrderRepository implements GeneralRepository<OrderEntity, Integer> 
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
+            int index = 0;
             statement = connection.prepareStatement(SQL_INSERT_ORDER, RETURN_GENERATED_KEYS);
-            setOrderParametersToStatement(entity, statement);
+            statement.setString(++index, entity.getStatus().toString());
+            statement.setString(++index, entity.getDetailStatus());
+            statement.setString(++index, entity.getAddress());
+            statement.setTimestamp(++index, entity.getDateTime());
+            statement.setInt(++index, entity.getUser().getId());
+
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
             if (resultSet != null && resultSet.next()) {
@@ -126,16 +145,6 @@ public class OrderRepository implements GeneralRepository<OrderEntity, Integer> 
             close(resultSet, statement);
         }
         return true;
-    }
-
-    private int setOrderParametersToStatement(OrderEntity entity, PreparedStatement statement) throws SQLException {
-        int index = 0;
-        statement.setString(++index, entity.getStatus().toString());
-        statement.setString(++index, entity.getDetailStatus());
-        statement.setString(++index, entity.getAddress());
-        statement.setTimestamp(++index, entity.getDateTime());
-        statement.setInt(++index, entity.getUser().getId());
-        return index;
     }
 
     private OrderEntity extractOrder(ResultSet resultSet) throws SQLException {

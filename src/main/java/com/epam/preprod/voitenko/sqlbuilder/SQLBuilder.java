@@ -3,8 +3,6 @@ package com.epam.preprod.voitenko.sqlbuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.COST;
-
 public class SQLBuilder {
 
     private List<String> wheres = new ArrayList<>();

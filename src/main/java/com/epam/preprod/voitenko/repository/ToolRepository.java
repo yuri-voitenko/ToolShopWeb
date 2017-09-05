@@ -12,8 +12,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.*;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_CREATE_TOOL;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_DELETE_TOOL;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_GET_ALL_CATEGORIES;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_GET_ALL_MANUFACTURERS;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_GET_ALL_TOOLS;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_GET_TOOL_BY_ID;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.CANNOT_UPDATE_TOOL;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.ADDITIONAL_IMAGE;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.CATEGORY;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.COST;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.ID;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.MAIN_IMAGE;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.MANUFACTURER;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.MAX_ROTATION_SPEED;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.NAME;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.POWER;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.WEIGHT;
 import static com.epam.preprod.voitenko.constant.Constatns.PATH_TO_TOOL_IMAGES;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 

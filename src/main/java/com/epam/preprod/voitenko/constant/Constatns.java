@@ -9,6 +9,7 @@ public class Constatns {
     public static final String DEFAULT_AVATAR = "default.png";
     public static final String DEFAULT_TOOL_IMAGE = "default.png";
     public static final String EMPTY_STRING = "";
+    public static final String GZIP = "gzip";
 
     public class RegEx {
         private RegEx() {
@@ -49,6 +50,11 @@ public class Constatns {
         public static final String CART_QUANTITY = "cartQuantity";
         public static final String TOTAL_COST_SPECIFIC_TOOL = "totalCostSpecificTool";
         public static final String LIST_ORDERED_TOOLS = "listOrderedTools";
+        public static final String SELECTED_LOCALE = "selectedLocale";
+        public static final String DEFAULT_LOCALE = "defaultLocale";
+        public static final String LOCALE_STRATEGY = "localeStrategy";
+        public static final String LANG = "lang";
+        public static final String COOKIE_MAX_AGE = "CookieMaxAge";
 
         public static final String REG_ENTITY = "regEntity";
         public static final String LOGIN_ENTITY = "logEntity";
@@ -123,6 +129,9 @@ public class Constatns {
         public static final String NOT_LOGIN_EMAIL = "There is no registered user with such e-mail!";
         public static final String NOT_LOGIN_PASSWORD = "There is no registered user with such password";
         public static final String UNAUTHORIZED_USER = "You need to sign in or register to place an order";
+
+        public static final String INIT_UNIMPLEMENTED = "Method init() unimplemented!";
+        public static final String DESTROY_UNIMPLEMENTED = "Method destroy() unimplemented!";
     }
 
     public class Exceptions {

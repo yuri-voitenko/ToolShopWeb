@@ -7,6 +7,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="myTag" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<fmt:setBundle basename="ToolShopWeb"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,10 +52,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="header-left animated wow fadeInLeft" data-wow-delay=".5s">
                 <myTag:login/>
             </div>
+            <myTag:switch_locale/>
             <div class="header-right animated wow fadeInRight" data-wow-delay=".5s">
                 <div class="header-right1 ">
                     <ul>
-                        <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">Register</a></li>
+                        <li><i class="glyphicon glyphicon-book"></i><a href="/viewRegisterForm">
+                            <fmt:message key="register"/></a></li>
                     </ul>
                 </div>
                 <div class="clearfix"></div>
@@ -80,10 +84,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </div>
                 <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                     <ul class="nav navbar-nav">
-                        <li><a href="/viewHomePage" class="act">Home</a></li>
+                        <li><a href="/viewHomePage" class="act"><fmt:message key="home"/></a></li>
                         <!-- Mega Menu -->
                         <li class="dropdown">
-                            <a href="/viewTools">Tool</a>
+                            <a href="/viewTools"><fmt:message key="tools"/></a>
                         </li>
                     </ul>
                 </div>
@@ -95,8 +99,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!--banner-->
 <div class="banner-top">
     <div class="container">
-        <h2 class="animated wow fadeInLeft" data-wow-delay=".5s">Order</h2>
-        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a href="/viewHomePage">Home</a><label>/</label>Order
+        <h2 class="animated wow fadeInLeft" data-wow-delay=".5s"><fmt:message key="ordering"/></h2>
+        <h3 class="animated wow fadeInRight" data-wow-delay=".5s"><a href="/viewHomePage"><fmt:message
+                key="home"/></a><label>/</label><fmt:message key="ordering"/>
         </h3>
         <div class="clearfix"></div>
     </div>
@@ -112,10 +117,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <c:set var="countTotalSum" value="0" scope="page"/>
                 <table class="table animated wow fadeInLeft" data-wow-delay=".5s">
                     <tr>
-                        <th class="t-head head-it ">Item</th>
-                        <th class="t-head">Price</th>
-                        <th class="t-head">Quantity</th>
-                        <th class="t-head">Total</th>
+                        <th class="t-head head-it "><fmt:message key="product"/></th>
+                        <th class="t-head"><fmt:message key="price"/></th>
+                        <th class="t-head"><fmt:message key="quantity"/></th>
+                        <th class="t-head"><fmt:message key="total"/></th>
                     </tr>
                     <c:forEach items="${sessionScope.listOrderedTools}" var="orderedTool">
                         <tr class="cross" id="${orderedTool.electricTool.id}">
@@ -140,7 +145,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         </tr>
                     </c:forEach>
                 </table>
-                <h5 class="continue">Cart Total:
+                <h5 class="continue"><fmt:message key="cart_total"/>:
                     <span id="cartTotal" class="simpleCart_total">$ ${countTotalSum}</span>
                 </h5>
                 <form name="orderDetails" action="/executeOrder" method="POST">
@@ -153,7 +158,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         </select>
                         <br><br>
                         <div class="login-mail">
-                            <input type="text" name="address" placeholder="Address"
+                            <input type="text" name="address" placeholder="<fmt:message key="address"/>"
                                    pattern="^.{6,}$" required="">
                             <i class="glyphicon glyphicon-map-marker"></i>
                         </div>
@@ -166,10 +171,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         </div>
                     </div>
                     <div class="col-md-6 login-do animated wow fadeInRight" data-wow-delay=".5s">
-                        <a href="/viewCart" class="hvr-sweep-to-top">Back</a>
+                        <a href="/viewCart" class="hvr-sweep-to-top"><fmt:message key="back"/></a>
                         <p>
                             <label class="hvr-sweep-to-top login-sub">
-                                <input type="submit" value="Complete the order">
+                                <input type="submit" value="<fmt:message key="complete_order"/>">
                             </label>
                     </div>
                     <div class="clearfix"></div>

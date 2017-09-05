@@ -4,7 +4,7 @@ import com.epam.preprod.voitenko.entity.RegisterEntity;
 import com.epam.preprod.voitenko.entity.UserEntity;
 import com.epam.preprod.voitenko.handler.DataSourceHandler;
 import com.epam.preprod.voitenko.service.UserService;
-import com.epam.preprod.voitenko.strategy.CaptchaStrategy;
+import com.epam.preprod.voitenko.strategy.captcha.CaptchaStrategy;
 import com.epam.preprod.voitenko.util.ServiceUtil;
 import com.epam.preprod.voitenko.util.ValidatorUtil;
 
@@ -21,8 +21,17 @@ import java.io.IOException;
 import java.util.Map;
 
 import static com.epam.preprod.voitenko.constant.Constatns.EMPTY_STRING;
-import static com.epam.preprod.voitenko.constant.Constatns.Keys.*;
-import static com.epam.preprod.voitenko.constant.Constatns.Message.*;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.CAPTCHA;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.EMAIL;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.ERRORS;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.FAIL_REGISTRATION;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.REG_ENTITY;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.STRATEGY;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.SUCCESS_REGISTRATION;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.TIMEOUT;
+import static com.epam.preprod.voitenko.constant.Constatns.Message.HINT_FAIL_REGISTRATION;
+import static com.epam.preprod.voitenko.constant.Constatns.Message.HINT_SAME_EMAIl;
+import static com.epam.preprod.voitenko.constant.Constatns.Message.HINT_SUCCESS_REGISTRATION;
 import static com.epam.preprod.voitenko.util.ServiceUtil.removeSessionAttributeAndSetRequestAttribute;
 
 @WebServlet("/registerUser")
