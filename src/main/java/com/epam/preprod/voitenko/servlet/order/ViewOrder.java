@@ -26,21 +26,39 @@ import static com.epam.preprod.voitenko.constant.Constatns.Message.UNAUTHORIZED_
 public class ViewOrder extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String forwardTo = getForwardTo(req);
+        req.getRequestDispatcher(forwardTo).forward(req, resp);
+    }
+
+    private String getForwardTo(HttpServletRequest req) {
         HttpSession session = req.getSession();
         if (session.getAttribute(USER_ENTITY) == null) {
-            Map<String, String> errors = new HashMap<>();
-            errors.put(USER_ENTITY, UNAUTHORIZED_USER);
-            req.setAttribute(ERRORS, errors);
-            req.getRequestDispatcher("/viewLoginForm").forward(req, resp);
+            setUnauthorizedError(req);
+            return "/viewLoginForm";
         } else {
-            Cart<ElectricToolEntity> cart = ServiceUtil.getCart(session);
-            List<InfoOrderedToolEntity> listOrderedTools = new ArrayList<>();
-            for (Map.Entry<ElectricToolEntity, Integer> pair : cart.getContent().entrySet()) {
-                ElectricToolEntity tool = pair.getKey();
-                listOrderedTools.add(new InfoOrderedToolEntity(tool, tool.getCost(), pair.getValue()));
-            }
-            session.setAttribute(LIST_ORDERED_TOOLS, listOrderedTools);
-            req.getRequestDispatcher("/WEB-INF/order.jsp").forward(req, resp);
+            setListInfoOrderedTool(session);
+            return "/WEB-INF/order.jsp";
         }
+    }
+
+    private void setUnauthorizedError(HttpServletRequest req) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put(USER_ENTITY, UNAUTHORIZED_USER);
+        req.setAttribute(ERRORS, errors);
+    }
+
+    private void setListInfoOrderedTool(HttpSession session) {
+        Cart<ElectricToolEntity> cart = ServiceUtil.getCart(session);
+        List<InfoOrderedToolEntity> listOrderedTools = getInfoOrderedToolEntities(cart);
+        session.setAttribute(LIST_ORDERED_TOOLS, listOrderedTools);
+    }
+
+    private List<InfoOrderedToolEntity> getInfoOrderedToolEntities(Cart<ElectricToolEntity> cart) {
+        List<InfoOrderedToolEntity> listOrderedTools = new ArrayList<>();
+        for (Map.Entry<ElectricToolEntity, Integer> pair : cart.getContent().entrySet()) {
+            ElectricToolEntity tool = pair.getKey();
+            listOrderedTools.add(new InfoOrderedToolEntity(tool, tool.getCost(), pair.getValue()));
+        }
+        return listOrderedTools;
     }
 }

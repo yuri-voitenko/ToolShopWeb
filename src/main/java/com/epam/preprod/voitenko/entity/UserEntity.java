@@ -1,6 +1,7 @@
 package com.epam.preprod.voitenko.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import static com.epam.preprod.voitenko.constant.Constatns.DEFAULT_AVATAR;
 
@@ -12,13 +13,17 @@ public class UserEntity implements Serializable {
     private String phoneNumber;
     private String address;
     private String avatar;
+    private Timestamp banExpirationDate;
+    private Role role;
 
     public UserEntity() {
         this.avatar = DEFAULT_AVATAR;
+        this.role = Role.CLIENT;
     }
 
     public UserEntity(String email, String password, String fullName, String phoneNumber, String address) {
         this(email, password, fullName, phoneNumber, address, DEFAULT_AVATAR);
+        this.role = Role.CLIENT;
     }
 
     public UserEntity(String email, String password, String fullName, String phoneNumber, String address, String avatar) {
@@ -28,6 +33,7 @@ public class UserEntity implements Serializable {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.avatar = avatar;
+        this.role = Role.CLIENT;
     }
 
     public int getId() {
@@ -84,6 +90,22 @@ public class UserEntity implements Serializable {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public Timestamp getBanExpirationDate() {
+        return banExpirationDate;
+    }
+
+    public void setBanExpirationDate(Timestamp banExpirationDate) {
+        this.banExpirationDate = banExpirationDate;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override

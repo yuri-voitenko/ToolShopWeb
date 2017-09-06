@@ -55,12 +55,14 @@ public class Constatns {
         public static final String LOCALE_STRATEGY = "localeStrategy";
         public static final String LANG = "lang";
         public static final String COOKIE_MAX_AGE = "CookieMaxAge";
+        public static final String PATH_TO_SECURITY_FILE_XML = "PathToSecurityFileXml";
 
         public static final String REG_ENTITY = "regEntity";
         public static final String LOGIN_ENTITY = "logEntity";
         public static final String USER_ENTITY = "userEntity";
         public static final String ORDER_ENTITY = "orderEntity";
         public static final String FILTER_ENTITY = "filterEntity";
+        public static final String FAIL_COUNT = "failCount";
         public static final String ERRORS = "errors";
 
         public static final String PASSWORD_CHECK = "passwordCheck";
@@ -69,6 +71,7 @@ public class Constatns {
         public static final String SUCCESS_REGISTRATION = "successRegistration";
         public static final String FAIL_REGISTRATION = "failRegistration";
         public static final String DELIVERY = "delivery";
+        public static final String BAN = "Ban";
 
         // common
         public static final String ID = "id";
@@ -82,6 +85,8 @@ public class Constatns {
         public static final String EMAIL = "email";
         public static final String PASSWORD = "password";
         public static final String AVATAR = "avatar";
+        public static final String BAN_EXPIRATION_DATE = "banExpirationDate";
+        public static final String ROLE = "role";
         // tools
         public static final String NAME = "name";
         public static final String CATEGORY = "category";
@@ -130,8 +135,8 @@ public class Constatns {
         public static final String NOT_LOGIN_PASSWORD = "There is no registered user with such password";
         public static final String UNAUTHORIZED_USER = "You need to sign in or register to place an order";
 
-        public static final String INIT_UNIMPLEMENTED = "Method init() unimplemented!";
-        public static final String DESTROY_UNIMPLEMENTED = "Method destroy() unimplemented!";
+        public static final String BAN_ACCOUNT = "For security reasons, your account is locked to ";
+        public static final String WARN_BAN = "You have %d remaining attempts, otherwise your account will be blocked!";
     }
 
     public class Exceptions {
@@ -139,6 +144,8 @@ public class Constatns {
         }
 
         public static final String INTERRUPTED_EXCEPTION = "InterruptedException has occurred in CaptchaCleaner";
+        public static final String INIT_UNIMPLEMENTED = "Method init() unimplemented!";
+        public static final String DESTROY_UNIMPLEMENTED = "Method destroy() unimplemented!";
         // user
         public static final String CANNOT_GET_ALL_USERS = "Can not get a list of all users";
         public static final String CANNOT_GET_USER_BY_ID = "Can not get a user with such id";

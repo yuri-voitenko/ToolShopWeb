@@ -23,10 +23,10 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.DESTROY_UNIMPLEMENTED;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.DEFAULT_LOCALE;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.LANG;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.LOCALE_STRATEGY;
-import static com.epam.preprod.voitenko.constant.Constatns.Message.DESTROY_UNIMPLEMENTED;
 
 public class LocaleFilter implements Filter {
     private static final Logger LOGGER = LogManager.getLogger(LocaleFilter.class);

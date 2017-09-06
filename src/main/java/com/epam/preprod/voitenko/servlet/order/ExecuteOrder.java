@@ -40,21 +40,31 @@ public class ExecuteOrder extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession httpSession = req.getSession();
-
-        String address = req.getParameter(ADDRESS);
+        OrderEntity orderEntity = getOrderEntity(req, httpSession);
+        createNewOrder(orderEntity);
+        clearCart(httpSession);
+        httpSession.setAttribute(ORDER_ENTITY, orderEntity);
         String delivery = req.getParameter(DELIVERY);
+        httpSession.setAttribute(DELIVERY, delivery);
+        resp.sendRedirect("/executeOrder");
+    }
+
+    private OrderEntity getOrderEntity(HttpServletRequest req, HttpSession httpSession) {
+        String address = req.getParameter(ADDRESS);
         List<InfoOrderedToolEntity> listOrderedTools = (List<InfoOrderedToolEntity>) httpSession.getAttribute(LIST_ORDERED_TOOLS);
         UserEntity userEntity = (UserEntity) httpSession.getAttribute(USER_ENTITY);
+        return new OrderEntity(OrderStatus.ACCEPTED, "created", address, userEntity, listOrderedTools);
+    }
 
-        OrderEntity orderEntity = new OrderEntity(OrderStatus.ACCEPTED, "created", address, userEntity, listOrderedTools);
+    private void createNewOrder(OrderEntity orderEntity) {
         DataSource dataSource = DataSourceHandler.getInstance().getDataSource();
         OrderService orderService = new OrderService(dataSource);
         orderService.createOrder(orderEntity);
+    }
+
+    private void clearCart(HttpSession httpSession) {
         Cart<ElectricToolEntity> cart = ServiceUtil.getCart(httpSession);
         cart.clear();
         httpSession.setAttribute(CART, cart);
-        httpSession.setAttribute(ORDER_ENTITY, orderEntity);
-        httpSession.setAttribute(DELIVERY, delivery);
-        resp.sendRedirect("/executeOrder");
     }
 }

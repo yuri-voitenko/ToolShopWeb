@@ -121,6 +121,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             </div>
         </c:if>
         <form name="loginForm" action="/loginUser" method="post" onsubmit="return validateLoginForm('loginForm')">
+            <input type="hidden" name="failCount" value="${requestScope.logEntity.failCount}"/>
             <div class="col-md-6 login-do1 animated wow fadeInLeft" data-wow-delay=".5s">
                 <div class="login-mail">
                     <input type="text" name="email" placeholder="<fmt:message key="email"/>"

@@ -12,8 +12,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.epam.preprod.voitenko.constant.Constatns.Message.DESTROY_UNIMPLEMENTED;
-import static com.epam.preprod.voitenko.constant.Constatns.Message.INIT_UNIMPLEMENTED;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.DESTROY_UNIMPLEMENTED;
+import static com.epam.preprod.voitenko.constant.Constatns.Exceptions.INIT_UNIMPLEMENTED;
 
 public class PreventCacheFilter implements Filter {
     private static final Logger LOGGER = LogManager.getLogger(PreventCacheFilter.class);

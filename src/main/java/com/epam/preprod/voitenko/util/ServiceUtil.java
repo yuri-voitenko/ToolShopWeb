@@ -35,6 +35,7 @@ import static com.epam.preprod.voitenko.constant.Constatns.Keys.CART_TOTAL;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.CATEGORY;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.COST;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.EMAIL;
+import static com.epam.preprod.voitenko.constant.Constatns.Keys.FAIL_COUNT;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.FULL_NAME;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.HIGH_PRICE;
 import static com.epam.preprod.voitenko.constant.Constatns.Keys.ID;
@@ -115,6 +116,10 @@ public class ServiceUtil {
         LoginEntity loginEntity = new LoginEntity();
         loginEntity.setEmail(httpServletRequest.getParameter(EMAIL));
         loginEntity.setPassword(httpServletRequest.getParameter(PASSWORD));
+        String strFailCount = httpServletRequest.getParameter(FAIL_COUNT);
+        if (strFailCount != null && !strFailCount.isEmpty()) {
+            loginEntity.setFailCount(Integer.parseInt(strFailCount));
+        }
         return loginEntity;
     }
 

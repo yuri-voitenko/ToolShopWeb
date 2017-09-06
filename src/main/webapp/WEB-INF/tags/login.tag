@@ -6,6 +6,7 @@
 <c:choose>
     <c:when test="${empty sessionScope.userEntity}">
         <form action="/loginUser" method="post">
+            <input type="hidden" name="failCount" value="${requestScope.logEntity.failCount}"/>
             <input type="email" name="email" placeholder="<fmt:message key="email"/>" required="">
             <input type="password" name="password"
                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
